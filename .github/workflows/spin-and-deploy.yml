@@ -18,6 +18,7 @@ jobs:
           client-id: ${{ secrets.AZURE_CLIENTID }}
           tenant-id: ${{ secrets.AZURE_TENANTID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTIONID }}
+          auth-type: identity
       - name: Azure CLI script
         uses: azure/CLI@v1
         with:
