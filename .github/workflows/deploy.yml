@@ -1,0 +1,37 @@
+name: Deploy to Azure
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  deploy:
+    name: Deploy to Azure
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Remove watch rules
+        run: |
+          sed -i '/develop:/,/action: rebuild/d' compose.yml
+
+      - name: Insert SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VM_RSA_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Copy repo contents to VM
+        run: |
+          scp -o StrictHostKeyChecking=no -r * ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }}:/home/${{ secrets.VM_USERNAME }}/${{ github.event.repository.name }}/
+
+      - name: Compose
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }}
+          cd /home/${{ secrets.VM_USERNAME }}/${{ github.event.repository.name }}
+          ls
+          docker-compose up --build -d
+          exit
