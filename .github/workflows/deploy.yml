@@ -39,6 +39,6 @@ jobs:
           ssh -o StrictHostKeyChecking=no -p ${{ secrets.VM_PORT }} ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }} << EOF
             cd /home/${{ secrets.VM_USERNAME }}/${{ github.event.repository.name }}
             ls -al
-            docker compose up --build -d
+            sudo docker compose up --build -d
             exit
           EOF
