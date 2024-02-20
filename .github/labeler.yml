@@ -1,0 +1,35 @@
+# Configuration file for label_pr.yml
+
+# Directories +++++++++++++++++++++++++++++++
+
+"Database":
+- "db/**"
+- "**.sql"
+
+"Web":
+- "web/**"
+
+# File types ++++++++++++++++++++++++++++++++
+
+"Docker":
+- "Dockerfile"
+- "**.dockerfile"
+- "**.dockerignore"
+- "compose.yml"
+
+"JS":
+- "**.js"
+- "**.jsx"
+
+"TS":
+- "**.ts"
+- "**.tsx"
+
+"Node.js":
+- "package.json"
+- "package-lock.json"
+
+# Misc +++++++++++++++++++++++++++++++++++++
+
+"Actions":
+- "**/.github/**"
