@@ -1,0 +1,3 @@
+# ignore in relase archives
+.github export-ignore
+.vscode export-ignore
