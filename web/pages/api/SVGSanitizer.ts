@@ -9,7 +9,7 @@ export default async function SVGSanitizer(req: NextApiRequest, res: NextApiResp
   const window = new JSDOM('').window;
   const DOMPurify = createDOMPurify(window);
 
-  const cleanSVG = DOMPurify.sanitize(svg).replace(/\s/g, '');
+  const cleanSVG = DOMPurify.sanitize(svg);
 
   res.status(200).json({cleanSVG});
 }
