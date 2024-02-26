@@ -5,6 +5,9 @@ import { createMocks } from 'node-mocks-http';
 import * as fs from 'fs';
 import { JSDOM } from 'jsdom';
 
+const dom = new JSDOM();
+const parser = new dom.window.DOMParser();
+
 //TEST CON SVG FORNITO DA DOMPURIFY
 describe('Sanitize SVG API', () => {
   it('should sanitize SVG (basic example)', async () => {
@@ -18,8 +21,6 @@ describe('Sanitize SVG API', () => {
 
     await SVGSanitizer(req, res);
 
-    const dom = new JSDOM();
-    const parser = new dom.window.DOMParser();
     const outputDoc = parser.parseFromString(res._getJSONData().cleanSVG, 'image/svg+xml');
     const expectedDoc = parser.parseFromString(expectedCleanSVG, 'image/svg+xml');
     expect(outputDoc.documentElement.isEqualNode(expectedDoc.documentElement)).toBe(true);
@@ -39,11 +40,9 @@ describe('Sanitize SVG API', () => {
     });
   
     await SVGSanitizer(req, res);
-    const dom = new JSDOM();
-    const parser = new dom.window.DOMParser();
+
     const outputDoc = parser.parseFromString(res._getJSONData().cleanSVG, 'image/svg+xml');
     const expectedDoc = parser.parseFromString(expectedCleanSVG, 'image/svg+xml');
-    fs.writeFileSync(`out.svg`, res._getJSONData().cleanSVG, 'utf-8');
     expect(outputDoc.documentElement.isEqualNode(expectedDoc.documentElement)).toBe(true);
   });
 });
