@@ -13,3 +13,35 @@ export default async function sanitize(req: NextApiRequest, res: NextApiResponse
 
   res.status(200).json({cleanSVG});
 }
+
+//PER CHIAMARLA
+/*
+const onFileChange = async (event) => {
+  const file = event.target.files[0];
+  const reader = new FileReader();
+
+  reader.onload = async (event) => {
+    const svg = event.target.result;
+
+    // Chimata all'API
+    const response = await fetch('/api/SVGSanitizer', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ svg })
+    });
+
+    const data = await response.json();
+    const cleanSVG = data.cleanSVG;
+
+    // Now you can use the sanitized SVG
+    console.log(cleanSVG);
+  };
+
+  reader.readAsText(file);
+};
+
+// Nei file delle pages/componenti
+// <input type="file" onChange={onFileChange} />
+*/
