@@ -1,6 +1,6 @@
 // sanitize.test.ts
 import { NextApiRequest, NextApiResponse } from 'next';
-import sanitize from '../pages/api/SVGSanitizer';
+import SVGSanitizer from '../pages/api/SVGSanitizer';
 import { createMocks } from 'node-mocks-http';
 import * as fs from 'fs';
 
@@ -15,7 +15,7 @@ describe('Sanitize SVG API', () => {
       body: { svg: dirtySVG },
     });
 
-    await sanitize(req, res);
+    await SVGSanitizer(req, res);
     expect(res._getJSONData().cleanSVG).toEqual(expectedCleanSVG);
   });
 });
@@ -31,7 +31,7 @@ describe('Sanitize SVG API', () => {
         body: { svg: dirtySVG },
       });
   
-      await sanitize(req, res);
+      await SVGSanitizer(req, res);
       expect(res._getJSONData().cleanSVG).toEqual(expectedCleanSVG);
     });
 });

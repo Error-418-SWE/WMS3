@@ -1,9 +1,9 @@
-// pages/api/sanitize.ts
+// pages/api/SVGSanitizer.ts
 import { NextApiRequest, NextApiResponse } from 'next';
 import createDOMPurify from 'dompurify';
 import { JSDOM } from 'jsdom';
 
-export default async function sanitize(req: NextApiRequest, res: NextApiResponse) {
+export default async function SVGSanitizer(req: NextApiRequest, res: NextApiResponse) {
   const { svg } = req.body;
 
   const window = new JSDOM('').window;
@@ -35,7 +35,7 @@ const onFileChange = async (event) => {
     const data = await response.json();
     const cleanSVG = data.cleanSVG;
 
-    // Now you can use the sanitized SVG
+    // Da qui si possono utilizzare le informazioni del file SVG
     console.log(cleanSVG);
   };
 
