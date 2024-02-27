@@ -1,11 +1,9 @@
-import { Button } from "@/components/ui/button";
 import styles from "./page.module.css";
-
+import { ConditionalForm } from "@/components/custom/creationForm";
 import {
 	Card,
 	CardContent,
 	CardDescription,
-	CardFooter,
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
@@ -19,28 +17,9 @@ export default function Home() {
 						Definizione dell'ambiente 3D
 					</CardTitle>
 				</CardHeader>
-				<CardContent className={"flex flex-col gap-y-5"}>
-					<Card className={"rounded-md"}>
-						<CardHeader>
-							<CardTitle>Planimetria rettangolare</CardTitle>
-							<CardDescription>
-								Definisci le dimensioni del magazzino.
-								<br />È possibile definire solo magazzini a pianta rettangolare.
-							</CardDescription>
-						</CardHeader>
-					</Card>
-					<Card className={"rounded-md"}>
-						<CardHeader>
-							<CardTitle>Planimetria personalizzata</CardTitle>
-							<CardDescription>
-								Carica la planimetria o parti da un magazzino predefinito.
-							</CardDescription>
-						</CardHeader>
-					</Card>
+				<CardContent>
+					<ConditionalForm />
 				</CardContent>
-				<CardFooter className={"justify-end"}>
-					<Button>Continua</Button>
-				</CardFooter>
 			</Card>
 		</main>
 	);
