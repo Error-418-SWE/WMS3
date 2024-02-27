@@ -13,21 +13,16 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export function ConditionalForm() {
-	const [choice, setChoice] = useState("");
-	const [nextChoice, setNextChoice] = useState("");
+	const [choice, setChoice] = useState("option1");
 	const [showNext, setShowNext] = useState(false);
 
 	const form = useForm();
 
 	const handleFirstChoice = (value: any) => {
 		setChoice(value);
-	};
-
-	const handleNextChoice = (value: any) => {
-		setNextChoice(value);
 	};
 
 	const handleNextClick = () => {
@@ -42,7 +37,7 @@ export function ConditionalForm() {
 			>
 				{!showNext ? (
 					<>
-						<RadioGroup onValueChange={handleFirstChoice} className={"flex flex-col gap-y-5"}>
+						<RadioGroup defaultValue="option1" defaultChecked={true} onValueChange={handleFirstChoice} className={"flex flex-col gap-y-5"}>
 							<RadioGroupItem id="option1" value="option1" className="hidden" />
 							<Label htmlFor="option1">
 								<Card className={(choice === "option1") ? "rounded-md border-2 border-primary" : "rounded-md"}>
