@@ -27,7 +27,7 @@ export default function Home() {
 	const [title, setTitle] = useState("Definizione dell'ambiente 3D");
 	const [description, setDescription] = useState("");
 
-	const updateTitle = (value: string) => {
+	const updateCardHeading = (value: string) => {
 		setTitle(titleMap[value]);
 		setDescription(descriptionMap[value]);
 	};
@@ -43,7 +43,7 @@ export default function Home() {
 				</CardHeader>
 				<CardContent>
 					<CreationForm
-						updateTitle={updateTitle}
+						updateCardHeading={updateCardHeading}
 						titleMap={titleMap}
 						descriptionMap={descriptionMap}
 					/>

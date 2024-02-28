@@ -1,6 +1,10 @@
 "use client";
-import { useState } from "react";
+import { use, useState } from "react";
 import { useForm } from "react-hook-form";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+
 import {
 	Form,
 	FormControl,
@@ -10,9 +14,7 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+
 import {
 	Card,
 	CardContent,
@@ -20,24 +22,29 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { ManualCreationFrame } from "./manualCreationFrame";
 
 interface CreationFormProps {
-	updateTitle: (choice: string) => void;
+	updateCardHeading: (choice: string) => void;
 	titleMap: Record<string, string>;
 	descriptionMap: Record<string, string>;
 }
 
-export function CreationForm({ updateTitle, titleMap, descriptionMap }: CreationFormProps) {
+export function CreationForm({
+	updateCardHeading,
+	titleMap,
+	descriptionMap,
+}: CreationFormProps) {
 	const [choice, setChoice] = useState("manuale");
 	const [showNext, setShowNext] = useState(false);
 
 	const form = useForm();
 
-	const handleFirstChoice = (value: any) => {
-		setChoice(value);
-	};
-
-	function createLabelForRadioGroupItem(idFor: string, title:string, description:string) {
+	function createLabelForRadioGroupItem(
+		idFor: string,
+		title: string,
+		description: string
+	) {
 		return (
 			<Label htmlFor={idFor}>
 				<Card
@@ -49,38 +56,79 @@ export function CreationForm({ updateTitle, titleMap, descriptionMap }: Creation
 				>
 					<CardHeader>
 						<CardTitle>{title}</CardTitle>
-						<CardDescription style={{ whiteSpace: 'pre-line' }}>
+						<CardDescription style={{ whiteSpace: "pre-line" }}>
 							{description}
 						</CardDescription>
 					</CardHeader>
 				</Card>
 			</Label>
-		); 
+		);
 	}
 
 	return (
 		<Form {...form}>
 			<form
-				onSubmit={form.handleSubmit((data) => console.log(data))}
+				onSubmit={form.handleSubmit((data) => {
+					console.log(data);
+				})}
 				className={"space-y-8"}
 			>
 				{!showNext ? (
 					<>
-					<FormItem>
-						<RadioGroup onValueChange={handleFirstChoice} className={"flex flex-col gap-y-5"}>
-							<RadioGroupItem id="manuale" value="manuale" className={"sr-only"} />
-							{createLabelForRadioGroupItem("manuale", titleMap["manuale"], descriptionMap["manuale"])}
-							
-							<RadioGroupItem id="custom" value="custom" className={"sr-only"} />
-							{createLabelForRadioGroupItem("custom", titleMap["custom"], descriptionMap["custom"])}
-						</RadioGroup>
-					</FormItem>
+						<FormField
+							control={form.control}
+							name="choice"
+							defaultValue="manuale"
+							render={({ field }) => (
+								<FormItem>
+									<FormControl>
+										<RadioGroup
+											onValueChange={(value) => {
+												field.onChange(value);
+												setChoice(value);
+											}}
+											className={"flex flex-col gap-y-5"}
+										>
+											<FormItem>
+												<FormControl>
+													<RadioGroupItem
+														id="manuale"
+														value="manuale"
+														className={"sr-only"}
+													/>
+												</FormControl>
+												{createLabelForRadioGroupItem(
+													"manuale",
+													titleMap.manuale,
+													descriptionMap.manuale
+												)}
+											</FormItem>
+
+											<FormItem>
+												<FormControl>
+													<RadioGroupItem
+														id="custom"
+														value="custom"
+														className={"sr-only"}
+													/>
+												</FormControl>
+												{createLabelForRadioGroupItem(
+													"custom",
+													titleMap.custom,
+													descriptionMap.custom
+												)}
+											</FormItem>
+										</RadioGroup>
+									</FormControl>
+								</FormItem>
+							)}
+						/>
 						<div className={"flex justify-end"}>
 							<Button
 								type="button"
 								onClick={() => {
 									setShowNext(true);
-									updateTitle(choice);
+									updateCardHeading(choice);
 								}}
 							>
 								Next
@@ -90,7 +138,7 @@ export function CreationForm({ updateTitle, titleMap, descriptionMap }: Creation
 				) : (
 					<>
 						{choice === "manuale" ? (
-							<p>Creazione Manuale</p>
+							<ManualCreationFrame form={form} />
 						) : (
 							<p>Creazione SVG</p>
 						)}
@@ -100,7 +148,7 @@ export function CreationForm({ updateTitle, titleMap, descriptionMap }: Creation
 								type="button"
 								onClick={() => {
 									setShowNext(false);
-									updateTitle("default");
+									updateCardHeading("default");
 								}}
 							>
 								Indietro
