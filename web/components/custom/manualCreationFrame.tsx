@@ -8,7 +8,6 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
 import { UseFormReturn } from "react-hook-form";
 
 interface ManualCreationFrameProps {
@@ -44,21 +43,6 @@ export function ManualCreationFrame({ form }: ManualCreationFrameProps) {
 							<FormControl>
 								<Input placeholder="Profondità" {...field}/>
 							</FormControl>
-						</FormItem>
-					</>
-				)}
-			/>
-			<FormField
-				name="caricamento"
-				control={form.control}
-                defaultValue={false}
-				render={({ field }) => (
-					<>
-						<FormItem>
-							<FormControl>
-								<Checkbox onCheckedChange={field.onChange}/>
-							</FormControl>
-                            <FormLabel>Importa prodotti dal database</FormLabel>
 						</FormItem>
 					</>
 				)}

@@ -37,7 +37,7 @@ export default function Home() {
 			<Card className={"max-w-sm mx-auto"}>
 				<CardHeader>
 					<CardTitle className={"text-4xl"}>{title}</CardTitle>
-					<CardDescription style={{ whiteSpace: "pre-line" }}>
+					<CardDescription className={"pt-3"} style={{ whiteSpace: "pre-line" }}>
 						{description}
 					</CardDescription>
 				</CardHeader>

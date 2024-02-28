@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 
 import {
 	Form,
@@ -23,6 +24,7 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { ManualCreationFrame } from "./manualCreationFrame";
+import { SVGCreationFrame } from "./svgCreationFrame";
 
 interface CreationFormProps {
 	updateCardHeading: (choice: string) => void;
@@ -140,8 +142,23 @@ export function CreationForm({
 						{choice === "manuale" ? (
 							<ManualCreationFrame form={form} />
 						) : (
-							<p>Creazione SVG</p>
+							<SVGCreationFrame form={form} />
 						)}
+
+						<FormField
+							name="loadProdotti"
+							control={form.control}
+							defaultValue={false}
+							render={({ field }) => (
+									<FormItem>
+										<FormControl>
+											<Checkbox onCheckedChange={field.onChange} />
+										</FormControl>
+										<FormLabel className={"pl-2"}>Importa i prodotti dal database</FormLabel>
+									</FormItem>
+							)}
+						/>
+
 						<div className={"flex justify-end"}>
 							<Button
 								className={buttonVariants({ variant: "secondary" }) + " mr-3"}
@@ -149,6 +166,7 @@ export function CreationForm({
 								onClick={() => {
 									setShowNext(false);
 									updateCardHeading("default");
+									form.reset();
 								}}
 							>
 								Indietro
