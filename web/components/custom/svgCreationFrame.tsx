@@ -19,38 +19,55 @@ import { UseFormReturn } from "react-hook-form";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DropFileArea } from "@/components/custom/dropFileArea";
 import { Input } from "@/components/ui/input";
+import { useState } from "react";
+
+const selectOptions: Record<string, string> = {
+	custom: "SVG personalizzato",
+	magazzino: "Centro Distribuzione",
+	materia: "Materia Prima",
+}
 
 interface SVGCreationFrameProps {
 	form: UseFormReturn;
 }
 
 export function SVGCreationFrame({ form }: SVGCreationFrameProps) {
+
+	const [svgChoice, setSvgChoice] = useState("custom");
+
 	return (
 		<>
 			<FormField
 				name="svgChoice"
 				control={form.control}
-				defaultValue=""
+				defaultValue={"custom"}
 				render={({ field }) => (
 					<>
 						<FormItem>
 							<FormLabel>Scegli la planimetria</FormLabel>
-							<Select onValueChange={field.onChange} defaultValue={field.value}>
+							<Select onValueChange={(value) => {
+								field.onChange(value);
+								setSvgChoice(value);
+								console.log(value);
+							} } defaultValue={field.value}>
 								<FormControl>
 									<SelectTrigger>
-										<SelectValue placeholder="SVG personalizzato" />
+										<SelectValue placeholder={selectOptions.custom}/>
 									</SelectTrigger>
 								</FormControl>
 								<SelectContent>
-									<SelectItem value="materia">Materia Prima</SelectItem>
-									<SelectItem value="magazzino">Magazzino</SelectItem>
+									{Object.keys(selectOptions).map((key) => (
+										<SelectItem key={key} value={key}>
+											{selectOptions[key]}
+										</SelectItem>
+									))}
 								</SelectContent>
 							</Select>
 						</FormItem>
 					</>
 				)}
 			/>
-			<DropFileArea form={form} />
+			{svgChoice == "custom" ? <DropFileArea form={form} /> : ""}
 			<FormField
 				name="latoMaggiore"
 				control={form.control}

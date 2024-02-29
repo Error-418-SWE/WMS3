@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/form";
 import { UseFormReturn } from "react-hook-form";
 import { useRef, useState } from "react";
+import { Input } from "@/components/ui/input";
 
 interface DropFileAreaProps {
 	form: UseFormReturn;
@@ -16,21 +17,42 @@ export function DropFileArea({ form }: DropFileAreaProps) {
 	const [displayedText, setDisplayedText] = useState("Carica file SVG");
 
 	const handleFileChange = (event: any) => {
-		event.preventDefault();
-		const file = event.dataTransfer
-			? event.dataTransfer.files[0]
-			: event.target.files[0];
+		const file = event.target.files[0];
 		const reader = new FileReader();
+
+		//logica senza API
 		reader.readAsText(file);
 		reader.onload = (event) => {
 			console.log(event.target?.result);
 			form.setValue("svgContent", event.target?.result);
 		};
 
-		form.register("svgFile");
-		form.setValue("svgFile", file.name);
 		setDisplayedText(file.name);
-		//contattare l'api per validazione file
+
+		//logica con API
+		/*
+		reader.onload = async (event) => {
+			const svg = event.target.result;
+		
+			// Chimata all'API
+			const response = await fetch('/api/SVGSanitizer', {
+			  method: 'POST',
+			  headers: {
+				'Content-Type': 'application/json'
+			  },
+			  body: JSON.stringify({ svg })
+			});
+		
+			const data = await response.json();
+			const cleanSVG = data.cleanSVG;
+		
+			// Da qui si possono utilizzare le informazioni del file SVG
+			console.log(cleanSVG);
+			form.register("svgFile");
+			form.setValue("svgFile", file.name);
+			setDisplayedText(file.name);
+		};
+		*/
 	};
 
 	const handleDragOver = (event: any) => {
@@ -45,15 +67,15 @@ export function DropFileArea({ form }: DropFileAreaProps) {
 
 	return (
 		<FormField
-			name="svgDropArea"
+			name="svgFile"
 			control={form.control}
-			defaultValue=""
+			defaultValue={""}
 			render={({ field }) => (
 				<>
 					<FormItem>
 						<FormLabel>Carica la planimetria</FormLabel>
 						<FormControl>
-							<input
+							<Input
 								{...field}
 								type="file"
 								ref={fileInputRef}
