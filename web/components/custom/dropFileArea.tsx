@@ -6,14 +6,14 @@ import {
 	FormLabel,
 } from "@/components/ui/form";
 import { UseFormReturn } from "react-hook-form";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 interface DropFileAreaProps {
 	form: UseFormReturn;
 }
 
 export function DropFileArea({ form }: DropFileAreaProps) {
-	var displayedText = "Carica file SVG";
+	const [displayedText, setDisplayedText] = useState("Carica file SVG");
 
 	const handleFileChange = (event: any) => {
 		event.preventDefault();
@@ -27,9 +27,9 @@ export function DropFileArea({ form }: DropFileAreaProps) {
 			form.setValue("svgContent", event.target?.result);
 		};
 
-		form.setValue("svgFile", file);
-		displayedText = file.name;
-		event.target.value = null;
+		form.register("svgFile");
+		form.setValue("svgFile", file.name);
+		setDisplayedText(file.name);
 		//contattare l'api per validazione file
 	};
 
@@ -45,7 +45,7 @@ export function DropFileArea({ form }: DropFileAreaProps) {
 
 	return (
 		<FormField
-			name="svgFile"
+			name="svgDropArea"
 			control={form.control}
 			defaultValue=""
 			render={({ field }) => (
