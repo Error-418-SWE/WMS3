@@ -14,6 +14,7 @@ export default async function SVGSanitizer(req: NextApiRequest, res: NextApiResp
   res.status(200).json({cleanSVG});
 }
 
+
 //PER CHIAMARLA
 /*
 const onFileChange = async (event) => {
