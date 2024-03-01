@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 
 interface DropFileAreaProps {
 	form: UseFormReturn;
-}
+} 
 
 export function DropFileArea({ form }: DropFileAreaProps) {
 	const [displayedText, setDisplayedText] = useState("Carica file SVG");
