@@ -4,6 +4,7 @@ import {
 	FormField,
 	FormItem,
 	FormLabel,
+	FormMessage,
 } from "@/components/ui/form";
 import { UseFormReturn } from "react-hook-form";
 import { useRef, useState } from "react";
@@ -81,6 +82,7 @@ export function DropFileArea({ form }: DropFileAreaProps) {
 								ref={fileInputRef}
 								className="hidden"
 								onChange={handleFileChange}
+								accept=".svg"
 							/>
 						</FormControl>
 						<div
@@ -93,6 +95,12 @@ export function DropFileArea({ form }: DropFileAreaProps) {
 						>
 							{displayedText}
 						</div>
+						<FormMessage className="text-center">
+							{form.formState.errors.svgContent &&
+							typeof form.formState.errors.svgContent.message === "string"
+								? form.formState.errors.svgContent.message
+								: ""}
+						</FormMessage>
 					</FormItem>
 				</>
 			)}

@@ -20,6 +20,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { DropFileArea } from "@/components/custom/dropFileArea";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { ZodBoolean, ZodEnum, ZodString, z } from "zod";
 
 const selectOptions: Record<string, string> = {
 	custom: "SVG personalizzato",
@@ -28,13 +29,12 @@ const selectOptions: Record<string, string> = {
 }
 
 interface SVGCreationFrameProps {
-	form: UseFormReturn;
+	form: UseFormReturn<any>;
 }
 
 export function SVGCreationFrame({ form }: SVGCreationFrameProps) {
 
 	const [svgChoice, setSvgChoice] = useState("custom");
-
 	return (
 		<>
 			<FormField
@@ -48,7 +48,8 @@ export function SVGCreationFrame({ form }: SVGCreationFrameProps) {
 							<Select onValueChange={(value) => {
 								field.onChange(value);
 								setSvgChoice(value);
-								console.log(value);
+								form.clearErrors();
+								form.setValue("svgContent", undefined);
 							} } defaultValue={field.value}>
 								<FormControl>
 									<SelectTrigger>
@@ -74,16 +75,18 @@ export function SVGCreationFrame({ form }: SVGCreationFrameProps) {
 				defaultValue=""
 				render={({ field }) => (
 					<>
-						<FormItem className={"flex items-center"}>
-							<FormLabel className={"grow"}>Lato maggiore</FormLabel>
-							<FormControl className={"w-2/3"}>
-								<Input
-									{...field}
-									type="number"
-									min={"0"}
-									placeholder="Lato maggiore"
-								/>
-							</FormControl>
+						<FormItem className={"flex justify-around gap-2 items-center"}>
+							<FormLabel>Lato maggiore</FormLabel>
+							<div>
+								<FormControl>
+									<Input
+										{...field}
+										type="number"
+										placeholder="Lato maggiore"
+									/>
+								</FormControl>
+								<FormMessage />
+							</div>
 						</FormItem>
 					</>
 				)}

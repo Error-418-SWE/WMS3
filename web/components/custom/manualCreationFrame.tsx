@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
 
 interface ManualCreationFrameProps {
-	form: UseFormReturn;
+	form: UseFormReturn<any>;
 }
 
 export function ManualCreationFrame({ form }: ManualCreationFrameProps) {
@@ -20,29 +20,35 @@ export function ManualCreationFrame({ form }: ManualCreationFrameProps) {
 			<FormField
 				name="larghezza"
 				control={form.control}
-                defaultValue=""
+				defaultValue=""
 				render={({ field }) => (
 					<>
-						<FormItem className="flex items-center gap-2">
+						<FormItem className="flex justify-around items-center gap-2">
 							<FormLabel>Larghezza</FormLabel>
-							<FormControl>
-								<Input placeholder="Larghezza" {...field}/>
-							</FormControl>
+							<div>
+								<FormControl>
+									<Input placeholder="Larghezza" {...field} type="number"/>
+								</FormControl>
+								<FormMessage />
+							</div>
 						</FormItem>
 					</>
 				)}
 			/>
 			<FormField
-				name="profodita"
+				name="profondita"
 				control={form.control}
-                defaultValue=""
+				defaultValue=""
 				render={({ field }) => (
 					<>
-						<FormItem className="flex items-center gap-2">
+						<FormItem className="flex justify-around items-center gap-2">
 							<FormLabel>Profondità</FormLabel>
-							<FormControl>
-								<Input placeholder="Profondità" {...field}/>
-							</FormControl>
+							<div >
+								<FormControl>
+									<Input placeholder="Profondità" {...field} type="number"/>
+								</FormControl>
+								<FormMessage />
+							</div>
 						</FormItem>
 					</>
 				)}

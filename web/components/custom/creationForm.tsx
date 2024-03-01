@@ -5,6 +5,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Schema, z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
 	Form,
@@ -26,6 +28,59 @@ import {
 import { ManualCreationFrame } from "./manualCreationFrame";
 import { SVGCreationFrame } from "./svgCreationFrame";
 
+const manualCreationSchema = z.object({
+	choice: z.literal("manuale"),
+	loadProdotti: z.boolean(),
+	larghezza: z
+		.string()
+		.refine((value) => value.trim() !== "", {
+			message: "Necessario inserire un valore",
+		})
+		.transform((value) => parseFloat(value))
+		.refine((value) => !Number.isNaN(value), {
+			message: "Il valore deve essere un numero",
+		})
+		.refine((value) => value > 0, {
+			message: "Il valore deve essere maggiore di 0",
+		}),
+	profondita: z
+		.string()
+		.refine((value) => value.trim() !== "", {
+			message: "Necessario inserire un valore",
+		})
+		.transform((value) => parseFloat(value))
+		.refine((value) => !Number.isNaN(value), {
+			message: "Il valore deve essere un numero",
+		})
+		.refine((value) => value > 0, {
+			message: "Il valore deve essere maggiore di 0",
+		}),
+});
+
+const svgCreationSchema = z.object({
+	choice: z.literal("custom"),
+	loadProdotti: z.boolean(),
+	loadScaffali: z.boolean(),
+	latoMaggiore: z
+		.string()
+		.refine((value) => value.trim() !== "", {
+			message: "Necessario inserire un valore",
+		})
+		.transform((value) => parseFloat(value))
+		.refine((value) => !Number.isNaN(value), {
+			message: "Il valore deve essere un numero",
+		})
+		.refine((value) => value > 0, {
+			message: "Il valore deve essere maggiore di 0",
+		}),
+	svgChoice: z.string({
+		required_error: "Necessario scegliere un'opzione",
+	}),
+	svgContent: z.string({
+		required_error: "Necessario caricare un file SVG",
+	}),
+});
+
 interface CreationFormProps {
 	updateCardHeading: (choice: string) => void;
 	titleMap: Record<string, string>;
@@ -40,7 +95,14 @@ export function CreationForm({
 	const [choice, setChoice] = useState("manuale");
 	const [showNext, setShowNext] = useState(false);
 
-	const form = useForm();
+	const formSchema = z.discriminatedUnion("choice", [
+		manualCreationSchema,
+		svgCreationSchema,
+	]);
+
+	const form = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
+	});
 
 	function createLabelForRadioGroupItem(
 		idFor: string,
@@ -70,7 +132,7 @@ export function CreationForm({
 	return (
 		<Form {...form}>
 			<form
-				onSubmit={form.handleSubmit((data) => {
+				onSubmit={form.handleSubmit((data: z.infer<typeof formSchema>) => {
 					console.log(data);
 				})}
 				className={"space-y-8"}
@@ -80,7 +142,7 @@ export function CreationForm({
 						<FormField
 							control={form.control}
 							name="choice"
-							defaultValue="manuale"
+							defaultValue={choice as "custom" | "manuale"}
 							render={({ field }) => (
 								<FormItem>
 									<FormControl>
@@ -150,15 +212,16 @@ export function CreationForm({
 							control={form.control}
 							defaultValue={false}
 							render={({ field }) => (
-									<FormItem>
-										<FormControl>
-											<Checkbox onCheckedChange={field.onChange} />
-										</FormControl>
-										<FormLabel className={"pl-2"}>Importa i prodotti dal database</FormLabel>
-									</FormItem>
+								<FormItem>
+									<FormControl>
+										<Checkbox onCheckedChange={field.onChange} />
+									</FormControl>
+									<FormLabel className={"pl-2"}>
+										Importa i prodotti dal database
+									</FormLabel>
+								</FormItem>
 							)}
 						/>
-
 						<div className={"flex justify-end"}>
 							<Button
 								className={buttonVariants({ variant: "secondary" }) + " mr-3"}
