@@ -146,7 +146,7 @@ export function CreationForm({
 								<FormItem>
 									<FormControl>
 										<RadioGroup
-											onValueChange={(value) => {
+											onValueChange={(value: SetStateAction<string>) => {
 												field.onChange(value);
 												setChoice(value);
 											}}
