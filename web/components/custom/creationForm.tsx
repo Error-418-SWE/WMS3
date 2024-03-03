@@ -1,5 +1,5 @@
 "use client";
-import { use, useState } from "react";
+import { use, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/card";
 import { ManualCreationFrame } from "./manualCreationFrame";
 import { SVGCreationFrame } from "./svgCreationFrame";
+import { ProcessingContext } from "@/components/providers/SvgProcessingProvider";
 
 const manualCreationSchema = z.object({
 	choice: z.literal("manuale"),
@@ -90,6 +91,7 @@ export function CreationForm({
 }: CreationFormProps) {
 	const [choice, setChoice] = useState("manuale");
 	const [showNext, setShowNext] = useState(false);
+	const {isProcessing} = useContext(ProcessingContext);
 
 	const formSchema = z.discriminatedUnion("choice", [
 		manualCreationSchema,
@@ -230,7 +232,7 @@ export function CreationForm({
 							>
 								Indietro
 							</Button>
-							<Button type="submit">Submit</Button>
+							<Button type="submit" disabled={isProcessing}>Submit</Button>
 						</div>
 					</>
 				)}

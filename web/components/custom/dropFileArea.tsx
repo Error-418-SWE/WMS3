@@ -6,18 +6,21 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
-import { UseFormReturn } from "react-hook-form";
-import { useRef, useState } from "react";
+import { UseFormReturn, set } from "react-hook-form";
+import { useContext, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
+import { ProcessingContext } from "@/components/providers/SvgProcessingProvider";
 
 interface DropFileAreaProps {
 	form: UseFormReturn;
-} 
+}
 
 export function DropFileArea({ form }: DropFileAreaProps) {
 	const [displayedText, setDisplayedText] = useState("Carica file SVG");
+	const { setIsProcessing } = useContext(ProcessingContext);
 
 	const handleFileChange = (event: any) => {
+		setIsProcessing(true);
 		const file = event.target.files[0];
 		const reader = new FileReader();
 
@@ -33,8 +36,17 @@ export function DropFileArea({ form }: DropFileAreaProps) {
 				body: JSON.stringify({ svg: event.target?.result }),
 			});
 
-			const sanitizedSVG = await response.json();
-			form.setValue("svgContent", sanitizedSVG.cleanSVG);
+			if (response.status === 200) {
+				const sanitizedSVG = await response.json();
+				form.setValue("svgContent", sanitizedSVG.cleanSVG);
+			} else {
+				form.setValue("svgContent", "");
+				form.setError("svgContent", {
+					type: "server",
+					message: "Errore durante la sanitizzazione del file",
+				});
+			}
+			setIsProcessing(false);
 		};
 
 		setDisplayedText(file.name);
