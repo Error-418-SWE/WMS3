@@ -73,9 +73,6 @@ const svgCreationSchema = z.object({
 		.refine((value) => value > 0, {
 			message: "Il valore deve essere maggiore di 0",
 		}),
-	svgChoice: z.string({
-		required_error: "Necessario scegliere un'opzione",
-	}),
 	svgContent: z.string({
 		required_error: "Necessario caricare un file SVG",
 	}),
