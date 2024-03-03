@@ -9,9 +9,12 @@ export default async function SVGSanitizer(req: NextApiRequest, res: NextApiResp
   const window = new JSDOM('').window;
   const DOMPurify = createDOMPurify(window);
 
-  const cleanSVG = DOMPurify.sanitize(svg);
-
-  res.status(200).json({cleanSVG});
+  try{
+    const cleanSVG = DOMPurify.sanitize(svg);
+    res.status(200).json({cleanSVG});
+  }catch(error: any){
+    res.status(500).json({error: error.message});
+  }
 }
 
 

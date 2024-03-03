@@ -1,6 +1,7 @@
 "use client";
 import styles from "./page.module.css";
 import { CreationForm } from "@/components/custom/creationForm";
+import {SvgProcessingProvider} from "@/components/providers/SvgProcessingProvider";
 import {
 	Card,
 	CardContent,
@@ -42,11 +43,13 @@ export default function Home() {
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
-					<CreationForm
-						updateCardHeading={updateCardHeading}
-						titleMap={titleMap}
-						descriptionMap={descriptionMap}
-					/>
+					<SvgProcessingProvider>
+						<CreationForm
+							updateCardHeading={updateCardHeading}
+							titleMap={titleMap}
+							descriptionMap={descriptionMap}
+						/>
+					</SvgProcessingProvider>
 				</CardContent>
 			</Card>
 		</main>
