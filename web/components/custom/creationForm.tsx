@@ -1,5 +1,5 @@
 "use client";
-import { use, useState } from "react";
+import { SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -143,7 +143,7 @@ export function CreationForm({
 								<FormItem>
 									<FormControl>
 										<RadioGroup
-											onValueChange={(value) => {
+											onValueChange={(value: SetStateAction<string>) => {
 												field.onChange(value);
 												setChoice(value);
 											}}
