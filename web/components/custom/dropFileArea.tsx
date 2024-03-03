@@ -40,11 +40,12 @@ export function DropFileArea({ form }: DropFileAreaProps) {
 				const sanitizedSVG = await response.json();
 				form.setValue("svgContent", sanitizedSVG.cleanSVG);
 			} else {
-				form.setValue("svgContent", "");
+				form.setValue("svgContent", null);
 				form.setError("svgContent", {
 					type: "server",
 					message: "Errore durante la sanitizzazione del file",
 				});
+				setDisplayedText("Carica file SVG");
 			}
 			setIsProcessing(false);
 		};

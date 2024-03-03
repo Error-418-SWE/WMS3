@@ -75,7 +75,8 @@ const svgCreationSchema = z.object({
 		}),
 	svgContent: z.string({
 		required_error: "Necessario caricare un file SVG",
-	}),
+		invalid_type_error: "Necessario caricare un file SVG",
+	}).min(1),
 });
 
 interface CreationFormProps {
