@@ -8,6 +8,10 @@ on:
     branches:
       - dev
 
+defaults:
+  run:
+    working-directory: web
+
 jobs:
   test:
     runs-on: ubuntu-latest
