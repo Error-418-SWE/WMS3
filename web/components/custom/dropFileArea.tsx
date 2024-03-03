@@ -21,39 +21,23 @@ export function DropFileArea({ form }: DropFileAreaProps) {
 		const file = event.target.files[0];
 		const reader = new FileReader();
 
-		//logica senza API
 		reader.readAsText(file);
-		reader.onload = (event) => {
+		reader.onload = async (event) => {
 			console.log(event.target?.result);
-			form.setValue("svgContent", event.target?.result);
+
+			const response = await fetch("/api/SVGSanitizer", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ svg: event.target?.result }),
+			});
+
+			const sanitizedSVG = await response.json();
+			form.setValue("svgContent", sanitizedSVG.cleanSVG);
 		};
 
 		setDisplayedText(file.name);
-
-		//logica con API
-		/*
-		reader.onload = async (event) => {
-			const svg = event.target.result;
-		
-			// Chimata all'API
-			const response = await fetch('/api/SVGSanitizer', {
-			  method: 'POST',
-			  headers: {
-				'Content-Type': 'application/json'
-			  },
-			  body: JSON.stringify({ svg })
-			});
-		
-			const data = await response.json();
-			const cleanSVG = data.cleanSVG;
-		
-			// Da qui si possono utilizzare le informazioni del file SVG
-			console.log(cleanSVG);
-			form.register("svgFile");
-			form.setValue("svgFile", file.name);
-			setDisplayedText(file.name);
-		};
-		*/
 	};
 
 	const handleDragOver = (event: any) => {
