@@ -1,7 +1,7 @@
 import { Button, buttonVariants } from "@/components/ui/button";
 export default function ZonePanel() {
 	return (
-		<aside className={"w-1/5 h-screen shadow-xl shrink-0 z-10"}>
+		<aside className={"w-1/5 h-screen shadow-xl shrink-0 z-10  absolute bg-secondary"}>
 			<div className={"m-5"}>
 				<h1 className={"font-bold text-2xl"}>Impostazioni</h1>
 				<h2 className={"font-bold mt-4"}>Informazioni</h2>

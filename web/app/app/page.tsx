@@ -95,8 +95,8 @@ export default function app() {
 				</Button>
 			</nav>
 			<div className="flex-grow relative">
-				<canvas className="absolute w-full h-full" />
-				{showPanel && <div className="absolute w-full h-full">{panel}</div>}
+				{showPanel && panel}
+				<canvas id="canvas" className="w-full h-full bg-primary"></canvas>
 			</div>
 		</main>
 	);
