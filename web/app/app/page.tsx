@@ -16,13 +16,13 @@ export default function app() {
 
 	return (
 		<main className={"h-screen flex"}>
-			<nav className="flex flex-col h-screen bg-primary p-1.5 py-2 items-center gap-1">
+			<nav className={"flex flex-col h-screen bg-primary p-1.5 py-2 items-center gap-1"}>
 				<Image
 					src="/icons/logo.svg"
 					alt="logo"
 					width={50}
 					height={50}
-					className="flex flex-col items-center"
+					className={"flex flex-col items-center"}
 					priority
 				/>
 				<Button
@@ -94,9 +94,9 @@ export default function app() {
 					<span>Settings</span>
 				</Button>
 			</nav>
-			<div className="flex-grow relative">
+			<div className={"flex-grow relative"}>
 				{showPanel && panel}
-				<canvas id="canvas" className="w-full h-full bg-primary"></canvas>
+				<canvas id="canvas" className={"w-full h-full bg-primary"}></canvas>
 			</div>
 		</main>
 	);

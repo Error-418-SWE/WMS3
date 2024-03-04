@@ -23,7 +23,7 @@ export function ManualCreationFrame({ form }: ManualCreationFrameProps) {
 				defaultValue=""
 				render={({ field }) => (
 					<>
-						<FormItem className="flex justify-around items-center gap-2">
+						<FormItem className={"flex justify-around items-center gap-2"}>
 							<FormLabel>Larghezza</FormLabel>
 							<div>
 								<FormControl>
@@ -41,7 +41,7 @@ export function ManualCreationFrame({ form }: ManualCreationFrameProps) {
 				defaultValue=""
 				render={({ field }) => (
 					<>
-						<FormItem className="flex justify-around items-center gap-2">
+						<FormItem className={"flex justify-around items-center gap-2"}>
 							<FormLabel>Profondità</FormLabel>
 							<div >
 								<FormControl>

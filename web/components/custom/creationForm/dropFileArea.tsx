@@ -77,7 +77,7 @@ export function DropFileArea({ form }: DropFileAreaProps) {
 								{...field}
 								type="file"
 								ref={fileInputRef}
-								className="hidden"
+								className={"hidden"}
 								onChange={handleFileChange}
 								accept=".svg"
 							/>
@@ -92,7 +92,7 @@ export function DropFileArea({ form }: DropFileAreaProps) {
 						>
 							{displayedText}
 						</div>
-						<FormMessage className="text-center">
+						<FormMessage className={"text-center"}>
 							{form.formState.errors.svgContent &&
 							typeof form.formState.errors.svgContent.message === "string"
 								? form.formState.errors.svgContent.message
