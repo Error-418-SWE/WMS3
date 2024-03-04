@@ -5,8 +5,9 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Schema, z } from "zod";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { manualCreationSchema, svgCreationSchema } from "./zodScheme";
 
 import {
 	Form,
@@ -28,57 +29,6 @@ import { ManualCreationFrame } from "./manualCreationFrame";
 import { SVGCreationFrame } from "./svgCreationFrame";
 import { ProcessingContext } from "@/components/providers/formContextProvider";
 
-const manualCreationSchema = z.object({
-	choice: z.literal("manuale"),
-	loadProdotti: z.boolean(),
-	larghezza: z
-		.string()
-		.refine((value) => value.trim() !== "", {
-			message: "Necessario inserire un valore",
-		})
-		.transform((value) => parseFloat(value))
-		.refine((value) => !Number.isNaN(value), {
-			message: "Il valore deve essere un numero",
-		})
-		.refine((value) => value > 0, {
-			message: "Il valore deve essere maggiore di 0",
-		}),
-	profondita: z
-		.string()
-		.refine((value) => value.trim() !== "", {
-			message: "Necessario inserire un valore",
-		})
-		.transform((value) => parseFloat(value))
-		.refine((value) => !Number.isNaN(value), {
-			message: "Il valore deve essere un numero",
-		})
-		.refine((value) => value > 0, {
-			message: "Il valore deve essere maggiore di 0",
-		}),
-});
-
-const svgCreationSchema = z.object({
-	choice: z.literal("custom"),
-	loadProdotti: z.boolean(),
-	loadScaffali: z.boolean(),
-	latoMaggiore: z
-		.string()
-		.refine((value) => value.trim() !== "", {
-			message: "Necessario inserire un valore",
-		})
-		.transform((value) => parseFloat(value))
-		.refine((value) => !Number.isNaN(value), {
-			message: "Il valore deve essere un numero",
-		})
-		.refine((value) => value > 0, {
-			message: "Il valore deve essere maggiore di 0",
-		}),
-	svgContent: z.string({
-		required_error: "Necessario caricare un file SVG",
-		invalid_type_error: "Necessario caricare un file SVG",
-	}).min(1),
-});
-
 interface CreationFormProps {
 	updateCardHeading: (choice: string) => void;
 	titleMap: Record<string, string>;
@@ -96,7 +46,7 @@ export function CreationForm({
 }: CreationFormProps) {
 	const [choice, setChoice] = useState("manuale");
 	const [showNext, setShowNext] = useState(false);
-	const {isProcessing} = useContext(ProcessingContext);
+	const { isProcessing } = useContext(ProcessingContext);
 
 	const formSchema = z.discriminatedUnion("choice", [
 		manualCreationSchema,

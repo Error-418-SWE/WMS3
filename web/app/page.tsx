@@ -11,8 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 
-import { useContext, useEffect, useState } from "react";
-import validateFormData from "./serverActions";
+import { useEffect, useState } from "react";
 
 const titleMap: Record<string, string> = {
 	default: "Definizione dell'ambiente 3D",
@@ -41,7 +40,6 @@ export default function Home() {
 
 	useEffect(() => {
 		if (isSubmitted) {
-			validateFormData(formData);
 			setProcessProgression(100);
 		}
 	}, [isSubmitted]);
