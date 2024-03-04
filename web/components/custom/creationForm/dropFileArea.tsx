@@ -9,7 +9,7 @@ import {
 import { UseFormReturn, set } from "react-hook-form";
 import { useContext, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
-import { ProcessingContext } from "@/components/providers/SvgProcessingProvider";
+import { ProcessingContext } from "@/components/providers/formContextProvider";
 
 interface DropFileAreaProps {
 	form: UseFormReturn;
