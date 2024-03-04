@@ -10,6 +10,7 @@ import { UseFormReturn, set } from "react-hook-form";
 import { useContext, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { ProcessingContext } from "@/components/providers/formContextProvider";
+import { saveSVG } from "@/app/serverActions";
 
 interface DropFileAreaProps {
 	form: UseFormReturn;
@@ -38,10 +39,11 @@ export function DropFileArea({ form }: DropFileAreaProps) {
 
 			if (response.status === 200) {
 				const sanitizedSVG = await response.json();
-				form.setValue("svgContent", sanitizedSVG.cleanSVG);
+				saveSVG(sanitizedSVG.cleanSVG);
+				form.setValue("svg", "saved.svg");
 			} else {
-				form.setValue("svgContent", null);
-				form.setError("svgContent", {
+				form.setValue("svg", null);
+				form.setError("svg", {
 					type: "server",
 					message: "Errore durante la sanitizzazione del file",
 				});
@@ -93,9 +95,9 @@ export function DropFileArea({ form }: DropFileAreaProps) {
 							{displayedText}
 						</div>
 						<FormMessage className={"text-center"}>
-							{form.formState.errors.svgContent &&
-							typeof form.formState.errors.svgContent.message === "string"
-								? form.formState.errors.svgContent.message
+							{form.formState.errors.svg &&
+							typeof form.formState.errors.svg.message === "string"
+								? form.formState.errors.svg.message
 								: ""}
 						</FormMessage>
 					</FormItem>

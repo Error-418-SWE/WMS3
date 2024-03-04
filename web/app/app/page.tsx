@@ -6,17 +6,23 @@ import SettingsPanel from "@/components/custom/panels/settingsPanel";
 import ZonePanel from "@/components/custom/panels/zonePanel";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 const iconSize = 30;
 
-export default function app() {
+export default function App() {
 	const [showPanel, setShowPanel] = useState(false);
 	const [panel, setPanel] = useState(<></>);
+	const searchParams = useSearchParams();
 
 	return (
 		<main className={"h-screen flex"}>
-			<nav className={"flex flex-col h-screen bg-primary p-1.5 py-2 items-center gap-1"}>
+			<nav
+				className={
+					"flex flex-col h-screen bg-primary p-1.5 py-2 items-center gap-1"
+				}
+			>
 				<Image
 					src="/icons/logo.svg"
 					alt="logo"

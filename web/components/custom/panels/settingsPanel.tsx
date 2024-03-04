@@ -7,7 +7,7 @@ export default function ZonePanel() {
 				<h2 className={"font-bold mt-4"}>Informazioni</h2>
 				<p>Versione WMS3</p>
                 <h2 className={"font-bold mt-4"}>Demo</h2>
-                <p>Reimposta la demo di WMS3. <br/> Non è possibile annullare l'operazione</p>
+                <p>Reimposta la demo di WMS3. <br/> Non è possibile annullare l&apos;operazione</p>
                 <Button className={buttonVariants({ variant: "destructive" }) + " mt-2 float-right"}>Reimposta</Button>
             </div>
 		</aside>
