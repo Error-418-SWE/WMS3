@@ -83,12 +83,14 @@ interface CreationFormProps {
 	updateCardHeading: (choice: string) => void;
 	titleMap: Record<string, string>;
 	descriptionMap: Record<string, string>;
+	setIsSubmitted: React.Dispatch<SetStateAction<boolean>>;
 }
 
 export function CreationForm({
 	updateCardHeading,
 	titleMap,
 	descriptionMap,
+	setIsSubmitted,
 }: CreationFormProps) {
 	const [choice, setChoice] = useState("manuale");
 	const [showNext, setShowNext] = useState(false);
@@ -133,6 +135,7 @@ export function CreationForm({
 			<form
 				onSubmit={form.handleSubmit((data: z.infer<typeof formSchema>) => {
 					console.log(data);
+					setIsSubmitted(true);
 				})}
 				className={"space-y-8"}
 			>
