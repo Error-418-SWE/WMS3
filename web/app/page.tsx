@@ -1,6 +1,6 @@
 "use client";
 import styles from "./page.module.css";
-import { CreationForm } from "@/components/custom/creationForm";
+import { CreationForm } from "@/components/custom/creationForm/creationForm";
 import { SvgProcessingProvider } from "@/components/providers/SvgProcessingProvider";
 import {
 	Card,
@@ -28,7 +28,6 @@ const descriptionMap: Record<string, string> = {
 export default function Home() {
 	const [title, setTitle] = useState("Definizione dell'ambiente 3D");
 	const [description, setDescription] = useState("");
-	const [isSubmitted, setIsSubmitted] = useState(false);
 
 	const updateCardHeading = (value: string) => {
 		setTitle(titleMap[value]);
@@ -48,19 +47,13 @@ export default function Home() {
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
-					{!isSubmitted ? (
-						<SvgProcessingProvider>
-							<CreationForm
-								updateCardHeading={updateCardHeading}
-								titleMap={titleMap}
-								descriptionMap={descriptionMap}
-								setIsSubmitted={setIsSubmitted}
-							/>
-						</SvgProcessingProvider>
-					) : (
-						//loading component
-						"Grazie per aver inviato il form!"
-					)}
+					<SvgProcessingProvider>
+						<CreationForm
+							updateCardHeading={updateCardHeading}
+							titleMap={titleMap}
+							descriptionMap={descriptionMap}
+						/>
+					</SvgProcessingProvider>
 				</CardContent>
 			</Card>
 		</main>

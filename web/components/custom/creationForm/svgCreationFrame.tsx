@@ -10,7 +10,7 @@ import {
 
 import { UseFormReturn } from "react-hook-form";
 import { Checkbox } from "@/components/ui/checkbox";
-import { DropFileArea } from "@/components/custom/dropFileArea";
+import { DropFileArea } from "@/components/custom/creationForm/dropFileArea";
 import { Input } from "@/components/ui/input";
 
 interface SVGCreationFrameProps {
