@@ -1,9 +1,5 @@
 "use server"
 
-export default async function createUser(formData: FormData) {
-
-	//vaidazione
-	//richiesta db
-	//risposta & cambio pagina
-
+export default async function validateFormData(formData: object) {
+	return true;
 }

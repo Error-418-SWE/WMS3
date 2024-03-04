@@ -1,7 +1,7 @@
 "use client";
 import styles from "./page.module.css";
 import { CreationForm } from "@/components/custom/creationForm/creationForm";
-import { SvgProcessingProvider } from "@/components/providers/SvgProcessingProvider";
+import { FormContextProvider, ProcessingContext } from "@/components/providers/formContextProvider";
 import {
 	Card,
 	CardContent,
@@ -9,8 +9,10 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import validateFormData from "./serverActions";
 
 const titleMap: Record<string, string> = {
 	default: "Definizione dell'ambiente 3D",
@@ -28,11 +30,21 @@ const descriptionMap: Record<string, string> = {
 export default function Home() {
 	const [title, setTitle] = useState("Definizione dell'ambiente 3D");
 	const [description, setDescription] = useState("");
+	const [isSubmitted, setIsSubmitted] = useState(false);
+	const [formData, setFormData] = useState({});
+	const [processProgression, setProcessProgression] = useState(0);
 
 	const updateCardHeading = (value: string) => {
 		setTitle(titleMap[value]);
 		setDescription(descriptionMap[value]);
 	};
+
+	useEffect(() => {
+		if (isSubmitted) {
+			validateFormData(formData);
+			setProcessProgression(100);
+		}
+	}, [isSubmitted]);
 
 	return (
 		<main className={"h-screen flex items-center justify-center"}>
@@ -47,13 +59,21 @@ export default function Home() {
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
-					<SvgProcessingProvider>
-						<CreationForm
-							updateCardHeading={updateCardHeading}
-							titleMap={titleMap}
-							descriptionMap={descriptionMap}
-						/>
-					</SvgProcessingProvider>
+					<FormContextProvider>
+
+						{!isSubmitted ? (
+							<CreationForm
+								updateCardHeading={updateCardHeading}
+								titleMap={titleMap}
+								descriptionMap={descriptionMap}
+								setSubmitted={setIsSubmitted}
+								setFormData={setFormData}
+							/>) : (
+							<>
+								<Progress value={processProgression} />
+							</>
+						)}
+					</FormContextProvider>
 				</CardContent>
 			</Card>
 		</main>

@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/card";
 import { ManualCreationFrame } from "./manualCreationFrame";
 import { SVGCreationFrame } from "./svgCreationFrame";
-import { ProcessingContext } from "@/components/providers/SvgProcessingProvider";
+import { ProcessingContext } from "@/components/providers/formContextProvider";
 
 const manualCreationSchema = z.object({
 	choice: z.literal("manuale"),
@@ -83,12 +83,16 @@ interface CreationFormProps {
 	updateCardHeading: (choice: string) => void;
 	titleMap: Record<string, string>;
 	descriptionMap: Record<string, string>;
+	setSubmitted: (isSubmitted: boolean) => void;
+	setFormData: (formData: object) => void;
 }
 
 export function CreationForm({
 	updateCardHeading,
 	titleMap,
 	descriptionMap,
+	setSubmitted,
+	setFormData
 }: CreationFormProps) {
 	const [choice, setChoice] = useState("manuale");
 	const [showNext, setShowNext] = useState(false);
@@ -133,6 +137,8 @@ export function CreationForm({
 			<form
 				onSubmit={form.handleSubmit((data: z.infer<typeof formSchema>) => {
 					console.log(data);
+					setFormData(data);
+					setSubmitted(true);
 				})}
 				className={"space-y-8"}
 			>
