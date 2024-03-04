@@ -2,11 +2,11 @@
 
 import OrdersPanel from "@/components/custom/panels/ordersPanel";
 import ProductsPanel from "@/components/custom/panels/productsPanel";
+import SettingsPanel from "@/components/custom/panels/settingsPanel";
 import ZonePanel from "@/components/custom/panels/zonePanel";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useState } from "react";
-import { set } from "zod";
 
 const iconSize = 30;
 
@@ -16,7 +16,7 @@ export default function app() {
 
 	return (
 		<main className={"h-screen flex"}>
-			<nav className="flex flex-col h-screen bg-primary pt-2 items-center gap-6">
+			<nav className="flex flex-col h-screen bg-primary p-1.5 py-2 items-center gap-1">
 				<Image
 					src="/icons/logo.svg"
 					alt="logo"
@@ -30,7 +30,9 @@ export default function app() {
 						setPanel(<ZonePanel />);
 						setShowPanel(panel.type !== ZonePanel || !showPanel);
 					}}
-					className="flex flex-col items-center"
+					className={`flex flex-col items-center w-full h-auto ${
+						panel.type === ZonePanel && showPanel ? "invert grayscale" : ""
+					}`}
 				>
 					<Image
 						src="/icons/zone.svg"
@@ -45,7 +47,9 @@ export default function app() {
 						setPanel(<ProductsPanel />);
 						setShowPanel(panel.type !== ProductsPanel || !showPanel);
 					}}
-					className="flex flex-col items-center"
+					className={`flex flex-col items-center w-full h-auto ${
+						panel.type === ProductsPanel && showPanel ? "invert grayscale" : ""
+					}`}
 				>
 					<Image
 						src="/icons/products.svg"
@@ -60,7 +64,9 @@ export default function app() {
 						setPanel(<OrdersPanel />);
 						setShowPanel(panel.type !== OrdersPanel || !showPanel);
 					}}
-					className="flex flex-col items-center"
+					className={`flex flex-col items-center w-full h-auto ${
+						panel.type === OrdersPanel && showPanel ? "invert grayscale" : ""
+					}`}
 				>
 					<Image
 						src="/icons/orders.svg"
@@ -70,8 +76,28 @@ export default function app() {
 					/>
 					<span>Orders</span>
 				</Button>
+				<Button
+					onClick={() => {
+						setPanel(<SettingsPanel />);
+						setShowPanel(panel.type !== SettingsPanel || !showPanel);
+					}}
+					className={`mt-auto flex flex-col items-center w-full h-auto ${
+						panel.type === SettingsPanel && showPanel ? "invert grayscale" : ""
+					}`}
+				>
+					<Image
+						src="/icons/settings.svg"
+						alt="products"
+						width={iconSize}
+						height={iconSize}
+					/>
+					<span>Settings</span>
+				</Button>
 			</nav>
-			{showPanel && panel}
+			<div className="flex-grow relative">
+				<canvas className="absolute w-full h-full" />
+				{showPanel && <div className="absolute w-full h-full">{panel}</div>}
+			</div>
 		</main>
 	);
 }
