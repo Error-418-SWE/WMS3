@@ -33,3 +33,4 @@ class Product {
         return this.width;
     }
 }
+export { Product };
