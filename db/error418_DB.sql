@@ -42,8 +42,8 @@ CREATE TABLE public.product (
     name VARCHAR(50),
     weight REAL,
     width REAL,
-    lenght REAL,
-    height REAL 
+    length REAL,
+    height REAL
 );
 
 --ALTER TABLE public.product OWNER TO db_user;
@@ -53,7 +53,7 @@ CREATE TABLE public.zone (
     id SERIAL PRIMARY KEY,
     xCoordinate REAL,
     yCoordinate REAL,
-    lenght REAL,
+    length REAL,
     orientation BOOLEAN
 );
 
@@ -74,7 +74,7 @@ CREATE TABLE public.zone_column (
 CREATE TABLE public.level (
     id SERIAL PRIMARY KEY,
     zone_id INTEGER REFERENCES public.zone(id) NOT NULL,
-    height REAL 
+    height REAL
 );
 
 --ALTER TABLE public.level OWNER TO db_user;
