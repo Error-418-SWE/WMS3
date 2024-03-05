@@ -4,19 +4,21 @@ class Zone {
     private id: number;
     private xcordinate: number;
     private ycordinate: number;
-    private weight: number;
+    private height: number;
     private length: number;
     private width: number;
     private bins: Bin[];
+    private orientation: boolean;
 
-    constructor(id: number, xcordinate: number, ycordinate: number, weight: number, length: number, width: number, bins: Bin[]) {
+    constructor(id: number, xcordinate: number, ycordinate: number, height: number, length: number, width: number, bins: Bin[], orientation: boolean) {
         this.id = id;
         this.xcordinate = xcordinate;
         this.ycordinate = ycordinate;
-        this.weight = weight;
+        this.height = height;
         this.length = length;
         this.width = width;
         this.bins = bins;
+        this.orientation = orientation;
     }
 
     public getId(): number {
@@ -31,8 +33,8 @@ class Zone {
         return this.ycordinate;
     }
 
-    public getWeight(): number {
-        return this.weight;
+    public getHeight(): number {
+        return this.height;
     }
 
     public getLength(): number {
@@ -45,6 +47,10 @@ class Zone {
 
     public getBins(): Bin[] {
         return this.bins;
+    }
+
+    public getOrientation(): boolean {
+        return this.orientation;
     }
 
     public getBin(id: number): Bin | undefined {
