@@ -45,7 +45,7 @@ export  const svgCreationSchema = z.object({
 		.refine((value) => value > 0, {
 			message: "Il valore deve essere maggiore di 0",
 		}),
-	svgContent: z.string({
+	svg: z.string({
 		required_error: "Necessario caricare un file SVG",
 		invalid_type_error: "Necessario caricare un file SVG",
 	}).min(1),

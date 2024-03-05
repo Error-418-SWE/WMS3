@@ -150,7 +150,7 @@ export function CreationForm({
 									updateCardHeading(choice);
 								}}
 							>
-								Next
+								Prossimo
 							</Button>
 						</div>
 					</>

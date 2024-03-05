@@ -1,7 +1,10 @@
 "use client";
 import styles from "./page.module.css";
 import { CreationForm } from "@/components/custom/creationForm/creationForm";
-import { FormContextProvider, ProcessingContext } from "@/components/providers/formContextProvider";
+import {
+	FormContextProvider,
+	ProcessingContext,
+} from "@/components/providers/formContextProvider";
 import {
 	Card,
 	CardContent,
@@ -10,6 +13,7 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import Link from "next/link";
 
 import { useEffect, useState } from "react";
 
@@ -40,6 +44,8 @@ export default function Home() {
 
 	useEffect(() => {
 		if (isSubmitted) {
+			setTitle("Caricamento dati");
+			setDescription("Dati caricati corretamente. Premere per continuare.");
 			setProcessProgression(100);
 		}
 	}, [isSubmitted]);
@@ -58,7 +64,6 @@ export default function Home() {
 				</CardHeader>
 				<CardContent>
 					<FormContextProvider>
-
 						{!isSubmitted ? (
 							<CreationForm
 								updateCardHeading={updateCardHeading}
@@ -66,10 +71,24 @@ export default function Home() {
 								descriptionMap={descriptionMap}
 								setSubmitted={setIsSubmitted}
 								setFormData={setFormData}
-							/>) : (
-							<>
+							/>
+						) : (
+							<div className={"flex flex-col gap-2"}>
 								<Progress value={processProgression} />
-							</>
+								{processProgression === 100 && (
+									<Link
+										className={
+											"bg-primary p-2 rounded-md text-primary-foreground text-right w-min ml-auto"
+										}
+										href={{
+											pathname: "/app",
+											query: formData,
+										}}
+									>
+										Continua
+									</Link>
+								)}
+							</div>
 						)}
 					</FormContextProvider>
 				</CardContent>
