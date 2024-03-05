@@ -1,9 +1,9 @@
 "use client";
 
-import OrdersPanel from "@/components/custom/panels/ordersPanel";
-import ProductsPanel from "@/components/custom/panels/productsPanel";
-import SettingsPanel from "@/components/custom/panels/settingsPanel";
-import ZonePanel from "@/components/custom/panels/zonePanel";
+import OrdersPanel from "@/components/custom/panels/Orders/ordersPanel";
+import ProductsPanel from "@/components/custom/panels/Products/productsPanel";
+import SettingsPanel from "@/components/custom/panels/Settings/settingsPanel";
+import ZonePanel from "@/components/custom/panels/Zone/zonePanel";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Suspense, useState } from "react";
