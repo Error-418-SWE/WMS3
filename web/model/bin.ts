@@ -47,5 +47,4 @@ class Bin {
         return this.product;
     }
 }
-
 export { Bin };
