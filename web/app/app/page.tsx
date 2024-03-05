@@ -6,15 +6,13 @@ import SettingsPanel from "@/components/custom/panels/settingsPanel";
 import ZonePanel from "@/components/custom/panels/zonePanel";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { Suspense, useState } from "react";
 
 const iconSize = 30;
 
 export default function App() {
 	const [showPanel, setShowPanel] = useState(false);
 	const [panel, setPanel] = useState(<></>);
-	const searchParams = useSearchParams();
 
 	return (
 		<main className={"h-screen flex"}>
@@ -101,7 +99,7 @@ export default function App() {
 				</Button>
 			</nav>
 			<div className={"flex-grow relative"}>
-				{showPanel && panel}
+				{showPanel && <Suspense>{panel}</Suspense>}
 				<canvas id="canvas" className={"w-full h-full bg-primary"}></canvas>
 			</div>
 		</main>
