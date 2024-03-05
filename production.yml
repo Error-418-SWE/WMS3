@@ -1,6 +1,7 @@
 version: "3.9"
 services:
   frontend:
-    command: npm run start
+    command: sh -c "npm run build && npm run start"
+    restart: always
     ports:
       - '80:3000'
