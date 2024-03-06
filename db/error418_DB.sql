@@ -39,7 +39,7 @@ CREATE TABLE public.category (
 -- tabella product
 CREATE TABLE public.product (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
+    name VARCHAR(70) NOT NULL,
     weight REAL,
     width REAL NOT NULL,
     length REAL NOT NULL,
@@ -887,7 +887,7 @@ INSERT INTO public.categorize VALUES (8, 105);
 INSERT INTO public.categorize VALUES (29, 106);
 INSERT INTO public.categorize VALUES (30, 106);
 INSERT INTO public.categorize VALUES (11, 107);
-INSERT INTO public.categorize VALUES (11, 107);
+INSERT INTO public.categorize VALUES (98, 107);
 INSERT INTO public.categorize VALUES (31, 108);
 INSERT INTO public.categorize VALUES (32, 108);
 INSERT INTO public.categorize VALUES (10, 109);
