@@ -7,9 +7,9 @@ class Bin {
     private weight: number;
     private length: number;
     private width: number;
-    private product: Product;
+    private product: Product | undefined | null;
 
-    constructor(id: number, level: number, column: number, weight: number, length: number, width: number, product: Product) {
+    constructor(id: number, level: number, column: number, weight: number, length: number, width: number, product: Product | undefined | null) {
         this.id = id;
         this.level = level;
         this.column = column;
@@ -43,7 +43,7 @@ class Bin {
         return this.width;
     }
 
-    public getProduct(): Product {
+    public getProduct(): Product | undefined | null{
         return this.product;
     }
 }

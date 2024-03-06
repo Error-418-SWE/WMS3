@@ -81,7 +81,7 @@ export default function Home() {
 											"bg-primary p-2 rounded-md text-primary-foreground text-right w-min ml-auto"
 										}
 										href={{
-											pathname: "/app",
+											pathname: "/main",
 											query: formData,
 										}}
 									>
