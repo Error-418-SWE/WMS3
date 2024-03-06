@@ -36,13 +36,13 @@ export default function ZoneItemDetails({ zone }: ZoneItemProps) {
 				</SheetHeader>
 				<div className={"grid items-center grid-cols-3 grid-rows-2 gap-y-2 mt-2"}>
 					<Label>Direzione</Label>
-					<Input className={"col-span-2"} value={zone.getOrientation() ? "NS" : "EW"}></Input>
+					<Input className={"col-span-2"} value={zone.getOrientation() ? "NS" : "EW"} disabled></Input>
 
 					<Label>Dimensioni</Label>
 					<div className={"flex col-span-2 gap-2"}>
-						<Input value={zone.getLength()}></Input>
-						<Input value={zone.getWidth()}></Input>
-						<Input value={zone.getHeight()}></Input>
+						<Input value={zone.getLength()} disabled></Input>
+						<Input value={zone.getWidth()} disabled></Input>
+						<Input value={zone.getHeight()} disabled></Input>
 					</div>
 				</div>
 
