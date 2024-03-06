@@ -7,6 +7,7 @@ import ZonePanel from "@/components/custom/panels/zonePanel";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Suspense, useState } from "react";
+import Wharehouse from "@/app/app/Wharehouse";
 
 const iconSize = 30;
 
@@ -98,9 +99,9 @@ export default function App() {
 					<span>Settings</span>
 				</Button>
 			</nav>
-			<div className={"flex-grow relative"}>
+			<div id="canvas-container" className={"flex-grow relative"}>
 				{showPanel && <Suspense>{panel}</Suspense>}
-				<canvas id="canvas" className={"w-full h-full bg-primary"}></canvas>
+					<Wharehouse />
 			</div>
 		</main>
 	);
