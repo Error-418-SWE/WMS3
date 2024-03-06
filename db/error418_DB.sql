@@ -75,7 +75,7 @@ CREATE TABLE public.zone_column (
 CREATE TABLE public.level (
     id SERIAL PRIMARY KEY,
     zone_id INTEGER REFERENCES public.zone(id) NOT NULL,
-	level_order INTEGER NOT NULL,
+    level_order INTEGER NOT NULL,
     height REAL NOT NULL
 );
 
