@@ -101,7 +101,7 @@ export default function App() {
 			</nav>
 			<div id="canvas-container" className={"flex-grow relative"}>
 				{showPanel && <Suspense>{panel}</Suspense>}
-					<Wharehouse />
+				<Wharehouse />
 			</div>
 		</main>
 	);
