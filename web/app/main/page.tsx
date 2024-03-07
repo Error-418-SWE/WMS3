@@ -10,6 +10,7 @@ import { Suspense, useState } from "react";
 import { Zone } from "@/model/zone";
 import { Bin } from "@/model/bin";
 import { Product } from "@/model/product";
+import Wharehouse from "@/app/main/Wharehouse";
 
 
 
@@ -134,9 +135,9 @@ export default function Main() {
 					<span>Settings</span>
 				</Button>
 			</nav>
-			<div className={"flex-grow relative"}>
+			<div id="canvas-container" className={"flex-grow relative"}>
 				{showPanel && <Suspense>{panel}</Suspense>}
-				<canvas id="canvas" className={"w-full h-full bg-primary"}></canvas>
+				<Wharehouse />
 			</div>
 		</main>
 	);
