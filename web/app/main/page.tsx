@@ -10,8 +10,7 @@ import { Suspense, useState } from "react";
 import { Zone } from "@/model/zone";
 import { Bin } from "@/model/bin";
 import { Product } from "@/model/product";
-
-
+import Wharehouse from "@/app/main/Wharehouse";
 
 const iconSize = 30;
 
@@ -20,34 +19,56 @@ export default function Main() {
 	const [panel, setPanel] = useState(<></>);
 
 	const zones = [
-		new Zone(1, 1, 1, 1, 1, 1, [
-			new Bin(1, 1, 1, 1, 1, 1,
-			new Product(1, "prodotto1", 1,1,1)),
-			new Bin(2, 1, 1, 1, 1, 1,
-			new Product(1, "prodotto2", 1,1,1)),
-			new Bin(3, 1, 1, 1, 1, 1,
-			new Product(1, "prodotto3", 1,1,1)),
-			new Bin(4, 1, 1, 1, 1, 1, null)
-		], true),
+		new Zone(
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			[
+				new Bin(1, 1, 1, 1, 1, 1, new Product(1, "prodotto1", 1, 1, 1)),
+				new Bin(2, 1, 1, 1, 1, 1, new Product(1, "prodotto2", 1, 1, 1)),
+				new Bin(3, 1, 1, 1, 1, 1, new Product(1, "prodotto3", 1, 1, 1)),
+				new Bin(4, 1, 1, 1, 1, 1, null),
+			],
+			true
+		),
 
-		new Zone(2, 2, 2, 2, 2, 2, [
-			new Bin(2, 2, 2, 2, 2, 2,
-			new Product(2, "prodotto5", 2,2,2)),
-		], true),
+		new Zone(
+			2,
+			2,
+			2,
+			2,
+			2,
+			2,
+			[new Bin(2, 2, 2, 2, 2, 2, new Product(2, "prodotto5", 2, 2, 2))],
+			true
+		),
 
-		new Zone(3, 3, 3, 3, 3, 3, [
-			new Bin(3, 3, 3, 3, 3, 3,
-			new Product(3, "prodotto6", 3,3,3)),
-		], true),
+		new Zone(
+			3,
+			3,
+			3,
+			3,
+			3,
+			3,
+			[new Bin(3, 3, 3, 3, 3, 3, new Product(3, "prodotto6", 3, 3, 3))],
+			true
+		),
 
-		new Zone(4, 4, 4, 4, 4, 4, [
-			new Bin(4, 4, 4, 4, 4, 4,
-			new Product(4, "prodotto7", 4,4,4)),
-		], true),
+		new Zone(
+			4,
+			4,
+			4,
+			4,
+			4,
+			4,
+			[new Bin(4, 4, 4, 4, 4, 4, new Product(4, "prodotto7", 4, 4, 4))],
+			true
+		),
 
-		new Zone(5, 5, 5, 5, 5, 5, [
-			new Bin(5, 5, 5, 5, 5, 5, null),
-		], true),
+		new Zone(5, 5, 5, 5, 5, 5, [new Bin(5, 5, 5, 5, 5, 5, null)], true),
 	];
 
 	return (
@@ -134,9 +155,9 @@ export default function Main() {
 					<span>Settings</span>
 				</Button>
 			</nav>
-			<div className={"flex-grow relative"}>
+			<div id="canvas-container" className={"flex-grow relative"}>
 				{showPanel && <Suspense>{panel}</Suspense>}
-				<canvas id="canvas" className={"w-full h-full bg-primary"}></canvas>
+				<Wharehouse />
 			</div>
 		</main>
 	);
