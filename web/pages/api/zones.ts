@@ -12,10 +12,12 @@ export default async function getAllZones(
 	const client = await pool.connect();
 
 	try {
+        //retrive zones
 		const { rows: zones } = await client.query(`
             SELECT * FROM zone;
         `);
 
+        //retrive data for each zone
         for (const zone of zones) {
             const { rows : bins } = await client.query(
                 `
@@ -40,19 +42,29 @@ export default async function getAllZones(
 
             zone.bins = bins;
 
-            for (const bin of zone.bins) {
-                const { rows: product} = await client.query(
-                    `SELECT * FROM product WHERE id = $1;`,
-                    [bin.product_id]
-                );
+            //retrive product for each bin
+            for (const bin of zone.bins) {              
+                if(bin.product_id){
+                    const { rows: product } = await client.query(`
+                        SELECT p.id, p.*, array_agg(c.name) as categories
+                        FROM product p
+                        LEFT JOIN categorize cz ON cz.product_id = p.id
+                        LEFT JOIN category c ON c.id = cz.category_id
+                        WHERE p.id = $1
+                        GROUP BY p.id;`, 
+                    [bin.product_id]);
 
-                if (product.length > 0) {
-                    bin.product = product[0];
-                }else{
+                    if (product.length > 0) {
+                        bin.product = product[0];
+                    }else{
+                        bin.product = null;
+                    }
+                }else {
                     bin.product = null;
                 }
             }
         
+            //calculate zone width and height
             const { rows: zoneColumns } = await client.query(
                 `SELECT * FROM zone_column WHERE zone_id = $1;`,
                 [zone.id]

@@ -6,7 +6,7 @@ class Product {
     private width: number;
     private categories: string[];
 
-    constructor(id: number, name: string, weight: number, length: number, width: number, categories: string[] = []) { 
+    constructor(id: number, name: string, weight: number, length: number, width: number, categories: string[]) { 
         this.id = id;
         this.name = name;
         this.weight = weight;

@@ -12,12 +12,14 @@ export default async function getProducts(
 	const client = await pool.connect();
 
 	try {
-		const { rows: product } = await client.query(
-			`
-        SELECT * FROM product WHERE id = $1;
-    `,
-			[req.query.id]
-		);
+		const { rows: product } = await client.query(`
+            SELECT p.*, array_agg(c.name) as categories
+            FROM product p
+            LEFT JOIN categorize cz ON cz.product_id = p.id
+            LEFT JOIN category c ON c.id = cz.category_id
+            WHERE p.id = $1
+			GROUP BY p.id;`,
+			[req.query.id]);
 
 		if (product.length > 0) {
 			res.status(200).json(product[0]);

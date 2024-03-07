@@ -13,7 +13,11 @@ export default async function getProducts(
 
 	try {
 		const { rows: products } = await client.query(`
-            SELECT * FROM product;
+            SELECT p.*, array_agg(c.name) as categories
+            FROM product p
+            LEFT JOIN categorize cz ON cz.product_id = p.id
+            LEFT JOIN category c ON c.id = cz.category_id
+            GROUP BY p.id;
         `);
         
         res.status(200).json(products);
@@ -23,3 +27,4 @@ export default async function getProducts(
 		client.release();
 	}
 }
+
