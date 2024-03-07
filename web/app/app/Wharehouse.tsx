@@ -1,8 +1,7 @@
-import { createRoot } from "react-dom/client";
 import { Canvas } from "@react-three/fiber";
-import { useRef, useEffect } from "react";
 import { DoubleSide } from "three";
-import { Html, OrbitControls, PerspectiveCamera } from "@react-three/drei";
+import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
+import { useSearchParams } from "next/navigation";
 
 export default function Wharehouse() {
 	return (
@@ -24,14 +23,21 @@ export default function Wharehouse() {
 }
 
 function Floor() {
-	return (
-		<mesh
-			position={[0.1, -0.5 * Math.PI, 0]}
-			rotation={[Math.PI / 2, 0, 0]}
-			scale={[2, 2, 2]}
-		>
-			<planeGeometry args={[5, 5]} />
-			<meshBasicMaterial color="white" side={DoubleSide} />
-		</mesh>
-	);
+	const urlParams = useSearchParams()?.get("choice");
+	if (urlParams != null) {
+		if (urlParams == "manuale") {
+			var larghezza_piano: number = +useSearchParams()?.get("larghezza")!;
+			var profondita_piano: number = +useSearchParams()?.get("profondita")!;
+			return (
+				<mesh
+					position={[0.1, -0.5 * Math.PI, 0]}
+					rotation={[Math.PI / 2, 0, 0]}
+					scale={[2, 2, 2]}
+				>
+					<planeGeometry args={[larghezza_piano, profondita_piano]} />
+					<meshBasicMaterial color="white" side={DoubleSide} />
+				</mesh>
+			);
+		}
+	}
 }
