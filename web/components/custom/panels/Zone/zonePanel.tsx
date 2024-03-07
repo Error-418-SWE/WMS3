@@ -4,14 +4,12 @@ import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import ZoneItem from "@/components/custom/panels/Zone/zoneItem";
 import { Zone } from "@/model/zone";
+import { useZonesData } from "@/components/providers/zonesProvider";
 
-interface ZonePanelProps {
-	zones_list: Zone[];
-}
+export default function ZonePanel() {
 
-export default function ZonePanel({zones_list} : ZonePanelProps) {
-
-	console.log("Zones list: ", zones_list);
+	const { zones } = useZonesData();
+	console.log(zones);
 
 	return (
 		<aside
@@ -30,7 +28,7 @@ export default function ZonePanel({zones_list} : ZonePanelProps) {
 				<Input placeholder="Search..." />
 			</div>
 			<div id="zoneList" className={"flex flex-col mx-5 mt-4 gap-2"}>
-				{zones_list.map((zone) => (
+				{zones.map((zone) => (
 					<ZoneItem key={zone.getId()} zone={zone} />
 				))}
 			</div>
