@@ -1,5 +1,4 @@
 import { Bin } from "@/model/bin";
-import { Product } from "@/model/product";
 import { ProductMapper } from "@/dataMapper/productMapper";
 
 export class BinMapper {
