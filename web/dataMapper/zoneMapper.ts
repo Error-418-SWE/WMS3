@@ -5,8 +5,8 @@ export class ZoneMapper {
     public static toDomain(json: any): Zone {
         return new Zone(
             json.id,
-            json.xcordinate,
-            json.ycordinate,
+            json.xcoordinate,
+            json.ycoordinate,
             json.height,
             json.length,
             json.width,
