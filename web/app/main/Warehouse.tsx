@@ -2,16 +2,13 @@ import { Canvas } from "@react-three/fiber";
 import { DoubleSide } from "three";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { useSearchParams } from "next/navigation";
+import "@/app/main/ThreeStyle.css"
 
 export default function Warehouse() {
 	return (
-		<div id="canvas">
+		<div id="canvas-container">
 			<Canvas
-				style={{
-					height: "100vh",
-					width: "100%",
-					background: "#C09373",
-				}}
+				className={"styledcanvas"}
 			>
 				<PerspectiveCamera />
 				<Floor />
