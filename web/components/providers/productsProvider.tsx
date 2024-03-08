@@ -11,6 +11,7 @@ export function ProductsDataProvider({ children } : { children: React.ReactNode 
     const [products, setProducts] = useState<Product[]>([]);
 
     useEffect(() => {
+        console.log("ProductsDataProvider: useEffect");
         ProductRepository.getAllProducts().then(setProducts);
     }, []);
 

@@ -10,6 +10,7 @@ export function ZonesDataProvider({ children } : { children: React.ReactNode }) 
     const [zones, setZones] = useState<Zone[]>([]);
 
     useEffect(() => {
+        console.log("ZonesDataProvider: useEffect");
         ZoneRepository.getAllZones().then(setZones);
     }, []);
 

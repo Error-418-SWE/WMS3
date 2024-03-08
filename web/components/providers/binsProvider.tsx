@@ -11,6 +11,7 @@ export function BinsDataProvider({ children } : { children: React.ReactNode }) {
     const [bins, setBins] = useState<Bin[]>([]);
 
     useEffect(() => {
+        console.log("BinsDataProvider: useEffect");
         BinRepository.getAllBins().then(setBins);
     }, []);
 
