@@ -3,7 +3,7 @@ import { DoubleSide } from "three";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { useSearchParams } from "next/navigation";
 
-export default function Wharehouse() {
+export default function Warehouse() {
 	return (
 		<div id="canvas">
 			<Canvas

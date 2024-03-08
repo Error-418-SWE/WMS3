@@ -10,7 +10,7 @@ import { Suspense, useState } from "react";
 import { Zone } from "@/model/zone";
 import { Bin } from "@/model/bin";
 import { Product } from "@/model/product";
-import Wharehouse from "@/app/main/Wharehouse";
+import Warehouse from "@/app/main/Warehouse";
 
 
 
@@ -137,7 +137,7 @@ export default function Main() {
 			</nav>
 			<div id="canvas-container" className={"flex-grow relative"}>
 				{showPanel && <Suspense>{panel}</Suspense>}
-				<Wharehouse />
+				<Warehouse />
 			</div>
 		</main>
 	);
