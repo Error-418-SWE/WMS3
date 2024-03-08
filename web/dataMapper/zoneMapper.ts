@@ -1,5 +1,4 @@
 import {Zone} from "@/model/zone";
-import {Bin} from "@/model/bin";
 import { BinMapper } from "@/dataMapper/binMapper";
 
 export class ZoneMapper {
