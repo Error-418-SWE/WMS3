@@ -3,13 +3,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import ZoneItem from "@/components/custom/panels/Zone/zoneItem";
-import { Zone } from "@/model/zone";
 import { useZonesData } from "@/components/providers/zonesProvider";
 
 export default function ZonePanel() {
 
 	const { zones } = useZonesData();
-	console.log(zones);
 
 	return (
 		<aside
