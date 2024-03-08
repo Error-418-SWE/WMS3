@@ -10,7 +10,6 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import Link from "next/link";
 
 import { useEffect, useState } from "react";
@@ -33,7 +32,6 @@ export default function Home() {
 	const [description, setDescription] = useState("");
 	const [isSubmitted, setIsSubmitted] = useState(false);
 	const [formData, setFormData] = useState({});
-	const [processProgression, setProcessProgression] = useState(0);
 
 	const updateCardHeading = (value: string) => {
 		setTitle(titleMap[value]);
@@ -44,7 +42,6 @@ export default function Home() {
 		if (isSubmitted) {
 			setTitle("Caricamento dati");
 			setDescription("Dati caricati corretamente. Premere per continuare.");
-			setProcessProgression(100);
 		}
 	}, [isSubmitted]);
 
@@ -72,20 +69,17 @@ export default function Home() {
 							/>
 						) : (
 							<div className={"flex flex-col gap-2"}>
-								<Progress value={processProgression} />
-								{processProgression === 100 && (
-									<Link
-										className={
-											"bg-primary p-2 rounded-md text-primary-foreground text-right w-min ml-auto"
-										}
-										href={{
-											pathname: "/main",
-											query: formData,
-										}}
-									>
-										Continua
-									</Link>
-								)}
+								<Link
+									className={
+										"bg-primary p-2 rounded-md text-primary-foreground text-right w-min ml-auto"
+									}
+									href={{
+										pathname: "/main",
+										query: formData,
+									}}
+								>
+									Continua
+								</Link>
 							</div>
 						)}
 					</FormContextProvider>
