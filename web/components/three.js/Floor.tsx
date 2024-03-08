@@ -2,7 +2,7 @@ import { useSearchParams } from "next/navigation";
 import { DoubleSide } from "three";
 
 const position_x=0.1;
-const position_y=-0.5 * Math.PI;
+const position_y=Math.PI/2;
 const position_z=0;
 
 const euler_x=Math.PI / 2;
