@@ -135,7 +135,7 @@ export default function Main() {
 					<span>Settings</span>
 				</Button>
 			</nav>
-			<div id="canvas-container" className={"flex-grow relative"}>
+			<div className={"flex-grow relative"}>
 				{showPanel && <Suspense>{panel}</Suspense>}
 				<Warehouse />
 			</div>
