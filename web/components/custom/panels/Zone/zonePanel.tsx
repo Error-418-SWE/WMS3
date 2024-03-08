@@ -4,17 +4,16 @@ import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import ZoneItem from "@/components/custom/panels/Zone/zoneItem";
 import { useZonesData } from "@/components/providers/zonesProvider";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import Panel from "@/components/custom/panels/panel";
+import { Zone } from "@/model/zone";
 
 export default function ZonePanel() {
-
+	
 	const { zones } = useZonesData();
-
+	
 	return (
-		<aside
-			className={
-				"flex flex-col h-screen w-1/5 h-screen shadow-xl shrink-0 z-10 absolute bg-secondary"
-			}
-		>
+		<Panel>
 			<div className={"flex m-5 items-end"}>
 				<h1 className={"grow font-bold text-2xl"}>Zone</h1>
 				<Button>
@@ -25,11 +24,11 @@ export default function ZonePanel() {
 				<Label className={"sr-only"}>Ricerca le zone</Label>
 				<Input placeholder="Search..." />
 			</div>
-			<div id="zoneList" className={"flex flex-col mx-5 mt-4 gap-2"}>
-				{zones.map((zone) => (
-					<ZoneItem key={zone.getId()} zone={zone} />
-				))}
-			</div>
-		</aside>
+			<ScrollArea id="zoneList" className={"flex flex-col mx-5 my-4 gap-2"}>
+				{zones.length > 0 ? zones.map((zone) => (
+						<ZoneItem key={zone.getId()} zone={zone} />
+				)) : <div className={"text-center text-muted-foreground"}>Nessuna zona trovata</div>}
+			</ScrollArea>
+		</Panel>
 	);
 }

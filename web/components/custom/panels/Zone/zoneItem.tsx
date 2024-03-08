@@ -3,6 +3,9 @@ import { Zone } from "@/model/zone";
 import Image from "next/image";
 import ZoneItemDetails from "./zoneItemDetails";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { useState } from "react";
+import { useElementDetails } from "@/components/providers/UI-Providers/ElementDetailsProvider";
+import { set } from "zod";
 
 const imageButtonSize = 15;
 
@@ -11,12 +14,30 @@ interface ZoneItemProps {
 }
 
 export default function ZoneItem({ zone }: ZoneItemProps) {
+
+	const {elementDetails, setElementDetails, showElementDetails, setShowElementDetails} = useElementDetails();
+
 	return (
 		<div
 			className={"flex p-3 gap-3 items-center hover:bg-slate-300 rounded-md"}
 		>
 			<span className={"grow font-bold"}>{zone.getId()}</span>
-			<ZoneItemDetails zone={zone} />
+			<Button
+				className={buttonVariants({ variant: "secondary" })}
+				onClick={() => {
+					setElementDetails(<ZoneItemDetails zone={zone} />);
+					setShowElementDetails(true);
+					console.log( elementDetails + "" + zone.getId());
+					console.log("Visualizza dettagli zona con id: " + zone.getId());
+				}}
+			>
+				<Image
+					src="/icons/visualize.svg"
+					width={imageButtonSize}
+					height={imageButtonSize}
+					alt="Add"
+				/>
+			</Button>
 			<Dialog>
 				<DialogTrigger >
 					<Image
