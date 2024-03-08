@@ -19,20 +19,25 @@ import {
 	ProductsDataProvider,
 	useProductsData,
 } from "@/components/providers/productsProvider";
+import Panel from "@/components/custom/panels/panel";
+import { ElementDetailsProvider, useElementDetails } from "@/components/providers/UI-Providers/ElementDetailsProvider";
 
 const iconSize = 30;
 
 export default function App() {
 	return (
-		<ZonesDataProvider>
-			<BinsDataProvider>
-				<ProductsDataProvider>
-					<Main />
-				</ProductsDataProvider>
-			</BinsDataProvider>
-		</ZonesDataProvider>
+	  <ZonesDataProvider>
+		<BinsDataProvider>
+		  <ProductsDataProvider>
+			<ElementDetailsProvider>
+			  <Main />
+			</ElementDetailsProvider>
+		  </ProductsDataProvider>
+		</BinsDataProvider>
+	  </ZonesDataProvider>
 	);
-}
+  }
+  
 
 function Main() {
 	const [showPanel, setShowPanel] = useState(false);
@@ -40,6 +45,10 @@ function Main() {
 	const { zones } = useZonesData();
 	const { bins } = useBinsData();
 	const { products } = useProductsData();
+	const { elementDetails, showElementDetails} = useElementDetails();
+
+	console.log(zones);
+
 
 	return (
 		<main className={"h-screen flex"}>
@@ -129,6 +138,11 @@ function Main() {
 				{showPanel && <Suspense>{panel}</Suspense>}
 				<canvas id="canvas" className={"w-full h-full bg-primary"}></canvas>
 			</div>
+			{showElementDetails ? (
+				<Panel className={"right-0"}>{elementDetails}</Panel>
+			) : (
+				<></>
+			)}
 		</main>
 	);
 }
