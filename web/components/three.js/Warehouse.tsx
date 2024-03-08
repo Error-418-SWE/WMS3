@@ -2,7 +2,7 @@ import { Canvas } from "@react-three/fiber";
 import { DoubleSide } from "three";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { useSearchParams } from "next/navigation";
-import "@/app/main/ThreeStyle.css"
+import "./ThreeStyle.css"
 
 export default function Warehouse() {
 	return (

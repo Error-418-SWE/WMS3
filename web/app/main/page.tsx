@@ -10,7 +10,7 @@ import { Suspense, useState } from "react";
 import { Zone } from "@/model/zone";
 import { Bin } from "@/model/bin";
 import { Product } from "@/model/product";
-import Warehouse from "@/app/main/Warehouse";
+import Warehouse from "@/components/three.js/Warehouse";
 
 
 
