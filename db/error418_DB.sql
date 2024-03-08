@@ -29,7 +29,7 @@ SET default_table_access_method = heap;
 -- tabella category
 CREATE TABLE public.category (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL
+    name VARCHAR(50)
 );
 
 --ALTER TABLE public.category OWNER TO db_user;
@@ -39,11 +39,11 @@ CREATE TABLE public.category (
 -- tabella product
 CREATE TABLE public.product (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(70) NOT NULL,
+    name VARCHAR(50),
     weight REAL,
-    width REAL NOT NULL,
-    length REAL NOT NULL,
-    height REAL NOT NULL
+    width REAL,
+    length REAL,
+    height REAL
 );
 
 --ALTER TABLE public.product OWNER TO db_user;
@@ -51,10 +51,10 @@ CREATE TABLE public.product (
 -- tabella zone
 CREATE TABLE public.zone (
     id SERIAL PRIMARY KEY,
-    xCoordinate REAL NOT NULL,
-    yCoordinate REAL NOT NULL,
-    length REAL NOT NULL,
-    orientation BOOLEAN NOT NULL
+    xCoordinate REAL,
+    yCoordinate REAL,
+    length REAL,
+    orientation BOOLEAN
 );
 
 --ALTER TABLE public.zone OWNER TO db_user;
@@ -64,8 +64,8 @@ CREATE TABLE public.zone (
 CREATE TABLE public.zone_column (
     id SERIAL PRIMARY KEY,
     zone_id INTEGER REFERENCES public.zone(id) NOT NULL,
-	column_order INTEGER NOT NULL,
-    width REAL NOT NULL
+    width REAL,
+	column_order INTEGER
 );
 
 --ALTER TABLE public.zone_column OWNER TO db_user;
@@ -75,8 +75,8 @@ CREATE TABLE public.zone_column (
 CREATE TABLE public.level (
     id SERIAL PRIMARY KEY,
     zone_id INTEGER REFERENCES public.zone(id) NOT NULL,
-    level_order INTEGER NOT NULL,
-    height REAL NOT NULL
+    height REAL,
+	level_order INTEGER
 );
 
 --ALTER TABLE public.level OWNER TO db_user;
