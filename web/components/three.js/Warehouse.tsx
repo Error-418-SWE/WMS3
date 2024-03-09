@@ -10,9 +10,9 @@ export default function Warehouse() {
 	const floor_depth: number = +useSearchParams()?.get("profondita")!;
 
 	return (
-		<div id="canvas-container">
+		<div className="h-screen">
 			<Canvas
-				className={"h-screen, canvas"}
+				className={"h-screen, bg-BurlyWood"}
 			>
 
 				<PerspectiveCamera />
