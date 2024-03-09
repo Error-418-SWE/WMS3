@@ -56,6 +56,33 @@ class Zone {
     public getBin(id: number): Bin | undefined {
         return this.bins.find(bin => bin.getId() === id);
     }
+
+    public getLevels(): [Bin[]] {
+        let levels: [Bin[]] = [[]];
+        let level: number = 1;
+        for (let i = 0; i < this.bins.length; i++) {
+            if (this.bins[i].getLevel() !== level) {
+                level = this.bins[i].getLevel();
+                levels.push([]);
+            }
+            levels[level-1].push(this.bins[i]);
+        }
+        return levels;
+    }
+
+    public getColumns(): [Bin[]] {
+        let columns: [Bin[]] = [[]];
+        let column: number = 0;
+        for (let i = 0; i < this.bins.length; i++) {
+            if (this.bins[i].getColumn() !== column) {
+                column = this.bins[i].getColumn();
+                columns.push([]);
+            }
+            columns[column].push(this.bins[i]);
+        }
+        return columns;
+    }
+
 }
 
 export {Zone};
