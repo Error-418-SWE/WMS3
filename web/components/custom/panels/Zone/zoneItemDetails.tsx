@@ -31,8 +31,8 @@ export default function ZoneItemDetails({ zone }: ZoneItemProps) {
   
 		  <Label>Dimensioni</Label>
 		  <div className={"flex col-span-2 gap-2"}>
-			<Input value={zone.getLength()} disabled></Input>
 			<Input value={zone.getWidth()} disabled></Input>
+			<Input value={zone.getLength()} disabled></Input>
 			<Input value={zone.getHeight()} disabled></Input>
 		  </div>
 		</div>
