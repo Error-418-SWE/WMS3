@@ -17,7 +17,7 @@ export default function Floor({choice_mode, floor_width, floor_depth}: PropsType
 			) {
 			return (
 				<mesh
-					position={[0.1, inclination, 0]}
+					position={[0.1, -inclination, -4]}
 					rotation={[inclination, 0, 0]}
 				>
 					<planeGeometry args={[floor_width, floor_depth]} />
