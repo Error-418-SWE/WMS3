@@ -6,17 +6,22 @@ import ZoneItem from "@/components/custom/panels/Zone/zoneItem";
 import { useZonesData } from "@/components/providers/zonesProvider";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Panel from "@/components/custom/panels/panel";
-import { Zone } from "@/model/zone";
+import { useElementDetails } from "@/components/providers/UI-Providers/ElementDetailsProvider";
+import ZoneCreationFrame from "@/components/custom/panels/Zone/zoneCreationFrame";
 
 export default function ZonePanel() {
 	
 	const { zones } = useZonesData();
+	const { setElementDetails, setShowElementDetails } = useElementDetails();
 	
 	return (
 		<Panel>
 			<div className={"flex m-5 items-end"}>
 				<h1 className={"grow font-bold text-2xl"}>Zone</h1>
-				<Button>
+				<Button onClick={() => {
+					setElementDetails(<ZoneCreationFrame />);
+					setShowElementDetails(true);
+				}}>
 					<Image src="/icons/add.svg" width={13} height={13} alt="Add" />
 				</Button>
 			</div>
