@@ -1,24 +1,14 @@
-import { useSearchParams } from "next/navigation";
 import { DoubleSide } from "three";
 
-const position_x=0.1;
-const position_y=Math.PI/2;
-const position_z=0;
+type PropsType = {
+	choice_mode: string
+	floor_width: number
+	floor_depth: number
+}
 
-const euler_x=Math.PI / 2;
-const euler_y=0;
-const euler_z=0;
+const inclination=Math.PI/2;
 
-const scale_x=2;
-const scale_y=2;
-const scale_z=2;
-
-const choice_mode = useSearchParams()?.get("choice");
-const floor_width: number = +useSearchParams()?.get("larghezza")!;
-const floor_depth: number = +useSearchParams()?.get("profondita")!;
-
-export default function Floor() {
-
+export default function Floor({choice_mode, floor_width, floor_depth}: PropsType) {
 	if (choice_mode != null) {
 		if (
 			choice_mode == "manuale"
@@ -27,9 +17,8 @@ export default function Floor() {
 			) {
 			return (
 				<mesh
-					position={[position_x, position_y, position_z]}
-					rotation={[euler_x, euler_y, euler_z]}
-					scale={[scale_x, scale_y, scale_z]}
+					position={[0.1, inclination, 0]}
+					rotation={[inclination, 0, 0]}
 				>
 					<planeGeometry args={[floor_width, floor_depth]} />
 					<meshBasicMaterial color="white" side={DoubleSide} />
