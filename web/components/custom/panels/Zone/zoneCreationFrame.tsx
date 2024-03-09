@@ -22,6 +22,8 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { Bin } from "@/model/bin";
+import LevelItem from "./levelItem";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
 
 function checkIfEqualColumns(zone: Zone) {
 	const firstLevelBins = zone.getLevels()[0];
@@ -36,8 +38,6 @@ function checkIfEqualColumns(zone: Zone) {
 }
 
 function columnCreation(form: any, zone?: Zone) {
-
-	const sameColumns = zone ? checkIfEqualColumns(zone) : false;
 	const [customColumns, setCustomColumns] = useState(false);
 
 	return (
@@ -45,11 +45,20 @@ function columnCreation(form: any, zone?: Zone) {
 			<FormField
 				control={form.control}
 				name="columnsType"
+				defaultValue={
+					zone ? (checkIfEqualColumns(zone) ? "equal" : "custom") : "equal"
+				}
 				render={({ field }) => (
 					<FormItem>
 						<FormControl>
 							<RadioGroup
-								defaultValue={zone ? (checkIfEqualColumns(zone) ? "equal" : "custom") : "equal"}
+								defaultValue={
+									zone
+										? checkIfEqualColumns(zone)
+											? "equal"
+											: "custom"
+										: "equal"
+								}
 								onValueChange={(value: SetStateAction<string>) => {
 									field.onChange(value);
 									setCustomColumns(value == "custom" ? true : false);
@@ -59,16 +68,22 @@ function columnCreation(form: any, zone?: Zone) {
 									<RadioGroupItem value="equal" id="equal" />
 									<div className={"flex items-center w-full justify-between"}>
 										<FormField
-											name="larghezza"
+											name="nColumns"
 											control={form.control}
-											defaultValue=""
+											defaultValue={
+												zone
+													? !customColumns
+														? zone.getLevels()[0].length
+														: "1"
+													: "1"
+											}
 											render={({ field }) => (
 												<>
-													<FormItem
-														className={"flex"}
-													>
+													<FormItem className={"flex"}>
 														<div className={"grid grid-cols-3 items-center"}>
-														<FormLabel className={"col-span-2"}># colonne uguali</FormLabel>
+															<FormLabel className={"col-span-2"}>
+																# colonne uguali
+															</FormLabel>
 															<FormControl>
 																<Input
 																	className={"w-content"}
@@ -76,7 +91,6 @@ function columnCreation(form: any, zone?: Zone) {
 																	{...field}
 																	type="number"
 																	min={1}
-																	value = {zone && !customColumns ? zone.getLevels()[0].length : ""}
 																	disabled={customColumns}
 																/>
 															</FormControl>
@@ -89,33 +103,35 @@ function columnCreation(form: any, zone?: Zone) {
 									</div>
 								</div>
 								<div className={"flex items-start space-x-2"}>
-									<RadioGroupItem value="custom" id="customCols" />
-										<FormField
-											name="customCols"
-											control={form.control}
-											defaultValue=""
-											render={({ field }) => (
-												<>
-													<FormItem
-														className={"flex flex-col"}
-													>
-														<FormLabel className={"col-span-2"}>Colonne personalizzate</FormLabel>
-															<FormControl>
-																<Input
-																	className={"w-content"}
-																	placeholder=" x x x..."
-																	{...field}
-																	value={zone ? zone.getLevels()[0].map((bin) => bin.getWidth()).join(" ") : ""}
-																	disabled={!customColumns}
-																/>
-															</FormControl>
-															<FormMessage />
-															<span className={"text-sm text-muted-foreground"}>Inserisci la larghezza delle colonne separando i valori con uno spazio.</span>
-													</FormItem>
-												</>
-											)}
-										/>
-									</div>
+									<RadioGroupItem value="custom" id="custom" />
+									<FormField
+										name="custom"
+										control={form.control}
+										defaultValue=""
+										render={({ field }) => (
+											<>
+												<FormItem className={"flex flex-col"}>
+													<FormLabel className={"col-span-2"}>
+														Colonne personalizzate
+													</FormLabel>
+													<FormControl>
+														<Input
+															className={"w-content"}
+															placeholder=" x x x..."
+															{...field}
+															disabled={!customColumns}
+														/>
+													</FormControl>
+													<FormMessage />
+													<span className={"text-sm text-muted-foreground"}>
+														Inserisci la larghezza delle colonne separando i
+														valori con uno spazio.
+													</span>
+												</FormItem>
+											</>
+										)}
+									/>
+								</div>
 							</RadioGroup>
 						</FormControl>
 					</FormItem>
@@ -123,23 +139,11 @@ function columnCreation(form: any, zone?: Zone) {
 			/>
 		</>
 	);
+	
 }
 
 export default function ZoneCreationFrame({ zone }: { zone?: Zone }) {
-	const form = useForm();
-	const { setShowElementDetails } = useElementDetails();
-
-/*
-	const bin = new Bin(
-		1,
-		1,
-		1,
-		1,
-		1,
-		1,
-		null
-	);
-	
+		/*
 	zone = new Zone(
 		1,
 		1,
@@ -148,40 +152,16 @@ export default function ZoneCreationFrame({ zone }: { zone?: Zone }) {
 		2,
 		6,
 		[
-			new Bin(
-				2,
-				1,
-				3,
-				2,
-				2,
-				3,
-				null
-			),
-			new Bin(
-				1,
-				1,
-				2,
-				2,
-				2,
-				2,
-				null
-			),
-			new Bin(
-				1,
-				1,
-				3,
-				2,
-				2,
-				2,
-				null
-			)
-			
+			new Bin(2, 1, 1, 2, 2, 2, null),
+			new Bin(1, 1, 2, 2, 2, 2, null),
+			new Bin(1, 1, 3, 2, 2, 2, null),
 		],
 		false
-	);
+	);*/
 
-	console.log(checkIfEqualColumns(zone));*/
-
+	const form = useForm();
+	const { setShowElementDetails } = useElementDetails();
+	const [levels, setLevels] = useState(zone?.getColumns()[0] || []);
 
 	return (
 		<div className={"flex flex-col h-full mx-5"}>
@@ -217,7 +197,12 @@ export default function ZoneCreationFrame({ zone }: { zone?: Zone }) {
 								<FormItem className={"grid items-center grid-cols-3"}>
 									<FormLabel>Direzione</FormLabel>
 
-									<Select onValueChange={field.onChange} defaultValue={zone ? (zone.getOrientation() ? "NS" : "EW") : "NS"}>
+									<Select
+										onValueChange={field.onChange}
+										defaultValue={
+											zone ? (zone.getOrientation() ? "NS" : "EW") : "NS"
+										}
+									>
 										<FormControl>
 											<SelectTrigger className={"col-span-2"}>
 												<SelectValue placeholder="Direzione" />
@@ -245,7 +230,6 @@ export default function ZoneCreationFrame({ zone }: { zone?: Zone }) {
 											<FormControl>
 												<Input
 													{...field}
-													value={zone?.getLength()}
 													placeholder="Depth"
 													disabled={zone ? true : false}
 												></Input>
@@ -264,7 +248,6 @@ export default function ZoneCreationFrame({ zone }: { zone?: Zone }) {
 											<FormControl>
 												<Input
 													{...field}
-													value={zone?.getWidth()}
 													placeholder="Length"
 													disabled={zone ? true : false}
 												></Input>
@@ -283,7 +266,6 @@ export default function ZoneCreationFrame({ zone }: { zone?: Zone }) {
 											<FormControl>
 												<Input
 													{...field}
-													value={zone?.getHeight()}
 													placeholder="Height"
 													disabled={zone ? true : false}
 												></Input>
@@ -300,8 +282,48 @@ export default function ZoneCreationFrame({ zone }: { zone?: Zone }) {
 							<div className={"col-span-2"}>{columnCreation(form, zone)}</div>
 						</div>
 
-						<hr/>
+						<hr />
 
+						<div className={"flex justify-between"}>
+							<span className={"font-bold"}>
+								{zone?.getColumns()[0].length || "0"}{" "}
+								{zone?.getColumns()[0].length != 1 ? "Livelli" : "Livello"}
+							</span>
+							<Button
+								className={
+									buttonVariants({ variant: "secondary" }) + " border-2"
+								}
+								onClick={() => {
+									setLevels([...levels, new Bin(1, levels.length + 1 , 1, 2, 2, 2, null)]);
+									
+								}}
+							>
+								+
+							</Button>
+						</div>
+
+						<div
+							className={
+								"h-96 flex flex-col gap-2 flex-grow overflow-y-auto mb-10"
+							}
+						>
+							{
+								levels.map((level, index) => (
+									
+									LevelItem(form, index, () => {
+										var newlist = [];
+										for (var i = 0; i < levels.length; i++) {
+											if (i != index) {
+												newlist.push(levels[i]);
+											}
+										}
+										setLevels(newlist);
+										form.unregister("level_height_" + index);
+									}, level.getHeight())
+									
+								))
+							}
+						</div>
 
 						<Button type="submit">Crea Zona</Button>
 					</div>

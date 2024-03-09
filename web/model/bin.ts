@@ -31,7 +31,7 @@ class Bin {
         return this.column;
     }
 
-    public getheight(): number {
+    public getHeight(): number {
         return this.height;
     }
 

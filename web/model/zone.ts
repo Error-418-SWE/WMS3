@@ -78,7 +78,7 @@ class Zone {
                 column = this.bins[i].getColumn();
                 columns.push([]);
             }
-            columns[column].push(this.bins[i]);
+            columns[column-1].push(this.bins[i]);
         }
         return columns;
     }

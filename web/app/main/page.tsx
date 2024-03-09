@@ -47,9 +47,6 @@ function Main() {
 	const { products } = useProductsData();
 	const { elementDetails, showElementDetails} = useElementDetails();
 
-	console.log(zones);
-
-
 	return (
 		<main className={"h-screen flex"}>
 			<nav
