@@ -159,7 +159,7 @@ export default function ZoneCreationFrame({ zone }: { zone?: Zone }) {
 		false
 	);*/
 
-	const form = useForm();
+	const form = useForm({ resetOptions:true, shouldUnregister: true });
 	const { setShowElementDetails } = useElementDetails();
 	const [levels, setLevels] = useState(zone?.getColumns()[0] || []);
 
@@ -313,7 +313,7 @@ export default function ZoneCreationFrame({ zone }: { zone?: Zone }) {
 									LevelItem(form, index, () => {
 										var newlist = [];
 										for (var i = 0; i < levels.length; i++) {
-											if (i != index) {
+											if (i != index && levels[i] != undefined) {
 												newlist.push(levels[i]);
 											}
 										}
