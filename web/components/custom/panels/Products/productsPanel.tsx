@@ -2,8 +2,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useProductsData } from "@/components/providers/productsProvider";
+import ProductItem from "./productItem";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 export default function ZonePanel() {
+
+	const { products } = useProductsData();
+
 	return (
 		<aside className={"flex flex-col h-screen w-1/5 shadow-xl gap-y-2 shrink-0 z-10  absolute bg-secondary"}>
 			<div className={"flex m-5 items-end"}>
@@ -35,7 +41,11 @@ export default function ZonePanel() {
 					<TabsTrigger value="notCollocated" className={"grow"}>Non collocati</TabsTrigger>
 				</TabsList>
 				<TabsContent value="collocated">
-					<div id={"collocatedProducts"}>Lista collocati</div>
+					<div id="productList" className={"flex flex-col mx-5 mt-4 gap-2"}>
+						{products.map((product) => (
+							<ProductItem key={product.getId()} product={product} />
+						))}
+					</div>
 				</TabsContent>
 				<TabsContent value="notCollocated">
 					<div id={"notCollocatedProducts"}>Lista non collocati</div>
