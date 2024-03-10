@@ -53,7 +53,7 @@ class Zone {
         return this.orientation;
     }
 
-    public getBin(id: number): Bin | undefined {
+    public getBin(id: number | string): Bin | undefined {
         return this.bins.find(bin => bin.getId() === id);
     }
 
