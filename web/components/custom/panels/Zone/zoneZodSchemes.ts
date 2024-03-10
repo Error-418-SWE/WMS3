@@ -27,18 +27,7 @@ export const equalColumns = z.object({
 	length: dimensionSchema,
 	width: dimensionSchema,
 	height: dimensionSchema,
-	nColumns: z
-		.string()
-		.refine((value) => value.trim() !== "", {
-			message: "Richiesto un numero",
-		})
-		.transform((value) => parseFloat(value))
-		.refine((value) => !Number.isNaN(value), {
-			message: "Richiesto un numero",
-		})
-		.refine((value) => value > 0, {
-			message: "Richiesto un numero",
-		}),
+	nColumns: dimensionSchema
 });
 
 export const customColumns = z.object({
