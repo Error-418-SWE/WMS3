@@ -1,10 +1,5 @@
-import { Button, buttonVariants } from "@/components/ui/button";
 import { Product } from "@/model/product";
-import Image from "next/image";
 import ProductItemDetails from "./productItemDetails";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-
-const imageButtonSize = 15;
 
 interface ProductItemProps {
 	product: Product;

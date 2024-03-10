@@ -41,7 +41,7 @@ export default function ZonePanel() {
 					<TabsTrigger value="notCollocated" className={"grow"}>Non collocati</TabsTrigger>
 				</TabsList>
 				<TabsContent value="collocated">
-					<div id="productList" className={"flex flex-col mx-5 mt-4 gap-2"}>
+					<div id="productList">
 						{products.map((product) => (
 							<ProductItem key={product.getId()} product={product} />
 						))}

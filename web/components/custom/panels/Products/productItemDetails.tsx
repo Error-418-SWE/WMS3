@@ -9,8 +9,6 @@ import {
 	SheetTrigger,
 } from "@/components/ui/sheet";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { DataTable } from "@/components/ui/data-table";
 
 interface ProductItemProps {
 	product: Product;
