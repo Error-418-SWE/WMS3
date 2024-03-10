@@ -30,16 +30,17 @@ export default function ProductItemDetails({ product }: ProductItemProps) {
 			</SheetTrigger>
 			<SheetContent>
 				<SheetHeader>
-					<SheetTitle>{product.getId()}</SheetTitle>
+					<SheetTitle>{product.getName()}</SheetTitle>
 					<SheetDescription>Informazioni del prodotto</SheetDescription>
 				</SheetHeader>
-				<div className={"grid items-center grid-cols-3 grid-rows-2 gap-y-2 mt-2"}>
 
+				<div className={"grid items-center grid-cols-3 grid-rows-3 gap-y-2 mt-2"}>
+					<Label>ID</Label><span className="col-span-2">{product.getId()}</span>
 					<Label>Dimensioni</Label>
-					<div className={"flex col-span-2 gap-2"}>
-						<Input value={product.getLength()} disabled></Input>
-						<Input value={product.getWidth()} disabled></Input>
-					</div>
+					<span>{product.getLength()}</span>
+					<span>{product.getWidth()}</span>
+					<Label>Peso</Label>
+					<span className="col-span-2">{product.getWeight()}</span>
 				</div>
 
                 <hr className={"my-5"}/>
