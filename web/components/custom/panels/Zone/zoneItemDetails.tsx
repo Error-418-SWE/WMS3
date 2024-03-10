@@ -6,13 +6,23 @@ import { DataTable } from "@/components/ui/data-table";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { useElementDetails } from "@/components/providers/UI-Providers/ElementDetailsProvider";
 import { ScrollArea, Scrollbar } from "@radix-ui/react-scroll-area";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import Image from "next/image";
+import { set } from "zod";
+import ZoneCreationFrame from "./zoneCreationFrame";
+import { useZonesData } from "@/components/providers/zonesProvider";
+import { useState } from "react";
+
+const imageButtonSize = 15;
 
 interface ZoneItemProps {
 	zone: Zone;
 }
 export default function ZoneItemDetails({ zone }: ZoneItemProps) {
 
-	const { setShowElementDetails } = useElementDetails();
+	const { setElementDetails, setShowElementDetails } = useElementDetails();
+	const { deleteZone } = useZonesData();
+
 	
 	return (
 	  <div className={"flex flex-col h-full mx-5"}>
@@ -31,8 +41,8 @@ export default function ZoneItemDetails({ zone }: ZoneItemProps) {
   
 		  <Label>Dimensioni</Label>
 		  <div className={"flex col-span-2 gap-2"}>
-			<Input value={zone.getWidth()} disabled></Input>
 			<Input value={zone.getLength()} disabled></Input>
+			<Input value={zone.getWidth()} disabled></Input>
 			<Input value={zone.getHeight()} disabled></Input>
 		  </div>
 		</div>
@@ -41,6 +51,33 @@ export default function ZoneItemDetails({ zone }: ZoneItemProps) {
   
 		<div className={"flex-grow overflow-y-auto mb-10"}>
 		  <DataTable columns={columns} data={zone.getBins()}/>
+		</div>
+
+		<div className={"flex justify-end gap-x-2 mb-4"}>
+		  	<Button className={buttonVariants({variant : "secondary"}) + " border"} onClick={() => {
+				setElementDetails(<ZoneCreationFrame zone={zone}/>);
+			}}>
+				Modifica
+			</Button>
+
+			<Dialog>
+				<DialogTrigger className={buttonVariants({variant: "destructive"})}>
+					Elimina
+				</DialogTrigger>
+				<DialogContent>
+					<DialogHeader>
+						<DialogTitle>Eliminazione scaffale</DialogTitle>
+						<DialogDescription>
+							Questa azione non può essere annullata. Sei sicuro di voler eliminare la zona {zone.getId()}?
+						</DialogDescription>
+					</DialogHeader>
+					<Button onClick={() => {
+						deleteZone(zone.getId());
+						setShowElementDetails(false);
+						close();
+					}}className={buttonVariants({variant: "destructive"}) + " w-min ml-auto"}>Elimina</Button>
+				</DialogContent>
+			</Dialog>
 		</div>
 	  </div>
 	);

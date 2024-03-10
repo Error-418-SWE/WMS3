@@ -11,7 +11,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import {
 	Form,
 	FormControl,
@@ -20,13 +20,17 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
+import { UseFormReturn, get, useForm } from "react-hook-form";
 import { Bin } from "@/model/bin";
 import LevelItem from "./levelItem";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
+import { z } from "zod";
+import { customColumns, equalColumns } from "./zoneZodSchemes";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useZonesData } from "@/components/providers/zonesProvider";
 
 function checkIfEqualColumns(zone: Zone) {
-	const firstLevelBins = zone.getLevels()[0];
+	const firstLevelBins = zone.getColumns()[0];
 
 	for (let i = 1; i < firstLevelBins.length; i++) {
 		if (firstLevelBins[i].getWidth() != firstLevelBins[i - 1].getWidth()) {
@@ -73,7 +77,7 @@ function columnCreation(form: any, zone?: Zone) {
 											defaultValue={
 												zone
 													? !customColumns
-														? zone.getLevels()[0].length
+														? zone.getColumns()[0].length
 														: "1"
 													: "1"
 											}
@@ -105,7 +109,7 @@ function columnCreation(form: any, zone?: Zone) {
 								<div className={"flex items-start space-x-2"}>
 									<RadioGroupItem value="custom" id="custom" />
 									<FormField
-										name="custom"
+										name="customColumns"
 										control={form.control}
 										defaultValue=""
 										render={({ field }) => (
@@ -116,10 +120,34 @@ function columnCreation(form: any, zone?: Zone) {
 													</FormLabel>
 													<FormControl>
 														<Input
+															{...field}
 															className={"w-content"}
 															placeholder=" x x x..."
-															{...field}
+															defaultValue={
+																zone
+																	? zone.getColumns()[0]
+																			.map((bin) => bin.getWidth())
+																			.join(" ")
+																	: ""
+															}
 															disabled={!customColumns}
+															onChange={(e) => {
+																field.onChange(e);
+																if (e.target.value.trim().length == 0) {
+																	form.setValue("width", 1);
+																} else {
+																	form.setValue(
+																		"width",
+																		e.target.value
+																			.trim()
+																			.split(" ")
+																			.reduce(
+																				(acc, val) => acc + parseFloat(val),
+																				0
+																			)
+																	);
+																}
+															}}
 														/>
 													</FormControl>
 													<FormMessage />
@@ -139,29 +167,38 @@ function columnCreation(form: any, zone?: Zone) {
 			/>
 		</>
 	);
-	
 }
 
 export default function ZoneCreationFrame({ zone }: { zone?: Zone }) {
-		/*
-	zone = new Zone(
-		1,
-		1,
-		1,
-		3,
-		2,
-		6,
-		[
-			new Bin(2, 1, 1, 2, 2, 2, null),
-			new Bin(1, 1, 2, 2, 2, 2, null),
-			new Bin(1, 1, 3, 2, 2, 2, null),
-		],
-		false
-	);*/
+	const {addZone, getZoneById} = useZonesData();
+	
+	const formSchema = z.discriminatedUnion("columnsType", [
+		equalColumns,
+		customColumns,
+	]);
 
-	const form = useForm({ resetOptions:true, shouldUnregister: true });
+	const form = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
+		shouldUnregister: true,
+	});
+
 	const { setShowElementDetails } = useElementDetails();
-	const [levels, setLevels] = useState(zone?.getColumns()[0] || []);
+	const [zoneHeight, setZoneHeight] = useState(zone?.getHeight() || 1);
+
+	const [levels, setLevels] = useState(
+		zone
+			?.getColumns()[0]
+			.map((bin) => ({ id: Math.random(), height: bin.getHeight() || 0 })) || [
+			{ id: Math.random(), height: 1 },
+		]
+	);
+
+	useEffect(() => {
+		console.log("USE EFFECT " + levels);
+		const totalHeight = levels.reduce((acc, level) => acc + level.height, 0);
+		setZoneHeight(totalHeight);
+		form.setValue("height", totalHeight);
+	}, [levels]);
 
 	return (
 		<div className={"flex flex-col h-full mx-5"}>
@@ -184,11 +221,73 @@ export default function ZoneCreationFrame({ zone }: { zone?: Zone }) {
 				<form
 					onSubmit={form.handleSubmit(() => {
 						//TODO sarà da modificare e aggiungere lo scaffale al magazzino
+
+						if(getZoneById(parseInt(form.getValues("id") + "")) != undefined){
+							alert("ID già esistente");
+							return;
+						}
+
+						//create bins
+						const columns = form.getValues("columnsType") == "equal" ? form.getValues("nColumns") : form.getValues("customColumns").split(" ").length;
+						const rows = levels.length;
+
+						//bins as a single array
+						var bins = [];
+						for (let i = 0; i < rows; i++) {
+							for (let j = 0; j < columns; j++) {
+								bins.push(new Bin(
+									form.getValues("id") + "_" + (i+1) + "_" + (j+1),
+									i+1,
+									j+1,
+									levels[i].height,
+									parseFloat(form.getValues("length") + ""),
+									form.getValues("columnsType") == "equal"
+										? zoneHeight / rows
+										: parseFloat(form.getValues("customColumns").split(" ")[j]),
+									null
+								));
+							}
+						}
+
+						const zone = new Zone(
+							form.getValues("id"),
+							0,
+							0,
+							form.getValues("height"),
+							form.getValues("length"),
+							form.getValues("width"),
+							bins, 
+							form.getValues("direction") == "NS"
+						);
+
+						addZone(zone);
+
 						console.log(form.getValues());
+						setShowElementDetails(false);
 					})}
 					className="space-y-8"
 				>
 					<div className={"flex flex-col gap-y-4 mt-2"}>
+						<FormField
+							control={form.control}
+							name="id"
+							render={({ field }) => (
+								<FormItem className={"grid items-center grid-cols-3"}>
+									<FormLabel>ID</FormLabel>
+									<FormControl>
+										<Input
+											className={"col-span-2"}
+											{...field}
+											placeholder="ID"
+											defaultValue={zone ? zone.getId() : ""}
+											disabled={zone ? true : false}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
 						<FormField
 							control={form.control}
 							name="direction"
@@ -224,13 +323,16 @@ export default function ZoneCreationFrame({ zone }: { zone?: Zone }) {
 								<FormField
 									control={form.control}
 									name="length"
-									defaultValue={zone ? zone.getLength() : "0"}
+									defaultValue={zone ? zone.getLength() : 1}
 									render={({ field }) => (
 										<FormItem>
 											<FormControl>
 												<Input
 													{...field}
 													placeholder="Depth"
+													type="number"
+													min={1}
+													step={0.1}
 													disabled={zone ? true : false}
 												></Input>
 											</FormControl>
@@ -242,14 +344,17 @@ export default function ZoneCreationFrame({ zone }: { zone?: Zone }) {
 								<FormField
 									control={form.control}
 									name="width"
-									defaultValue={zone ? zone.getWidth() : "0"}
+									defaultValue={zone ? zone.getWidth() : 1}
 									render={({ field }) => (
 										<FormItem>
 											<FormControl>
 												<Input
 													{...field}
+													type="number"
+													min={1}
+													step={0.1}
 													placeholder="Length"
-													disabled={zone ? true : false}
+													disabled={form.getValues("columnsType") != "equal"}
 												></Input>
 											</FormControl>
 											<FormMessage />
@@ -260,14 +365,16 @@ export default function ZoneCreationFrame({ zone }: { zone?: Zone }) {
 								<FormField
 									control={form.control}
 									name="height"
-									defaultValue={zone ? zone.getHeight() : "0"}
+									defaultValue={zone ? zone.getHeight() : 1}
 									render={({ field }) => (
 										<FormItem>
 											<FormControl>
 												<Input
 													{...field}
+													type="number"
+													min={1}
 													placeholder="Height"
-													disabled={zone ? true : false}
+													disabled
 												></Input>
 											</FormControl>
 											<FormMessage />
@@ -290,12 +397,12 @@ export default function ZoneCreationFrame({ zone }: { zone?: Zone }) {
 								{zone?.getColumns()[0].length != 1 ? "Livelli" : "Livello"}
 							</span>
 							<Button
+								type="button"
 								className={
 									buttonVariants({ variant: "secondary" }) + " border-2"
 								}
 								onClick={() => {
-									setLevels([...levels, new Bin(1, levels.length + 1 , 1, 2, 2, 2, null)]);
-									
+									setLevels([...levels, { id: Math.random(), height: 1 }]);
 								}}
 							>
 								+
@@ -304,25 +411,19 @@ export default function ZoneCreationFrame({ zone }: { zone?: Zone }) {
 
 						<div
 							className={
-								"h-96 flex flex-col gap-2 flex-grow overflow-y-auto mb-10"
+								"h-80 flex flex-col gap-2 flex-grow overflow-y-auto mb-10"
 							}
 						>
-							{
-								levels.map((level, index) => (
-									
-									LevelItem(form, index, () => {
-										var newlist = [];
-										for (var i = 0; i < levels.length; i++) {
-											if (i != index && levels[i] != undefined) {
-												newlist.push(levels[i]);
-											}
-										}
-										setLevels(newlist);
-										form.unregister("level_height_" + index);
-									}, level.getHeight())
-									
-								))
-							}
+							{levels.map((level, index) => (
+								<LevelItem
+									key={level.id}
+									form={form}
+									level={level}
+									levels={levels}
+									setLevels={setLevels}
+									levelOrder={index}
+								/>
+							))}
 						</div>
 
 						<Button type="submit">Crea Zona</Button>

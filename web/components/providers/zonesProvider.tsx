@@ -4,6 +4,9 @@ import { ZoneRepository } from "@/dataRepository/zoneRepository";
 
 const ZonesDataContext = createContext({
     zones: [] as Zone[],
+    deleteZone: (id: number) => {},
+    addZone: (zone: Zone) => {},
+    getZoneById: (id: number) => {}
 });
 
 export function ZonesDataProvider({ children } : { children: React.ReactNode }) {
@@ -14,7 +17,20 @@ export function ZonesDataProvider({ children } : { children: React.ReactNode }) 
         ZoneRepository.getAllZones().then(setZones);
     }, []);
 
-    const value = { zones };
+    const deleteZone = (id: number) => {
+        setZones(zones.filter(zone => zone.getId() !== id));
+    };
+
+    const addZone = (zone: Zone) => {
+        setZones([...zones, zone]);
+        console.log(zones);
+    };
+
+    const getZoneById = (id: number) => {
+        return zones.find(zone => zone.getId() === id);
+    };
+
+    const value = { zones, deleteZone, addZone, getZoneById };
 
     return (
         <ZonesDataContext.Provider value={value}>

@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { useState } from "react";
 import { useElementDetails } from "@/components/providers/UI-Providers/ElementDetailsProvider";
 import { set } from "zod";
+import { useZonesData } from "@/components/providers/zonesProvider";
 
 const imageButtonSize = 15;
 
@@ -16,6 +17,7 @@ interface ZoneItemProps {
 export default function ZoneItem({ zone }: ZoneItemProps) {
 
 	const {elementDetails, setElementDetails, showElementDetails, setShowElementDetails} = useElementDetails();
+	const {deleteZone} = useZonesData();
 
 	return (
 		<div
@@ -55,7 +57,9 @@ export default function ZoneItem({ zone }: ZoneItemProps) {
 						</DialogDescription>
 					</DialogHeader>
 					<Button onClick={() => {
-						//TODO elimination logic
+						deleteZone(zone.getId());
+						setShowElementDetails(false);
+						close();
 						console.log("Elimina zona con id: " + zone.getId());
 					}}className={buttonVariants({variant: "destructive"}) + " w-min ml-auto"}>Elimina</Button>
 				</DialogContent>
