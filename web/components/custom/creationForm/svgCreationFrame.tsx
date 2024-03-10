@@ -1,7 +1,5 @@
 import {
-	Form,
 	FormControl,
-	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
@@ -35,6 +33,7 @@ export function SVGCreationFrame({ form }: SVGCreationFrameProps) {
 										{...field}
 										type="number"
 										placeholder="Lato maggiore"
+										min={1}
 									/>
 								</FormControl>
 								<FormMessage />

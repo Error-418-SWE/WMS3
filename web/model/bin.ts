@@ -4,16 +4,16 @@ class Bin {
     private id: number;
     private level: number;
     private column: number;
-    private weight: number;
+    private height: number;
     private length: number;
     private width: number;
     private product: Product | undefined | null;
 
-    constructor(id: number, level: number, column: number, weight: number, length: number, width: number, product: Product | undefined | null) {
+    constructor(id: number, level: number, column: number, height: number, length: number, width: number, product: Product | undefined | null) {
         this.id = id;
         this.level = level;
         this.column = column;
-        this.weight = weight;
+        this.height = height;
         this.length = length;
         this.width = width;
         this.product = product;
@@ -31,8 +31,8 @@ class Bin {
         return this.column;
     }
 
-    public getWeight(): number {
-        return this.weight;
+    public getheight(): number {
+        return this.height;
     }
 
     public getLength(): number {

@@ -1,7 +1,5 @@
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
@@ -10,13 +8,6 @@ export default function ZonePanel() {
 		<aside className={"flex flex-col h-screen w-1/5 shadow-xl gap-y-2 shrink-0 z-10  absolute bg-secondary"}>
 			<div className={"flex m-5 items-end"}>
 				<h1 className={"grow font-bold text-2xl"}>Prodotti</h1>
-				<Button
-					onClick={() => {
-						//TODO reload products
-					}}
-				>
-					<Image src="/icons/reload.svg" width={13} height={13} alt="Add" />
-				</Button>
 			</div>
 			<div className={"mx-5 mt-1"}>
 				<Label className={"sr-only"}>Ricerca prodotti</Label>

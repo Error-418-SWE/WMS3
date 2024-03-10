@@ -1,7 +1,5 @@
 import {
-	Form,
 	FormControl,
-	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
@@ -27,7 +25,7 @@ export function ManualCreationFrame({ form }: ManualCreationFrameProps) {
 							<FormLabel>Larghezza</FormLabel>
 							<div>
 								<FormControl>
-									<Input placeholder="Larghezza" {...field} type="number"/>
+									<Input placeholder="Larghezza" {...field} type="number" min={1}/>
 								</FormControl>
 								<FormMessage />
 							</div>
@@ -45,7 +43,7 @@ export function ManualCreationFrame({ form }: ManualCreationFrameProps) {
 							<FormLabel>Profondità</FormLabel>
 							<div >
 								<FormControl>
-									<Input placeholder="Profondità" {...field} type="number"/>
+									<Input placeholder="Profondità" {...field} type="number" min={1}/>
 								</FormControl>
 								<FormMessage />
 							</div>

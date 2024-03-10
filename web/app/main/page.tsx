@@ -12,44 +12,39 @@ import { Bin } from "@/model/bin";
 import { Product } from "@/model/product";
 import Warehouse from "@/components/three.js/Warehouse";
 
-
+import {
+	ZonesDataProvider,
+	useZonesData,
+} from "@/components/providers/zonesProvider";
+import {
+	BinsDataProvider,
+	useBinsData,
+} from "@/components/providers/binsProvider";
+import {
+	ProductsDataProvider,
+	useProductsData,
+} from "@/components/providers/productsProvider";
 
 const iconSize = 30;
 
-export default function Main() {
+export default function App() {
+	return (
+		<ZonesDataProvider>
+			<BinsDataProvider>
+				<ProductsDataProvider>
+					<Main />
+				</ProductsDataProvider>
+			</BinsDataProvider>
+		</ZonesDataProvider>
+	);
+}
+
+function Main() {
 	const [showPanel, setShowPanel] = useState(false);
 	const [panel, setPanel] = useState(<></>);
-
-	const zones = [
-		new Zone(1, 1, 1, 1, 1, 1, [
-			new Bin(1, 1, 1, 1, 1, 1,
-			new Product(1, "prodotto1", 1,1,1)),
-			new Bin(2, 1, 1, 1, 1, 1,
-			new Product(1, "prodotto2", 1,1,1)),
-			new Bin(3, 1, 1, 1, 1, 1,
-			new Product(1, "prodotto3", 1,1,1)),
-			new Bin(4, 1, 1, 1, 1, 1, null)
-		], true),
-
-		new Zone(2, 2, 2, 2, 2, 2, [
-			new Bin(2, 2, 2, 2, 2, 2,
-			new Product(2, "prodotto5", 2,2,2)),
-		], true),
-
-		new Zone(3, 3, 3, 3, 3, 3, [
-			new Bin(3, 3, 3, 3, 3, 3,
-			new Product(3, "prodotto6", 3,3,3)),
-		], true),
-
-		new Zone(4, 4, 4, 4, 4, 4, [
-			new Bin(4, 4, 4, 4, 4, 4,
-			new Product(4, "prodotto7", 4,4,4)),
-		], true),
-
-		new Zone(5, 5, 5, 5, 5, 5, [
-			new Bin(5, 5, 5, 5, 5, 5, null),
-		], true),
-	];
+	const { zones } = useZonesData();
+	const { bins } = useBinsData();
+	const { products } = useProductsData();
 
 	return (
 		<main className={"h-screen flex"}>
@@ -68,7 +63,7 @@ export default function Main() {
 				/>
 				<Button
 					onClick={() => {
-						setPanel(<ZonePanel zones_list={zones} />);
+						setPanel(<ZonePanel />);
 						setShowPanel(panel.type !== ZonePanel || !showPanel);
 					}}
 					className={`flex flex-col items-center w-full h-auto ${
