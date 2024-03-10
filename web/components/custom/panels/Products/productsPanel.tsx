@@ -35,22 +35,25 @@ export default function ZonePanel() {
 					</SelectContent>
 				</Select>
 			</div>
-			<Tabs defaultValue="collocated" className={"mx-5 my-2"}>
-				<TabsList className={"flex w-full"}>
-					<TabsTrigger value="collocated" className={"grow"}>Collocati</TabsTrigger>
-					<TabsTrigger value="notCollocated" className={"grow"}>Non collocati</TabsTrigger>
-				</TabsList>
-				<TabsContent value="collocated">
-					<div id="productList">
-						{products.map((product) => (
-							<ProductItem key={product.getId()} product={product} />
-						))}
-					</div>
-				</TabsContent>
-				<TabsContent value="notCollocated">
-					<div id={"notCollocatedProducts"}>Lista non collocati</div>
-				</TabsContent>
-			</Tabs>
+			<ScrollArea className="rounded-md border">
+				<ScrollBar orientation="vertical" />
+				<Tabs defaultValue="collocated" className={"mx-5 my-2"}>
+					<TabsList className={"flex w-full"}>
+						<TabsTrigger value="collocated" className={"grow"}>Collocati</TabsTrigger>
+						<TabsTrigger value="notCollocated" className={"grow"}>Non collocati</TabsTrigger>
+					</TabsList>
+					<TabsContent value="collocated">
+						<div id="productList">
+							{products.map((product) => (
+								<ProductItem key={product.getId()} product={product} />
+							))}
+						</div>
+					</TabsContent>
+					<TabsContent value="notCollocated">
+						<div id={"notCollocatedProducts"}>Lista non collocati</div>
+					</TabsContent>
+				</Tabs>
+			</ScrollArea>
 		</aside>
 	);
 }
