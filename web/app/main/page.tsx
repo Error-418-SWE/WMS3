@@ -7,11 +7,7 @@ import ZonePanel from "@/components/custom/panels/Zone/zonePanel";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Suspense, useState } from "react";
-import { Zone } from "@/model/zone";
-import { Bin } from "@/model/bin";
-import { Product } from "@/model/product";
 import Warehouse from "@/components/three.js/Warehouse";
-
 import {
 	ZonesDataProvider,
 	useZonesData,
@@ -24,6 +20,8 @@ import {
 	ProductsDataProvider,
 	useProductsData,
 } from "@/components/providers/productsProvider";
+import Panel from "@/components/custom/panels/panel";
+import { ElementDetailsProvider, useElementDetails } from "@/components/providers/UI-Providers/ElementDetailsProvider";
 
 const iconSize = 30;
 
@@ -32,12 +30,15 @@ export default function App() {
 		<ZonesDataProvider>
 			<BinsDataProvider>
 				<ProductsDataProvider>
-					<Main />
+					<ElementDetailsProvider>
+						<Main />
+					</ElementDetailsProvider>
 				</ProductsDataProvider>
 			</BinsDataProvider>
 		</ZonesDataProvider>
 	);
 }
+
 
 function Main() {
 	const [showPanel, setShowPanel] = useState(false);
@@ -45,6 +46,7 @@ function Main() {
 	const { zones } = useZonesData();
 	const { bins } = useBinsData();
 	const { products } = useProductsData();
+	const { elementDetails, showElementDetails} = useElementDetails();
 
 	return (
 		<main className={"h-screen flex"}>
@@ -134,6 +136,11 @@ function Main() {
 				{showPanel && <Suspense>{panel}</Suspense>}
 				<Warehouse />
 			</div>
+			{showElementDetails ? (
+				<Panel className={"right-0"}>{elementDetails}</Panel>
+			) : (
+				<></>
+			)}
 		</main>
 	);
 }
