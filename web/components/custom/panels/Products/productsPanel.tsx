@@ -1,11 +1,18 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useProductsData } from "@/components/providers/productsProvider";
+import ProductItem from "./productItem";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import Panel from "@/components/custom/panels/panel";
 
-export default function ZonePanel() {
+export default function ProductsPanel() {
+
+	const { products } = useProductsData();
+
 	return (
-		<aside className={"flex flex-col h-screen w-1/5 shadow-xl gap-y-2 shrink-0 z-10  absolute bg-secondary"}>
+		<Panel>
 			<div className={"flex m-5 items-end"}>
 				<h1 className={"grow font-bold text-2xl"}>Prodotti</h1>
 			</div>
@@ -29,18 +36,24 @@ export default function ZonePanel() {
 					</SelectContent>
 				</Select>
 			</div>
-			<Tabs defaultValue="collocated" className={"mx-5 my-2"}>
-				<TabsList className={"flex w-full"}>
-					<TabsTrigger value="collocated" className={"grow"}>Collocati</TabsTrigger>
-					<TabsTrigger value="notCollocated" className={"grow"}>Non collocati</TabsTrigger>
-				</TabsList>
-				<TabsContent value="collocated">
-					<div id={"collocatedProducts"}>Lista collocati</div>
-				</TabsContent>
-				<TabsContent value="notCollocated">
-					<div id={"notCollocatedProducts"}>Lista non collocati</div>
-				</TabsContent>
-			</Tabs>
-		</aside>
+			<ScrollArea>
+				<Tabs defaultValue="collocated" className={"mx-5 my-2"}>
+					<TabsList className={"flex w-full"}>
+						<TabsTrigger value="collocated" className={"grow"}>Collocati</TabsTrigger>
+						<TabsTrigger value="notCollocated" className={"grow"}>Non collocati</TabsTrigger>
+					</TabsList>
+					<TabsContent value="collocated">
+						<div id="productList">
+							{products.map((product) => (
+								<ProductItem key={product.getId()} product={product} />
+							))}
+						</div>
+					</TabsContent>
+					<TabsContent value="notCollocated">
+						<div id={"notCollocatedProducts"}>Lista non collocati</div>
+					</TabsContent>
+				</Tabs>
+			</ScrollArea>
+		</Panel>
 	);
 }

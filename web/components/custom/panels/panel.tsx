@@ -15,3 +15,4 @@ export default function Panel({children, className} : PanelProps) {
 		</aside>
 	);
 }
+

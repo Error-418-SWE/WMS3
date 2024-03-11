@@ -19,6 +19,7 @@ const config = {
     },
     extend: {
       colors: {
+				'BurlyWood': '#DEB887',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
