@@ -5,13 +5,14 @@ import { Select, SelectContent, SelectTrigger, SelectValue } from "@/components/
 import { useProductsData } from "@/components/providers/productsProvider";
 import ProductItem from "./productItem";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import Panel from "@/components/custom/panels/panel";
 
 export default function ProductsPanel() {
 
 	const { products } = useProductsData();
 
 	return (
-		<aside className={"flex flex-col h-screen w-1/5 shadow-xl gap-y-2 shrink-0 z-10  absolute bg-secondary"}>
+		<Panel>
 			<div className={"flex m-5 items-end"}>
 				<h1 className={"grow font-bold text-2xl"}>Prodotti</h1>
 			</div>
@@ -53,6 +54,6 @@ export default function ProductsPanel() {
 					</TabsContent>
 				</Tabs>
 			</ScrollArea>
-		</aside>
+		</Panel>
 	);
 }
