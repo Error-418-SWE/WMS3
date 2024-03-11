@@ -1,12 +1,12 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useProductsData } from "@/components/providers/productsProvider";
 import ProductItem from "./productItem";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
-export default function ZonePanel() {
+export default function ProductsPanel() {
 
 	const { products } = useProductsData();
 
@@ -35,8 +35,7 @@ export default function ZonePanel() {
 					</SelectContent>
 				</Select>
 			</div>
-			<ScrollArea className="rounded-md border">
-				<ScrollBar orientation="vertical" />
+			<ScrollArea>
 				<Tabs defaultValue="collocated" className={"mx-5 my-2"}>
 					<TabsList className={"flex w-full"}>
 						<TabsTrigger value="collocated" className={"grow"}>Collocati</TabsTrigger>
