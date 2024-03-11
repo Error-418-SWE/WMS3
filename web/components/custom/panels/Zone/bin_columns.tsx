@@ -29,7 +29,7 @@ export const columns: ColumnDef<Bin>[] = [
                 //TODO logic
                 console.log(product);
             }}>
-                <Image src="/icons/info.svg" width={15} height={15} alt="Info" />
+                <Image src="/icons/info.svg" width={10} height={10} alt="Info" />
             </Button> : "";
         }
     }

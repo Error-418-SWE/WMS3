@@ -3,6 +3,10 @@ import { Zone } from "@/model/zone";
 import Image from "next/image";
 import ZoneItemDetails from "./zoneItemDetails";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { useState } from "react";
+import { useElementDetails } from "@/components/providers/UI-Providers/ElementDetailsProvider";
+import { set } from "zod";
+import { useZonesData } from "@/components/providers/zonesProvider";
 
 const imageButtonSize = 15;
 
@@ -11,12 +15,31 @@ interface ZoneItemProps {
 }
 
 export default function ZoneItem({ zone }: ZoneItemProps) {
+
+	const {elementDetails, setElementDetails, showElementDetails, setShowElementDetails} = useElementDetails();
+	const {deleteZone} = useZonesData();
+
 	return (
 		<div
 			className={"flex p-3 gap-3 items-center hover:bg-slate-300 rounded-md"}
 		>
 			<span className={"grow font-bold"}>{zone.getId()}</span>
-			<ZoneItemDetails zone={zone} />
+			<Button
+				className={buttonVariants({ variant: "secondary" })}
+				onClick={() => {
+					setElementDetails(<ZoneItemDetails zone={zone} />);
+					setShowElementDetails(true);
+					console.log( elementDetails + "" + zone.getId());
+					console.log("Visualizza dettagli zona con id: " + zone.getId());
+				}}
+			>
+				<Image
+					src="/icons/visualize.svg"
+					width={imageButtonSize}
+					height={imageButtonSize}
+					alt="Add"
+				/>
+			</Button>
 			<Dialog>
 				<DialogTrigger >
 					<Image
@@ -34,7 +57,9 @@ export default function ZoneItem({ zone }: ZoneItemProps) {
 						</DialogDescription>
 					</DialogHeader>
 					<Button onClick={() => {
-						//TODO elimination logic
+						deleteZone(zone.getId());
+						setShowElementDetails(false);
+						close();
 						console.log("Elimina zona con id: " + zone.getId());
 					}}className={buttonVariants({variant: "destructive"}) + " w-min ml-auto"}>Elimina</Button>
 				</DialogContent>

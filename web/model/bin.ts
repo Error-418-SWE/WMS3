@@ -1,15 +1,15 @@
 import { Product } from './product';
 
 class Bin {
-    private id: number;
+    private id: string;
     private level: number;
     private column: number;
     private height: number;
     private length: number;
     private width: number;
-    private product: Product | undefined | null;
+    private product: Product | null;
 
-    constructor(id: number, level: number, column: number, height: number, length: number, width: number, product: Product | undefined | null) {
+    constructor(id: string, level: number, column: number, height: number, length: number, width: number, product: Product | null) {
         this.id = id;
         this.level = level;
         this.column = column;
@@ -19,7 +19,7 @@ class Bin {
         this.product = product;
     }
 
-    public getId(): number {
+    public getId(): string {
         return this.id;
     }
 
@@ -31,7 +31,7 @@ class Bin {
         return this.column;
     }
 
-    public getheight(): number {
+    public getHeight(): number {
         return this.height;
     }
 
@@ -43,8 +43,16 @@ class Bin {
         return this.width;
     }
 
-    public getProduct(): Product | undefined | null{
+    public getProduct(): Product | null{
         return this.product;
     }
+
+	public setId(id: string): void {
+		this.id = id;
+	}
+
+	public setProduct(product: Product | null): void {
+		this.product = product;
+	}
 }
 export { Bin };

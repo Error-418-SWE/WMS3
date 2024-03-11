@@ -53,9 +53,56 @@ class Zone {
         return this.orientation;
     }
 
-    public getBin(id: number): Bin | undefined {
+    public getBin(id: number | string): Bin | undefined {
         return this.bins.find(bin => bin.getId() === id);
     }
+
+    public getLevels(): [Bin[]] {
+        let levels: [Bin[]] = [[]];
+        let level: number = 1;
+        for (let i = 0; i < this.bins.length; i++) {
+            if (this.bins[i].getLevel() !== level) {
+                level = this.bins[i].getLevel();
+                levels.push([]);
+            }
+            levels[level].push(this.bins[i]);
+        }
+        return levels;
+    }
+
+    public getColumns(): [Bin[]] {
+        let columns: [Bin[]] = [[]];
+        let column: number = 1;
+        for (let i = 0; i < this.bins.length; i++) {
+            if (this.bins[i].getColumn() !== column) {
+                column = this.bins[i].getColumn();
+                columns.push([]);
+            }
+            columns[column].push(this.bins[i]);
+        }
+        return columns;
+    }
+
+	public getMaxUsedLevel(): number {
+		let maxLevel: number = -1;
+		this.bins.forEach(bin => {
+			if (bin.getProduct() !== null && bin.getLevel() > maxLevel){
+				maxLevel = bin.getLevel();
+			}
+		});
+		return maxLevel;
+	}
+
+	public getMaxUsedColumn(): number {
+		let maxColumn: number = -1;
+		this.bins.forEach(bin => {
+			if (bin.getProduct() !== null && bin.getColumn() > maxColumn){
+				maxColumn = bin.getColumn();
+			}
+		});
+		return maxColumn;
+	}
+
 }
 
 export {Zone};

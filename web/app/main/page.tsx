@@ -37,7 +37,8 @@ export default function App() {
 			</BinsDataProvider>
 		</ZonesDataProvider>
 	);
-}
+  }
+  
 
 
 function Main() {
