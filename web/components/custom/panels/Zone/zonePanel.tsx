@@ -8,12 +8,13 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import Panel from "@/components/custom/panels/panel";
 import { useElementDetails } from "@/components/providers/UI-Providers/ElementDetailsProvider";
 import ZoneCreationFrame from "@/components/custom/panels/Zone/zoneCreationFrame";
+import { set } from "zod";
 
 export default function ZonePanel() {
-	
+
 	const { zones } = useZonesData();
 	const { setElementDetails, setShowElementDetails } = useElementDetails();
-	
+
 	return (
 		<Panel>
 			<div className={"flex m-5 items-end"}>
