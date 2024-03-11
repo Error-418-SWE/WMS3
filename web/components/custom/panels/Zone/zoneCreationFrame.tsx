@@ -536,7 +536,7 @@ export default function ZoneCreationFrame({
 									levels={levels}
 									setLevels={setLevels}
 									levelOrder={index}
-									removable={zone ? index > zone.getMaxUsedLevel() : true}
+									removable={zone ? index > zone.getMaxUsedLevel() : index > 0}
 								/>
 							))}
 						</div>
