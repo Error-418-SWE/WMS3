@@ -1,14 +1,14 @@
 import { DoubleSide } from "three";
-
-type PropsType = {
-	choice_mode: string
-	floor_width: number
-	floor_depth: number
-}
+import { useSearchParams } from "next/navigation";
 
 const inclination=Math.PI/2;
 
-export default function Floor({choice_mode, floor_width, floor_depth}: PropsType) {
+export default function Floor() {
+
+	const choice_mode = useSearchParams()?.get("choice");
+	const floor_width: number = +useSearchParams()?.get("larghezza")!;
+	const floor_depth: number = +useSearchParams()?.get("profondita")!;
+
 	if (choice_mode != null) {
 		if (
 			choice_mode == "manuale"
