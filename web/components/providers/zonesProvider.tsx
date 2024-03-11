@@ -6,7 +6,8 @@ const ZonesDataContext = createContext({
     zones: [] as Zone[],
     deleteZone: (id: number) => {},
     addZone: (zone: Zone) => {},
-    getZoneById: (id: number) => {}
+    getZoneById: (id: number) => {},
+	modifyZoneById: (id: number, zone: Zone) => {}
 });
 
 export function ZonesDataProvider({ children } : { children: React.ReactNode }) {
@@ -30,7 +31,18 @@ export function ZonesDataProvider({ children } : { children: React.ReactNode }) 
         return zones.find(zone => zone.getId() === id);
     };
 
-    const value = { zones, deleteZone, addZone, getZoneById };
+	const modifyZoneById = (id: number, zone: Zone) => {
+		const index = zones.findIndex(zone => zone.getId() === id);
+		if (index === -1) {
+			console.log(zones);
+			throw new Error("Zone not found");
+		}
+		let newZones = [...zones];
+		newZones[index] = zone;
+		setZones(newZones);
+	}
+
+    const value = { zones, deleteZone, addZone, modifyZoneById, getZoneById };
 
     return (
         <ZonesDataContext.Provider value={value}>
