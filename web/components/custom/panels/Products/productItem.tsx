@@ -14,7 +14,9 @@ export default function ProductItem({ product }: ProductItemProps) {
 				<span className={"grow font-bold"}>{product.getName()}</span>
 				<span className={"text-slate-500 text-sm"}>{product.getId()} | {product.getCategories()}</span>
 			</div>
-			<ProductItemDetails product={product}/>
+			<div className={"shrink-0"}>
+				<ProductItemDetails product={product}/>
+			</div>
 		</div>
 	);
 }
