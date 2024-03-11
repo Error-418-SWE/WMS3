@@ -5,7 +5,6 @@ import { columns } from "./bin_columns";
 import { DataTable } from "@/components/ui/data-table";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { useElementDetails } from "@/components/providers/UI-Providers/ElementDetailsProvider";
-import { ScrollArea, Scrollbar } from "@radix-ui/react-scroll-area";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import Image from "next/image";
 import { set } from "zod";
@@ -23,7 +22,7 @@ export default function ZoneItemDetails({ zone }: ZoneItemProps) {
 	const { setElementDetails, setShowElementDetails } = useElementDetails();
 	const { deleteZone } = useZonesData();
 
-	
+
 	return (
 	  <div className={"flex flex-col h-full mx-5"}>
 		<div className={"flex items-center mt-2 justify-between"}>
@@ -38,7 +37,7 @@ export default function ZoneItemDetails({ zone }: ZoneItemProps) {
 		<div className={"grid items-center grid-cols-3 grid-rows-2 gap-y-2 mt-2"}>
 		  <Label>Direzione</Label>
 		  <Input className={"col-span-2"} value={zone.getOrientation() ? "NS" : "EW"} disabled></Input>
-  
+
 		  <Label>Dimensioni</Label>
 		  <div className={"flex col-span-2 gap-2"}>
 			<Input value={zone.getLength()} disabled></Input>
@@ -46,16 +45,16 @@ export default function ZoneItemDetails({ zone }: ZoneItemProps) {
 			<Input value={zone.getHeight()} disabled></Input>
 		  </div>
 		</div>
-  
+
 		<hr className={"my-5"}/>
-  
+
 		<div className={"flex-grow overflow-y-auto mb-10"}>
 		  <DataTable columns={columns} data={zone.getBins()}/>
 		</div>
 
 		<div className={"flex justify-end gap-x-2 mb-4"}>
 		  	<Button className={buttonVariants({variant : "secondary"}) + " border"} onClick={() => {
-				setElementDetails(<ZoneCreationFrame zone={zone}/>);
+				setElementDetails(<ZoneCreationFrame zoneToModify={zone}/>);
 			}}>
 				Modifica
 			</Button>
@@ -82,4 +81,3 @@ export default function ZoneItemDetails({ zone }: ZoneItemProps) {
 	  </div>
 	);
   }
-  
