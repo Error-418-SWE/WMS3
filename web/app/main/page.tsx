@@ -7,6 +7,11 @@ import ZonePanel from "@/components/custom/panels/Zone/zonePanel";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Suspense, useState } from "react";
+import { Zone } from "@/model/zone";
+import { Bin } from "@/model/bin";
+import { Product } from "@/model/product";
+import Warehouse from "@/components/three.js/Warehouse";
+
 import {
 	ZonesDataProvider,
 	useZonesData,
@@ -127,7 +132,7 @@ function Main() {
 			</nav>
 			<div className={"flex-grow relative"}>
 				{showPanel && <Suspense>{panel}</Suspense>}
-				<canvas id="canvas" className={"w-full h-full bg-primary"}></canvas>
+				<Warehouse />
 			</div>
 		</main>
 	);
