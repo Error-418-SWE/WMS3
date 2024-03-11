@@ -55,7 +55,7 @@ export default function ProductItemDetails({ product }: ProductItemProps) {
 
 		<div className={"flex flex-col h-full mx-5"}>
 			<div className={"flex items-center mt-2 justify-between"}>
-			  <span className={"font-bold"}>{product.getId()}</span>
+			  <span className={"font-bold"}>{product.getName()}</span>
 			  <Button className={buttonVariants({variant : "secondary"}) + " border"} onClick={() => {
 				setShowElementDetails(false);
 			  }}>
@@ -63,16 +63,14 @@ export default function ProductItemDetails({ product }: ProductItemProps) {
 			  </Button>
 			</div>
 			<span className={"text-sm text-muted-foreground"}>Informazioni del prodotto</span>
-			<div className={"grid items-center grid-cols-3 grid-rows-2 gap-y-2 mt-2"}>
-				<div className={"grid items-center grid-cols-3 grid-rows-3 gap-y-2 mt-2"}>
-		 			<Label>ID</Label><span className={"col-span-2"}>{product.getId()}</span>
-		 			<Label>Categorie</Label><span className={"col-span-2"}>Categorie</span>
-		 			<Label>Dimensioni</Label>
-		 			<span>{product.getLength()}</span>
-		 			<span>{product.getWidth()}</span>
-		 			<Label>Peso</Label>
-		 			<span className={"col-span-2"}>{product.getWeight()}</span>
-		 		</div>
+			<div className={"grid items-center grid-cols-3 grid-rows-3 gap-y-2 mt-2"}>
+		 		<Label>ID</Label><span className={"col-span-2"}>{product.getId()}</span>
+		 		<Label>Categorie</Label><span className={"col-span-2"}>Categorie</span>
+		 		<Label>Dimensioni</Label>
+		 		<span>{product.getLength()}</span>
+		 		<span>{product.getWidth()}</span>
+		 		<Label>Peso</Label>
+		 		<span className={"col-span-2"}>{product.getWeight()}</span>
 			</div>
 
 			<hr className={"my-5"}/>
