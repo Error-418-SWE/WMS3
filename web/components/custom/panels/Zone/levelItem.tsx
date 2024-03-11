@@ -7,7 +7,6 @@ import {
 	FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { UseFormReturn } from "react-hook-form";
 
 export default function LevelItem({
 	form,
@@ -15,20 +14,22 @@ export default function LevelItem({
 	levels,
 	setLevels,
 	levelOrder,
+	removable,
   }: {
 	form: any;
 	level: {id: number, height: number};
 	levels: {id: number, height: number}[];
 	setLevels: any;
 	levelOrder: number;
+	removable: boolean;
   }) {
-  
+
 	const height = level.height;
 	return (
 	  <div className={"border p-3"}>
 		<div className={"flex justify-between"}>
 		  <span>Level: #{levelOrder}</span>
-		  <Button
+		  {removable ? <Button
 		  	type="button"
 			className={buttonVariants({ variant: "secondary" }) + " border-2"}
 			onClick={() => {
@@ -40,7 +41,7 @@ export default function LevelItem({
 			}}
 		  >
 			-
-		  </Button>
+		  </Button> : <></>}
 		</div>
 		<div className={"mt-2"}>
 		  <FormField
@@ -72,4 +73,4 @@ export default function LevelItem({
 	  </div>
 	);
   }
-  
+
