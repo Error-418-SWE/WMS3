@@ -45,8 +45,15 @@ function checkIfEqualColumns(zone: Zone) {
 }
 
 function columnCreation(form: any, zone?: Zone) {
-	const [customColumns, setCustomColumns] = useState(zone ? !checkIfEqualColumns(zone) : false);
-	console.log(zone?.getLevels()[0].map((bin) => bin.getWidth()).join(" "));
+	const [customColumns, setCustomColumns] = useState(
+		zone ? !checkIfEqualColumns(zone) : false
+	);
+	console.log(
+		zone
+			?.getLevels()[0]
+			.map((bin) => bin.getWidth())
+			.join(" ")
+	);
 	console.log(zone?.getLevels()[0]);
 
 	return (
@@ -62,11 +69,7 @@ function columnCreation(form: any, zone?: Zone) {
 						<FormControl>
 							<RadioGroup
 								defaultValue={
-									zone
-										? !customColumns
-											? "equal"
-											: "custom"
-										: "equal"
+									zone ? (!customColumns ? "equal" : "custom") : "equal"
 								}
 								onValueChange={(value: SetStateAction<string>) => {
 									field.onChange(value);
@@ -102,24 +105,32 @@ function columnCreation(form: any, zone?: Zone) {
 																	min={zone ? zone.getMaxUsedColumn() : 1}
 																	disabled={customColumns}
 																	onChange={(e) => {
-																		if(zone){
-																			if(parseInt(e.target.value) > zone.getMaxUsedColumn()){
+																		form.clearErrors("customColumns");
+																		if (zone) {
+																			if (
+																				parseInt(e.target.value) >=
+																				zone.getMaxUsedColumn()
+																			) {
 																				field.onChange(e);
-																			}else {
+																				form.clearErrors("nColumns");
+																			} else {
 																				console.log(parseInt(e.target.value));
 																				console.log(zone.getMaxUsedColumn());
 																				form.setError("nColumns", {
 																					type: "manual",
-																					message: "La zona ha già colonne occupate, inserire un valore maggiore",
+																					message:
+																						"La zona necessita di almeno " +
+																						zone.getMaxUsedColumn() +
+																						" colonne",
 																				});
 																			}
-																		}else{
+																		} else {
 																			field.onChange(e);
 																		}
 																	}}
 																/>
 															</FormControl>
-															<FormMessage />
+															<FormMessage className={"col-span-3"} />
 														</div>
 													</FormItem>
 												</>
@@ -134,9 +145,10 @@ function columnCreation(form: any, zone?: Zone) {
 										control={form.control}
 										defaultValue={
 											zone
-												? zone.getLevels()[0]
-													.map((bin) => bin.getWidth())
-													.join(" ")
+												? zone
+														.getLevels()[0]
+														.map((bin) => bin.getWidth())
+														.join(" ")
 												: ""
 										}
 										render={({ field }) => (
@@ -152,20 +164,36 @@ function columnCreation(form: any, zone?: Zone) {
 															placeholder=" x x x..."
 															disabled={!customColumns}
 															onChange={(e) => {
-																field.onChange(e);
-																if (e.target.value.trim().length == 0) {
-																	form.setValue("width", 1);
+																form.clearErrors("nColumns");
+																if (
+																	zone &&
+																	e.target.value.trim().split(" ").length <
+																		zone.getMaxUsedColumn()
+																) {
+																	form.setError("customColumns", {
+																		type: "manual",
+																		message:
+																			"Inserire almeno " +
+																			zone.getMaxUsedColumn() +
+																			" colonne",
+																	});
 																} else {
-																	form.setValue(
-																		"width",
-																		e.target.value
-																			.trim()
-																			.split(" ")
-																			.reduce(
-																				(acc, val) => acc + parseFloat(val),
-																				0
-																			)
-																	);
+																	form.clearErrors("customColumns");
+																	field.onChange(e);
+																	if (e.target.value.trim().length == 0) {
+																		form.setValue("width", 1);
+																	} else {
+																		form.setValue(
+																			"width",
+																			e.target.value
+																				.trim()
+																				.split(" ")
+																				.reduce(
+																					(acc, val) => acc + parseFloat(val),
+																					0
+																				)
+																		);
+																	}
 																}
 															}}
 														/>
@@ -189,8 +217,11 @@ function columnCreation(form: any, zone?: Zone) {
 	);
 }
 
-
-export default function ZoneCreationFrame({ zoneToModify }: { zoneToModify?: Zone }) {
+export default function ZoneCreationFrame({
+	zoneToModify,
+}: {
+	zoneToModify?: Zone;
+}) {
 	const { addZone, modifyZoneById, getZoneById } = useZonesData();
 	const { setShowElementDetails } = useElementDetails();
 	const [zone, setZone] = useState(zoneToModify);
@@ -203,22 +234,36 @@ export default function ZoneCreationFrame({ zoneToModify }: { zoneToModify?: Zon
 	useEffect(() => {
 		//Update form fields when zone changes
 		form.setValue("id", zone ? zone.getId() : 0);
-		form.setValue("direction", zone ? (zone.getOrientation() ? "NS" : "EW") : "NS");
+		form.setValue(
+			"direction",
+			zone ? (zone.getOrientation() ? "NS" : "EW") : "NS"
+		);
 		form.setValue("length", zone ? zone.getLength() : 1);
 		form.setValue("width", zone ? zone.getWidth() : 1);
 		form.setValue("height", zone ? zone.getHeight() : 1);
-		form.setValue("columnsType", zone ? checkIfEqualColumns(zone) ? "equal" : "custom" : "equal");
-		form.setValue("customColumns", zone ? zone.getLevels()[0].map((bin) => bin.getWidth()).join(" ") : "");
+		form.setValue(
+			"columnsType",
+			zone ? (checkIfEqualColumns(zone) ? "equal" : "custom") : "equal"
+		);
+		form.setValue(
+			"customColumns",
+			zone
+				? zone
+						.getLevels()[0]
+						.map((bin) => bin.getWidth())
+						.join(" ")
+				: ""
+		);
 		form.setValue("nColumns", zone ? zone.getLevels()[0].length : 1);
 		setLevels(
 			zone
-			  ?.getColumns()[0]
-			  .map((bin) => ({ id: Math.random(), height: bin.getHeight() || 0 })) || [
-			  { id: Math.random(), height: 1 },
-			]
-		  );
+				?.getColumns()[0]
+				.map((bin) => ({
+					id: Math.random(),
+					height: bin.getHeight() || 0,
+				})) || [{ id: Math.random(), height: 1 }]
+		);
 	}, [zone]);
-
 
 	const formSchema = z.discriminatedUnion("columnsType", [
 		equalColumns,
@@ -246,38 +291,48 @@ export default function ZoneCreationFrame({ zoneToModify }: { zoneToModify?: Zon
 	}, [zone, levels]);
 
 	function handleSubmit() {
-
-		if (!zone && getZoneById(parseInt(form.getValues("id") + "")) != undefined) {
+		if (
+			!zone &&
+			getZoneById(parseInt(form.getValues("id") + "")) != undefined
+		) {
 			alert("ID già esistente");
 			return;
 		}
 
 		//create bins
-		const columns = form.getValues("columnsType") == "equal" ? form.getValues("nColumns") : form.getValues("customColumns").split(" ").length;
+		const columns =
+			form.getValues("columnsType") == "equal"
+				? form.getValues("nColumns")
+				: form.getValues("customColumns").split(" ").length;
 		const rows = levels.length;
 
 		//bins as a single array
 		var bins = [];
 		for (let i = 0; i < rows; i++) {
 			for (let j = 0; j < columns; j++) {
-				bins.push(new Bin(
-					form.getValues("id") + "_" + (i) + "_" + (j),
-					i,
-					j,
-					levels[i].height,
-					parseFloat(form.getValues("length") + ""),
-					form.getValues("columnsType") == "equal"
-						? form.getValues("width") / form.getValues("nColumns")
-						: parseFloat(form.getValues("customColumns").split(" ")[j]),
-					null
-				));
+				bins.push(
+					new Bin(
+						form.getValues("id") + "_" + i + "_" + j,
+						i,
+						j,
+						levels[i].height,
+						parseFloat(form.getValues("length") + ""),
+						form.getValues("columnsType") == "equal"
+							? form.getValues("width") / form.getValues("nColumns")
+							: parseFloat(form.getValues("customColumns").split(" ")[j]),
+						null
+					)
+				);
 			}
 		}
 
 		if (zone) {
-			for(let i = 0; i < bins.length; i++){
-				for(let j = 0; j < zone.getBins().length; j++){
-					if(bins[i].getColumn() == zone.getBins()[j].getColumn() && bins[i].getLevel() == zone.getBins()[j].getLevel()){
+			for (let i = 0; i < bins.length; i++) {
+				for (let j = 0; j < zone.getBins().length; j++) {
+					if (
+						bins[i].getColumn() == zone.getBins()[j].getColumn() &&
+						bins[i].getLevel() == zone.getBins()[j].getLevel()
+					) {
 						bins[i].setId(zone.getBins()[j].getId());
 						bins[i].setProduct(zone.getBins()[j].getProduct());
 					}
@@ -296,9 +351,9 @@ export default function ZoneCreationFrame({ zoneToModify }: { zoneToModify?: Zon
 			form.getValues("direction") == "NS"
 		);
 
-		if(!zone){
+		if (!zone) {
 			addZone(newZone);
-		}else{
+		} else {
 			console.log("MODIFY ZONE");
 			modifyZoneById(parseInt(form.getValues("id") + ""), newZone);
 		}
@@ -310,7 +365,9 @@ export default function ZoneCreationFrame({ zoneToModify }: { zoneToModify?: Zon
 	return (
 		<div className={"flex flex-col h-full mx-5"}>
 			<div className={"flex items-center mt-2 justify-between"}>
-				<h1 className={"grow font-bold text-2xl"}>{zone ? "Zona: " + zone.getId() : "Nuova Zona"}</h1>
+				<h1 className={"grow font-bold text-2xl"}>
+					{zone ? "Zona: " + zone.getId() : "Nuova Zona"}
+				</h1>
 				<Button
 					className={buttonVariants({ variant: "secondary" })}
 					onClick={() => {
@@ -325,10 +382,7 @@ export default function ZoneCreationFrame({ zoneToModify }: { zoneToModify?: Zon
 			</span>
 
 			<Form {...form}>
-				<form
-					onSubmit={form.handleSubmit(handleSubmit)}
-					className="space-y-8"
-				>
+				<form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
 					<div className={"flex flex-col gap-y-4 mt-2"}>
 						<FormField
 							control={form.control}
@@ -353,16 +407,13 @@ export default function ZoneCreationFrame({ zoneToModify }: { zoneToModify?: Zon
 						<FormField
 							control={form.control}
 							name="direction"
-							defaultValue={zone ? (zone.getOrientation() ? "NS" : "EW") : "NS"}
 							render={({ field }) => (
 								<FormItem className={"grid items-center grid-cols-3"}>
 									<FormLabel>Direzione</FormLabel>
 
 									<Select
-										onValueChange={
-											field.onChange
-										}
-										value={
+										onValueChange={field.onChange}
+										defaultValue={
 											zone ? (zone.getOrientation() ? "NS" : "EW") : "NS"
 										}
 									>
@@ -490,7 +541,9 @@ export default function ZoneCreationFrame({ zoneToModify }: { zoneToModify?: Zon
 							))}
 						</div>
 
-						<Button type="submit">{zone? "Salva le modifiche alla " : "Crea "} Zona</Button>
+						<Button type="submit">
+							{zone ? "Salva le modifiche alla " : "Crea "} Zona
+						</Button>
 					</div>
 				</form>
 			</Form>
