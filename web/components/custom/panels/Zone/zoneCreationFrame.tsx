@@ -44,7 +44,7 @@ function checkIfEqualColumns(zone: Zone) {
 	return true;
 }
 
-function columnCreation(form: any, zone?: Zone) {
+function ColumnCreation(form: any, zone?: Zone) {
 	const [customColumns, setCustomColumns] = useState(
 		zone ? !checkIfEqualColumns(zone) : false
 	);
@@ -500,7 +500,7 @@ export default function ZoneCreationFrame({
 
 						<div className={"grid items-center grid-cols-3"}>
 							<Label>Colonne</Label>
-							<div className={"col-span-2"}>{columnCreation(form, zone)}</div>
+							<div className={"col-span-2"}>{ColumnCreation(form, zone)}</div>
 						</div>
 
 						<hr />
