@@ -44,7 +44,9 @@ export default function App() {
 					<OrdersDataProvider>
 						<FloorDataProvider>
 							<ElementDetailsProvider>
-								<Main />
+								<Suspense>
+									<Main />
+								</Suspense>
 							</ElementDetailsProvider>
 						</FloorDataProvider>
 					</OrdersDataProvider>
