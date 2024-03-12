@@ -8,6 +8,7 @@ export class ProductMapper {
             json.weight,
             json.length,
             json.width,
+            json.height,
             json.categories
         );
     }
