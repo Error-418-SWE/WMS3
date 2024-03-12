@@ -60,9 +60,9 @@ export default function RestoreItem() {
 
 					<DialogContent>
 						<DialogHeader>
-							<DialogTitle>Reimposta l'ambiente</DialogTitle>
+							<DialogTitle>Reimposta l&apos;ambiente</DialogTitle>
 							<DialogDescription>
-								Questa azione non può essere annullata. Abbandonerai la pagina tornando alla definizione dell'ambiente. Tutti i dati verranno persi.
+								Questa azione non può essere annullata. Abbandonerai la pagina tornando alla definizione dell&apos;ambiente. Tutti i dati verranno persi.
 							</DialogDescription>
 						</DialogHeader>
 						<Button onClick={handleReimposta} className={buttonVariants({ variant: "destructive" }) + " w-min ml-auto"}>Reimposta</Button>
