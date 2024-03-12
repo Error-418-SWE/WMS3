@@ -7,7 +7,8 @@ const ZonesDataContext = createContext({
     deleteZone: (id: number) => {},
     addZone: (zone: Zone) => {},
     getZoneById: (id: number) => {},
-	modifyZoneById: (id: number, zone: Zone) => {}
+	modifyZoneById: (id: number, zone: Zone) => {},
+	refresh: () => {},
 });
 
 export function ZonesDataProvider({ children } : { children: React.ReactNode }) {
@@ -42,7 +43,11 @@ export function ZonesDataProvider({ children } : { children: React.ReactNode }) 
 		setZones(newZones);
 	}
 
-    const value = { zones, deleteZone, addZone, modifyZoneById, getZoneById };
+	const refresh = () => {
+		ZoneRepository.getAllZones().then(setZones);
+	}
+
+    const value = { zones, deleteZone, addZone, modifyZoneById, getZoneById, refresh};
 
     return (
         <ZonesDataContext.Provider value={value}>

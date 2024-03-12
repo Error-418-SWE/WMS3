@@ -4,6 +4,7 @@ import { Order } from '@/model/order';
 const OrderDataContext = createContext({
     orders: [] as Order[],
 	addOrder: (order: Order) => {},
+	refresh: () => {},
 });
 
 export function OrdersDataProvider({ children } : { children: React.ReactNode }) {
@@ -19,7 +20,11 @@ export function OrdersDataProvider({ children } : { children: React.ReactNode })
         console.log(orders);
     };
 
-    const value = { orders, addOrder };
+	const refresh = () => {
+		setOrders([]);
+	}
+
+    const value = { orders, addOrder, refresh };
 
     return (
         <OrderDataContext.Provider value={value}>

@@ -3,9 +3,7 @@ import { Zone } from "@/model/zone";
 import Image from "next/image";
 import ZoneItemDetails from "./zoneItemDetails";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { useState } from "react";
 import { useElementDetails } from "@/components/providers/UI-Providers/ElementDetailsProvider";
-import { set } from "zod";
 import { useZonesData } from "@/components/providers/zonesProvider";
 
 const imageButtonSize = 15;
