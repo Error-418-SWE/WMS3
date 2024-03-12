@@ -6,7 +6,7 @@ import SettingsPanel from "@/components/custom/panels/Settings/settingsPanel";
 import ZonePanel from "@/components/custom/panels/Zone/zonePanel";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, use, useEffect, useState } from "react";
 import Warehouse from "@/components/three.js/Warehouse";
 import {
 	ZonesDataProvider,
@@ -29,10 +29,18 @@ import {
 	ElementDetailsProvider,
 	useElementDetails,
 } from "@/components/providers/UI-Providers/ElementDetailsProvider";
-import { FloorDataProvider, useFloorData } from "@/components/providers/floorProvider";
+import {
+	FloorDataProvider,
+	useFloorData,
+} from "@/components/providers/floorProvider";
 import { useSearchParams } from "next/navigation";
 import { Floor } from "@/model/floor";
 import { readSavedSVG } from "@/ServerActions/SVG/readSavedSVG";
+import {
+	FloorStrategyContext,
+	StandardFloorStrategy,
+	CustomFloorStrategy,
+} from "@/Strategy/FloorStrategy";
 
 const iconSize = 30;
 
@@ -66,23 +74,25 @@ function Main() {
 	const { floor, setFloor } = useFloorData();
 	const { elementDetails, showElementDetails } = useElementDetails();
 
-	const choice_mode = useSearchParams()?.get("choice");
-	const floor_width: number = +useSearchParams()?.get("larghezza")!;
-	const floor_depth: number = +useSearchParams()?.get("profondita")!;
+	const params = useSearchParams();
 
-	useEffect(() => {
-		if (choice_mode && choice_mode === "manuale" && floor_width && floor_depth) {
-			setFloor(new Floor(floor_width, floor_width, ""));
-		} else if (choice_mode && choice_mode === "custom") {
-			const fetchSVGContent = async () => {
-				const svg_content = await readSavedSVG();
-				setFloor(new Floor(floor_width, floor_width, svg_content));
+	if (params) {
+		const choice_mode = params.get("choice");
+		const floorStrategyContext = new FloorStrategyContext(
+			choice_mode === "custom"
+				? new CustomFloorStrategy()
+				: new StandardFloorStrategy()
+		);
+
+		useEffect(() => {
+			const createFloor = async () => {
+				const floor = await floorStrategyContext.createFloor(params);
+				setFloor(floor);
 			};
-			console.log("fetchSVGContent");
-			fetchSVGContent();
-		}
-	}, [choice_mode, floor_width, floor_depth]);
-	
+			
+			createFloor();
+		}, [choice_mode]);
+	}
 
 	return (
 		<main className={"h-screen flex"}>
