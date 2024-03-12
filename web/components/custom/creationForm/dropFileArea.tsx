@@ -10,7 +10,8 @@ import { UseFormReturn, set } from "react-hook-form";
 import { useContext, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { ProcessingContext } from "@/components/providers/formContextProvider";
-import { saveSVG } from "@/app/serverActions";
+import { saveSVG } from "@/ServerActions/SVG/saveSVG";
+import SVGSanitize from "@/ServerActions/SVG/SVGSanitize";
 
 interface DropFileAreaProps {
 	form: UseFormReturn;
@@ -29,17 +30,17 @@ export function DropFileArea({ form }: DropFileAreaProps) {
 		reader.onload = async (event) => {
 			console.log(event.target?.result);
 
-			const response = await fetch("/api/SVGSanitizer", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ svg: event.target?.result }),
-			});
+			const response = await SVGSanitize(event.target?.result ? event.target?.result as string: "");
+			// await fetch("/api/SVGSanitizer", {
+			// 	method: "POST",
+			// 	headers: {
+			// 		"Content-Type": "application/json",
+			// 	},
+			// 	body: JSON.stringify({ svg: event.target?.result }),
+			// });
 
-			if (response.status === 200) {
-				const sanitizedSVG = await response.json();
-				saveSVG(sanitizedSVG.cleanSVG);
+			if (response) {
+				await saveSVG(response);
 				form.setValue("svg", "saved.svg");
 			} else {
 				form.setValue("svg", null);

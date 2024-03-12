@@ -14,6 +14,7 @@ export function BinsDataProvider({ children } : { children: React.ReactNode }) {
     useEffect(() => {
         console.log("BinsDataProvider: useEffect");
         BinRepository.getAllBins().then(setBins);
+		console.log(bins);
     }, []);
 
 	const refresh = () => {

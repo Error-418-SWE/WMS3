@@ -1,18 +1,16 @@
+"use server";
 import { Pool } from "pg";
-import { NextApiRequest, NextApiResponse } from "next";
 
 const pool = new Pool({
 	connectionString: `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}`,
 });
 
-export default async function getBins(
-	req: NextApiRequest,
-	res: NextApiResponse
+export async function getBinsByZoneId(id: number
 ) {
 	const client = await pool.connect();
 
 	try {
-		const { rows : bins } = await client.query(
+		const { rows: bins } = await client.query(
 			`
 				SELECT
 					b.id as bin_id,
@@ -28,12 +26,14 @@ export default async function getBins(
 				JOIN level l ON b.level_id = l.id
 				JOIN zone_column c ON b.column_id = c.id
 				JOIN zone z ON l.zone_id = z.id AND c.zone_id = z.id
-			`
+				WHERE z.id = $1;
+            `,
+			[id]
 		);
 
-        res.status(200).json(bins);
+		return bins;
 	} catch (error: any) {
-		res.status(500).json({ error: error.message });
+		return null;
 	} finally {
 		client.release();
 	}
