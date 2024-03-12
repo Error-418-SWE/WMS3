@@ -1,7 +1,7 @@
 class Floor{
     length: number;
     width: number;
-    SVG: string;
+    SVG?: string;
     constructor(length: number, width: number, svg: string){
         this.length = length;
         this.width = width;
@@ -16,7 +16,7 @@ class Floor{
         return this.width;
     }
 
-    public getSVG(): string {
+    public getSVG(): string | undefined {
         return this.SVG;
     }
 }
