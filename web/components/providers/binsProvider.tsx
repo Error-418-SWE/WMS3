@@ -3,7 +3,8 @@ import { Bin } from '@/model/bin';
 import { BinRepository } from '@/dataRepository/binRepository';
 
 const BinsDataContext = createContext({
-    bins: [] as Bin[]
+    bins: [] as Bin[],
+	refresh: () => {},
 });
 
 // Create a provider component
@@ -15,7 +16,11 @@ export function BinsDataProvider({ children } : { children: React.ReactNode }) {
         BinRepository.getAllBins().then(setBins);
     }, []);
 
-    const value = { bins };
+	const refresh = () => {
+		BinRepository.getAllBins().then(setBins);
+	}
+
+    const value = { bins, refresh };
 
     return (
         <BinsDataContext.Provider value={value}>
