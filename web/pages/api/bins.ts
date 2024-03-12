@@ -12,10 +12,25 @@ export default async function getBins(
 	const client = await pool.connect();
 
 	try {
-		const { rows: bins } = await client.query(`
-            SELECT * FROM bin;
-        `);
-        
+		const { rows : bins } = await client.query(
+			`
+				SELECT
+					b.id as bin_id,
+					l.level_order,
+					c.column_order,
+					l.height AS bin_height,
+					c.width AS bin_width,
+					z.length AS bin_length,
+					p.id as product_id,
+					p.name
+				FROM bin b
+				LEFT JOIN product p ON p.id = b.product_id
+				JOIN level l ON b.level_id = l.id
+				JOIN zone_column c ON b.column_id = c.id
+				JOIN zone z ON l.zone_id = z.id AND c.zone_id = z.id
+			`
+		);
+
         res.status(200).json(bins);
 	} catch (error: any) {
 		res.status(500).json({ error: error.message });
