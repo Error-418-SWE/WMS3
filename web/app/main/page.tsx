@@ -20,6 +20,10 @@ import {
 	ProductsDataProvider,
 	useProductsData,
 } from "@/components/providers/productsProvider";
+import {
+	OrdersDataProvider,
+	useOrdersData,
+} from "@/components/providers/ordersProvider";
 import Panel from "@/components/custom/panels/panel";
 import { ElementDetailsProvider, useElementDetails } from "@/components/providers/UI-Providers/ElementDetailsProvider";
 
@@ -30,15 +34,17 @@ export default function App() {
 		<ZonesDataProvider>
 			<BinsDataProvider>
 				<ProductsDataProvider>
-					<ElementDetailsProvider>
-						<Main />
-					</ElementDetailsProvider>
+					<OrdersDataProvider>
+						<ElementDetailsProvider>
+							<Main />
+						</ElementDetailsProvider>
+					</OrdersDataProvider>
 				</ProductsDataProvider>
 			</BinsDataProvider>
 		</ZonesDataProvider>
 	);
-  }
-  
+}
+
 
 
 function Main() {
@@ -47,7 +53,13 @@ function Main() {
 	const { zones } = useZonesData();
 	const { bins } = useBinsData();
 	const { products } = useProductsData();
-	const { elementDetails, showElementDetails} = useElementDetails();
+	const { orders } = useOrdersData();
+	const { elementDetails, showElementDetails } = useElementDetails();
+
+	console.log(zones);
+	console.log(bins);
+	console.log(products);
+	console.log(orders);
 
 	return (
 		<main className={"h-screen flex"}>
@@ -69,9 +81,8 @@ function Main() {
 						setPanel(<ZonePanel />);
 						setShowPanel(panel.type !== ZonePanel || !showPanel);
 					}}
-					className={`flex flex-col items-center w-full h-auto ${
-						panel.type === ZonePanel && showPanel ? "invert grayscale" : ""
-					}`}
+					className={`flex flex-col items-center w-full h-auto ${panel.type === ZonePanel && showPanel ? "invert grayscale" : ""
+						}`}
 				>
 					<Image
 						src="/icons/zone.svg"
@@ -86,9 +97,8 @@ function Main() {
 						setPanel(<ProductsPanel />);
 						setShowPanel(panel.type !== ProductsPanel || !showPanel);
 					}}
-					className={`flex flex-col items-center w-full h-auto ${
-						panel.type === ProductsPanel && showPanel ? "invert grayscale" : ""
-					}`}
+					className={`flex flex-col items-center w-full h-auto ${panel.type === ProductsPanel && showPanel ? "invert grayscale" : ""
+						}`}
 				>
 					<Image
 						src="/icons/products.svg"
@@ -103,13 +113,12 @@ function Main() {
 						setPanel(<OrdersPanel />);
 						setShowPanel(panel.type !== OrdersPanel || !showPanel);
 					}}
-					className={`flex flex-col items-center w-full h-auto ${
-						panel.type === OrdersPanel && showPanel ? "invert grayscale" : ""
-					}`}
+					className={`flex flex-col items-center w-full h-auto ${panel.type === OrdersPanel && showPanel ? "invert grayscale" : ""
+						}`}
 				>
 					<Image
 						src="/icons/orders.svg"
-						alt="products"
+						alt="orders"
 						width={iconSize}
 						height={iconSize}
 					/>
@@ -120,13 +129,12 @@ function Main() {
 						setPanel(<SettingsPanel />);
 						setShowPanel(panel.type !== SettingsPanel || !showPanel);
 					}}
-					className={`mt-auto flex flex-col items-center w-full h-auto ${
-						panel.type === SettingsPanel && showPanel ? "invert grayscale" : ""
-					}`}
+					className={`mt-auto flex flex-col items-center w-full h-auto ${panel.type === SettingsPanel && showPanel ? "invert grayscale" : ""
+						}`}
 				>
 					<Image
 						src="/icons/settings.svg"
-						alt="products"
+						alt="settings"
 						width={iconSize}
 						height={iconSize}
 					/>
