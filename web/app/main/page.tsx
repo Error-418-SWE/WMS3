@@ -76,23 +76,23 @@ function Main() {
 
 	const params = useSearchParams();
 
-	if (params) {
-		const choice_mode = params.get("choice");
-		const floorStrategyContext = new FloorStrategyContext(
-			choice_mode === "custom"
-				? new CustomFloorStrategy()
-				: new StandardFloorStrategy()
-		);
+	useEffect(() => {
+		if (params) {
+			const choice_mode = params.get("choice");
+			const floorStrategyContext = new FloorStrategyContext(
+				choice_mode === "custom"
+					? new CustomFloorStrategy()
+					: new StandardFloorStrategy()
+			);
 
-		useEffect(() => {
 			const createFloor = async () => {
 				const floor = await floorStrategyContext.createFloor(params);
 				setFloor(floor);
 			};
-			
+
 			createFloor();
-		}, [choice_mode]);
-	}
+		}
+	}, [params]);
 
 	return (
 		<main className={"h-screen flex"}>
