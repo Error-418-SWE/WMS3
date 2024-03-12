@@ -6,7 +6,7 @@ import SettingsPanel from "@/components/custom/panels/Settings/settingsPanel";
 import ZonePanel from "@/components/custom/panels/Zone/zonePanel";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Warehouse from "@/components/three.js/Warehouse";
 import {
 	ZonesDataProvider,
@@ -25,7 +25,14 @@ import {
 	useOrdersData,
 } from "@/components/providers/ordersProvider";
 import Panel from "@/components/custom/panels/panel";
-import { ElementDetailsProvider, useElementDetails } from "@/components/providers/UI-Providers/ElementDetailsProvider";
+import {
+	ElementDetailsProvider,
+	useElementDetails,
+} from "@/components/providers/UI-Providers/ElementDetailsProvider";
+import { FloorDataProvider, useFloorData } from "@/components/providers/floorProvider";
+import { useSearchParams } from "next/navigation";
+import { Floor } from "@/model/floor";
+import { readSavedSVG } from "@/ServerActions/SVG/readSavedSVG";
 
 const iconSize = 30;
 
@@ -35,17 +42,19 @@ export default function App() {
 			<BinsDataProvider>
 				<ProductsDataProvider>
 					<OrdersDataProvider>
-						<ElementDetailsProvider>
-							<Main />
-						</ElementDetailsProvider>
+						<FloorDataProvider>
+							<ElementDetailsProvider>
+								<Suspense>
+									<Main />
+								</Suspense>
+							</ElementDetailsProvider>
+						</FloorDataProvider>
 					</OrdersDataProvider>
 				</ProductsDataProvider>
 			</BinsDataProvider>
 		</ZonesDataProvider>
 	);
 }
-
-
 
 function Main() {
 	const [showPanel, setShowPanel] = useState(false);
@@ -54,7 +63,26 @@ function Main() {
 	const { bins } = useBinsData();
 	const { products } = useProductsData();
 	const { orders } = useOrdersData();
+	const { floor, setFloor } = useFloorData();
 	const { elementDetails, showElementDetails } = useElementDetails();
+
+	const choice_mode = useSearchParams()?.get("choice");
+	const floor_width: number = +useSearchParams()?.get("larghezza")!;
+	const floor_depth: number = +useSearchParams()?.get("profondita")!;
+
+	useEffect(() => {
+		if (choice_mode && choice_mode === "manuale" && floor_width && floor_depth) {
+			setFloor(new Floor(floor_width, floor_width, ""));
+		} else if (choice_mode && choice_mode === "custom") {
+			const fetchSVGContent = async () => {
+				const svg_content = await readSavedSVG();
+				setFloor(new Floor(floor_width, floor_width, svg_content));
+			};
+			console.log("fetchSVGContent");
+			fetchSVGContent();
+		}
+	}, [choice_mode, floor_width, floor_depth]);
+	
 
 	return (
 		<main className={"h-screen flex"}>
@@ -76,8 +104,9 @@ function Main() {
 						setPanel(<ZonePanel />);
 						setShowPanel(panel.type !== ZonePanel || !showPanel);
 					}}
-					className={`flex flex-col items-center w-full h-auto ${panel.type === ZonePanel && showPanel ? "invert grayscale" : ""
-						}`}
+					className={`flex flex-col items-center w-full h-auto ${
+						panel.type === ZonePanel && showPanel ? "invert grayscale" : ""
+					}`}
 				>
 					<Image
 						src="/icons/zone.svg"
@@ -92,8 +121,9 @@ function Main() {
 						setPanel(<ProductsPanel />);
 						setShowPanel(panel.type !== ProductsPanel || !showPanel);
 					}}
-					className={`flex flex-col items-center w-full h-auto ${panel.type === ProductsPanel && showPanel ? "invert grayscale" : ""
-						}`}
+					className={`flex flex-col items-center w-full h-auto ${
+						panel.type === ProductsPanel && showPanel ? "invert grayscale" : ""
+					}`}
 				>
 					<Image
 						src="/icons/products.svg"
@@ -108,8 +138,9 @@ function Main() {
 						setPanel(<OrdersPanel />);
 						setShowPanel(panel.type !== OrdersPanel || !showPanel);
 					}}
-					className={`flex flex-col items-center w-full h-auto ${panel.type === OrdersPanel && showPanel ? "invert grayscale" : ""
-						}`}
+					className={`flex flex-col items-center w-full h-auto ${
+						panel.type === OrdersPanel && showPanel ? "invert grayscale" : ""
+					}`}
 				>
 					<Image
 						src="/icons/orders.svg"
@@ -124,8 +155,9 @@ function Main() {
 						setPanel(<SettingsPanel />);
 						setShowPanel(panel.type !== SettingsPanel || !showPanel);
 					}}
-					className={`mt-auto flex flex-col items-center w-full h-auto ${panel.type === SettingsPanel && showPanel ? "invert grayscale" : ""
-						}`}
+					className={`mt-auto flex flex-col items-center w-full h-auto ${
+						panel.type === SettingsPanel && showPanel ? "invert grayscale" : ""
+					}`}
 				>
 					<Image
 						src="/icons/settings.svg"
