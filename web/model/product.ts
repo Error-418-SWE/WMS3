@@ -4,14 +4,16 @@ class Product {
     private weight: number;
     private length: number;
     private width: number;
+    private height: number;
     private categories: string[];
 
-    constructor(id: number, name: string, weight: number, length: number, width: number, categories: string[]) { 
+    constructor(id: number, name: string, weight: number, length: number, width: number, height: number, categories: string[]) { 
         this.id = id;
         this.name = name;
         this.weight = weight;
         this.length = length;
         this.width = width;
+        this.height = height;
         this.categories = categories;
     }
 
@@ -33,6 +35,10 @@ class Product {
 
     public getWidth(): number {
         return this.width;
+    }
+
+    public getHeight(): number {
+        return this.height;
     }
 
     public getCategories(): string[] {
