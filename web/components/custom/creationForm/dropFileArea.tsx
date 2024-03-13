@@ -28,9 +28,9 @@ export function DropFileArea({ form }: DropFileAreaProps) {
 
 		reader.readAsText(file);
 		reader.onload = async (event) => {
-			console.log(event.target?.result);
-
-			const response = await SVGSanitize(event.target?.result ? event.target?.result as string: "");
+			const response = await SVGSanitize(
+				event.target?.result ? (event.target?.result as string) : ""
+			);
 			// await fetch("/api/SVGSanitizer", {
 			// 	method: "POST",
 			// 	headers: {
