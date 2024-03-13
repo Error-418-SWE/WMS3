@@ -1,5 +1,4 @@
-import { getBinsByZoneId } from "@/ServerActions/Zones/getBinsByZoneId"; // replace 'your-file' with the actual file name
-import { Pool } from "pg";
+import { getBinsByZoneId } from "@/ServerActions/Zones/getBinsByZoneId"; 
 
 jest.mock("pg", () => {
 	const bins = [

@@ -1,4 +1,3 @@
-// sanitize.test.ts
 import SVGSanitizer from "@/ServerActions/SVG/SVGSanitize";
 import * as fs from "fs";
 import { JSDOM } from "jsdom";

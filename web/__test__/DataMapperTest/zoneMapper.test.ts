@@ -1,14 +1,14 @@
-import { ZoneMapper } from '@/dataMapper/zoneMapper';
-import { Zone } from '@/model/zone';
+import { ZoneMapper } from "@/dataMapper/zoneMapper";
+import { Zone } from "@/model/zone";
 
-describe('ZoneMapper', () => {
+describe("ZoneMapper", () => {
   let zoneMapper: ZoneMapper;
   let zoneJson: any;
 
   beforeEach(() => {
     zoneMapper = new ZoneMapper();
     zoneJson = {
-      id: '1',
+      id: "1",
       xcoordinate: 1,
       ycoordinate: 1,
       height: 1,
@@ -46,7 +46,7 @@ describe('ZoneMapper', () => {
     };
   });
 
-  it('creates a Zone with the correct properties', () => {
+  it("creates a Zone with the correct properties", () => {
     const zone: Zone = zoneMapper.toDomain(zoneJson);
 
     expect(zone.getId()).toBe(zoneJson.id);

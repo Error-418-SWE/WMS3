@@ -1,5 +1,4 @@
 import { getZoneById } from "@/ServerActions/Zones/getZoneById";
-import { Pool } from "pg";
 
 jest.mock("pg", () => {
 	const productJson = {
