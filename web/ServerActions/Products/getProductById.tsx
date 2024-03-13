@@ -9,14 +9,15 @@ export default async function getProductById(id: string) {
 	const client = await pool.connect();
 
 	try {
-		const { rows: product } = await client.query(`
-            SELECT p.*, array_agg(c.name) as categories
-            FROM product p
-            LEFT JOIN categorize cz ON cz.product_id = p.id
-            LEFT JOIN category c ON c.id = cz.category_id
-            WHERE p.id = $1
-			GROUP BY p.id;`,
-			[id]);
+		const { rows: product } = await client.query(
+			"SELECT p.*, array_agg(c.name) as categories\n" +
+			"FROM product p\n" +
+			"LEFT JOIN categorize cz ON cz.product_id = p.id\n" +
+			"LEFT JOIN category c ON c.id = cz.category_id\n" +
+			"WHERE p.id = $1\n" +
+			"GROUP BY p.id;",
+			[id]
+		);
 
 		if (product.length > 0) {
 			return product[0];
@@ -29,3 +30,4 @@ export default async function getProductById(id: string) {
 		client.release();
 	}
 }
+
