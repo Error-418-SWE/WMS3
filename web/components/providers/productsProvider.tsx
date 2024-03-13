@@ -10,14 +10,15 @@ const ProductsDataContext = createContext({
 // Create a provider component
 export function ProductsDataProvider({ children } : { children: React.ReactNode }) {
     const [products, setProducts] = useState<Product[]>([]);
+	const [productRepository] = useState(new ProductRepository());
 
     useEffect(() => {
         console.log("ProductsDataProvider: useEffect");
-        ProductRepository.getAllProducts().then(setProducts);
+        productRepository.getAll().then(setProducts);
     }, []);
 
 	const refresh = () => {
-		ProductRepository.getAllProducts().then(setProducts);
+		productRepository.getAll().then(setProducts);
 	}
 
     const value = { products, refresh};

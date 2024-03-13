@@ -13,10 +13,11 @@ const ZonesDataContext = createContext({
 
 export function ZonesDataProvider({ children } : { children: React.ReactNode }) {
     const [zones, setZones] = useState<Zone[]>([]);
+	const [zoneRepository] = useState(new ZoneRepository());
 
     useEffect(() => {
         console.log("ZonesDataProvider: useEffect");
-        ZoneRepository.getAllZones().then(setZones);
+        zoneRepository.getAll().then(setZones);
     }, []);
 
     const deleteZone = (id: number) => {
@@ -44,7 +45,7 @@ export function ZonesDataProvider({ children } : { children: React.ReactNode }) 
 	}
 
 	const refresh = () => {
-		ZoneRepository.getAllZones().then(setZones);
+		zoneRepository.getAll().then(setZones);
 	}
 
     const value = { zones, deleteZone, addZone, modifyZoneById, getZoneById, refresh};
