@@ -5,7 +5,7 @@ const pool = new Pool({
 	connectionString: `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}`,
 });
 
-export default async function getProductById(id: number) {
+export default async function getProductById(id: string) {
 	const client = await pool.connect();
 
 	try {
