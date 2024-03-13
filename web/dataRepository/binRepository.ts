@@ -3,18 +3,21 @@ import { BinMapper } from "@/dataMapper/binMapper";
 import { getAllBins } from "@/ServerActions/Bins/getAllBins";
 import { getBinsByZoneId } from "@/ServerActions/Zones/getBinsByZoneId";
 import { getBinById } from "@/ServerActions/Bins/getBinById";
+import { DataRepositoryInterface } from "./dataRepositoryInterface";
 
-export class BinRepository{
-    public static getAllBins(): Promise<Bin[]> {
-		return getAllBins().then((json) => json?.map((bin: any) => BinMapper.toDomain(bin)) || []);
+export class BinRepository implements DataRepositoryInterface{
+
+	private binMapper: BinMapper = new BinMapper();
+
+    public getAll(): Promise<Bin[]> {
+		return getAllBins().then((json) => json?.map((bin: any) => this.binMapper.toDomain(bin)) || []);
     }
 
-	public static getBinsByZone(id: number): Promise<Bin[]> {
-		return getBinsByZoneId(id).then((json) => json?.map((bin: any) => BinMapper.toDomain(bin)) || []);
-	}
-
-	public static getBinById(id: string): Promise<Bin> {
+	public getById(id: string): Promise<Bin> {
 		return getBinById(id).then((json) => json?.find((bin: any) => bin.id === id) || null);
 	}
 
+	public getBinsByZone(id: number): Promise<Bin[]> {
+		return getBinsByZoneId(id).then((json) => json?.map((bin: any) => this.binMapper.toDomain(bin)) || []);
+	}
 }
