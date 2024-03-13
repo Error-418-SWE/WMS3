@@ -2,18 +2,18 @@ import {Bin} from './bin';
 
 class Zone {
     private id: number;
-    private xcordinate: number;
-    private ycordinate: number;
+    private xcoordinate: number;
+    private ycoordinate: number;
     private height: number;
     private length: number;
     private width: number;
     private bins: Bin[];
     private orientation: boolean;
 
-    constructor(id: number, xcordinate: number, ycordinate: number, height: number, length: number, width: number, bins: Bin[], orientation: boolean) {
+    constructor(id: number, xcoordinate: number, ycoordinate: number, height: number, length: number, width: number, bins: Bin[], orientation: boolean) {
         this.id = id;
-        this.xcordinate = xcordinate;
-        this.ycordinate = ycordinate;
+        this.xcoordinate = xcoordinate;
+        this.ycoordinate = ycoordinate;
         this.height = height;
         this.length = length;
         this.width = width;
@@ -25,12 +25,12 @@ class Zone {
         return this.id;
     }
 
-    public getXcordinate(): number {
-        return this.xcordinate;
+    public getXcoordinate(): number {
+        return this.xcoordinate;
     }
 
-    public getYcordinate(): number {
-        return this.ycordinate;
+    public getYcoordinate(): number {
+        return this.ycoordinate;
     }
 
     public getHeight(): number {
