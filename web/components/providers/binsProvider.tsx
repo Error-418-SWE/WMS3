@@ -10,15 +10,16 @@ const BinsDataContext = createContext({
 // Create a provider component
 export function BinsDataProvider({ children } : { children: React.ReactNode }) {
     const [bins, setBins] = useState<Bin[]>([]);
+	const [binRepository] = useState(new BinRepository());
 
     useEffect(() => {
         console.log("BinsDataProvider: useEffect");
-        BinRepository.getAllBins().then(setBins);
+        binRepository.getAll().then(setBins);
 		console.log(bins);
     }, []);
 
 	const refresh = () => {
-		BinRepository.getAllBins().then(setBins);
+		binRepository.getAll().then(setBins);
 	}
 
     const value = { bins, refresh };
