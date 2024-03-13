@@ -1,8 +1,13 @@
 import {Zone} from "@/model/zone";
 import { BinMapper } from "@/dataMapper/binMapper";
+import { DataMapperInterface } from "./dataMapperInterface";
 
-export class ZoneMapper {
-    public static toDomain(json: any): Zone {
+
+export class ZoneMapper implements DataMapperInterface{
+
+	private binMapper: BinMapper = new BinMapper();
+
+    public toDomain(json: any): Zone {
         return new Zone(
             json.id,
             json.xcoordinate,
@@ -11,7 +16,7 @@ export class ZoneMapper {
             json.length,
             json.width,
             json.bins.map((bin: any) => {
-                return BinMapper.toDomain(bin);
+                return this.binMapper.toDomain(bin);
             }),
             json.orientation
         );
