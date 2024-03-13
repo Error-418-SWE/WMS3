@@ -21,36 +21,51 @@ import {
 } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
 import { Floor } from "@/model/floor";
-import { useEffect, useRef, useState } from "react";
-import { set } from "zod";
+import { useState } from "react";
+import { z } from "zod";
+import { dimensionsFormSchema } from "./zodDimensionScheme";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function FloorDimensionsItem() {
 	const { floor, setFloor } = useFloorData();
 	const [open, setOpen] = useState(false);
 
-	const form = useForm({
-		defaultValues: {
-			length: floor.getLength().toFixed(2),
-			width: floor.getWidth().toFixed(2),
-		},
+	const formSchema = z.object({
+		dimensionsFormSchema,
 	});
 
-	let oldWidth = floor.getWidth();
-	let oldLength = floor.getLength();
+	const form = useForm<z.infer<typeof formSchema>>({
+		defaultValues: {
+			dimensionsFormSchema: {
+				length: parseFloat(parseFloat(floor.getLength() + "").toFixed(2)),
+				width: parseFloat(parseFloat(floor.getWidth() + "").toFixed(2)),
+			},
+		},
+		resolver: zodResolver(formSchema),
+	});
 
-	let aspectRatio = oldWidth / oldLength;
+	const oldWidth = floor.getWidth();
+	const oldLength = floor.getLength();
+	const newWidth = form.watch("dimensionsFormSchema.width");
+	const newLength = form.watch("dimensionsFormSchema.length");
 
-	const newWidth = form.watch("width");
-	const newLength = form.watch("length");
+	const aspectRatio = newWidth / newLength;
+	const scaledWidth = newWidth >= newLength ? 350 : 350 * aspectRatio;
+	const scaledHeight = newLength > newWidth ? 350 : 350 / aspectRatio;
 
 	const handleSubmit = (event: any) => {
 		event.preventDefault();
-        setFloor(
-			new Floor(parseFloat(newWidth), parseFloat(newLength), floor.getSVG())
+		console.log("new dimensions: ", newWidth, newLength);
+		setFloor(
+			new Floor(newLength, newWidth, floor.getSVG())
 		);
 		setOpen(false);
 		console.log("submitted");
 	};
+
+	function checkIfNewValidDimensions() {
+		return newWidth >= oldWidth && newLength >= oldLength;
+	}
 
 	return (
 		<div>
@@ -62,27 +77,7 @@ export default function FloorDimensionsItem() {
 					</FormDescription>
 					<FormField
 						control={form.control}
-						name={"length"}
-						render={({ field }) => (
-							<FormItem
-								className={"grid grid-cols-3 items-center justify-start"}
-							>
-								<FormLabel>Lunghezza</FormLabel>
-								<FormControl>
-									<Input
-										{...field}
-										defaultValue={floor?.getLength()?.toFixed(2) || ""}
-										className={"col-span-2"}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-
-					<FormField
-						control={form.control}
-						name={"width"}
+						name={"dimensionsFormSchema.width"}
 						render={({ field }) => (
 							<FormItem
 								className={"grid grid-cols-3 items-center justify-start"}
@@ -91,18 +86,63 @@ export default function FloorDimensionsItem() {
 								<FormControl>
 									<Input
 										{...field}
-										defaultValue={floor?.getWidth()?.toFixed(2) || ""}
-										className="col-span-2"
+										className={"col-span-2"}
+										type={"number"}
+										step={0.01}
+										onKeyUp={(e) => {
+											if (!checkIfNewValidDimensions()) {
+												form.setError("dimensionsFormSchema.width", {
+													type: "manual",
+													message: "La larghezza non può essere ridotta",
+												});
+											} else {
+												form.clearErrors("dimensionsFormSchema.width");
+											}
+										}
+										}
 									/>
 								</FormControl>
-								<FormMessage />
+								<FormMessage className={"col-span-3"} />
 							</FormItem>
 						)}
 					/>
 
+					<FormField
+						control={form.control}
+						name={"dimensionsFormSchema.length"}
+						render={({ field }) => (
+							<FormItem
+								className={"grid grid-cols-3 items-center justify-start"}
+							>
+								<FormLabel>Lunghezza</FormLabel>
+								<FormControl>
+									<Input
+										{...field}
+										className={"col-span-2"}
+										type={"number"}
+										step={0.01}
+										onKeyUp={(e) => {
+											if (!checkIfNewValidDimensions()) {
+												form.setError("dimensionsFormSchema.length", {
+													type: "manual",
+													message: "La lunghezza non può essere ridotta",
+												});
+											} else {
+												form.clearErrors("dimensionsFormSchema.length");
+											}
+										}
+										}
+									/>
+								</FormControl>
+								<FormMessage className={"col-span-3"} />
+							</FormItem>
+						)}
+					/>
+
+
 					<Dialog open={open} onOpenChange={setOpen}>
 						<div className={"flex justify-end mt-3"}>
-							<DialogTrigger className={buttonVariants({ variant: "default" })}>
+							<DialogTrigger className={buttonVariants({ variant: "default" })} disabled={!checkIfNewValidDimensions()}>
 								Salva
 							</DialogTrigger>
 						</div>
@@ -113,12 +153,11 @@ export default function FloorDimensionsItem() {
 									La planimetria sarà estesa rispetto all'origine.
 								</DialogDescription>
 							</DialogHeader>
-
 							<div className={"flex justify-center"}>
 								<div
 									style={{
-										width: "350px",
-										height: `${350 * aspectRatio}px`,
+										width: `${scaledWidth}px`,
+										height: `${scaledHeight}px`,
 										background:
 											"repeating-linear-gradient(45deg, rgba(122, 122, 122, 0.5), rgba(122, 122, 122, 0.5) 3px, rgba(255, 255, 255, 0.5) 3px, rgba(255, 255, 255, 0.5) 10px)",
 										position: "relative",
@@ -127,24 +166,19 @@ export default function FloorDimensionsItem() {
 								>
 									<div
 										style={{
-											width: `${(oldWidth / parseFloat(newWidth)) * 100}%`,
-											height: `${(oldLength / parseFloat(newLength)) * 100}%`,
-											backgroundColor:
-												parseFloat(newWidth) === oldWidth &&
-												parseFloat(newLength) === oldLength
-													? "rgba(0, 0, 255, 0.5)"
-													: "rgba(255, 255, 255, 1)",
+											width: `${(oldWidth / newWidth) * 100}%`,
+											height: `${(oldLength / newLength) * 100}%`,
+											backgroundColor: "rgba(255, 255, 255, 1)",
 											position: "absolute",
 											border:
-												parseFloat(newWidth) === oldWidth &&
-												parseFloat(newLength) === oldLength
+												newWidth === oldWidth &&
+													newLength === oldLength
 													? "1px solid black"
 													: "none",
 										}}
 									></div>
 								</div>
 							</div>
-
 							<div className={"flex justify-end gap-2"}>
 								<DialogClose asChild>
 									<Button onClick={handleSubmit}>Conferma</Button>
