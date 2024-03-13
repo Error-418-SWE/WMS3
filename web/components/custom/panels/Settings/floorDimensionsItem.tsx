@@ -150,7 +150,7 @@ export default function FloorDimensionsItem() {
 							<DialogHeader>
 								<DialogTitle>Confermi il ridimensionamento?</DialogTitle>
 								<DialogDescription>
-									La planimetria sarà estesa rispetto all'origine.
+									La planimetria sarà estesa rispetto all&apos;origine.
 								</DialogDescription>
 							</DialogHeader>
 							<div className={"flex justify-center"}>
