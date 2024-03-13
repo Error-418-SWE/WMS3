@@ -1,7 +1,9 @@
 import { Product } from "@/model/product";
+import { DataMapperInterface } from "./dataMapperInterface";
 
-export class ProductMapper {
-    public static toDomain(json: any): Product {
+
+export class ProductMapper implements DataMapperInterface{
+    public toDomain(json: any): Product {
         return new Product(
             json.id,
             json.name,
