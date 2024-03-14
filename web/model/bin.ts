@@ -54,5 +54,9 @@ class Bin {
 	public setProduct(product: Product | null): void {
 		this.product = product;
 	}
+
+    public clearProduct(): void {
+        this.product = null;
+    }
 }
 export { Bin };

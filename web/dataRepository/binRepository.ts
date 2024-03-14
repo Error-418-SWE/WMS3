@@ -14,7 +14,7 @@ export class BinRepository implements DataRepositoryInterface{
     }
 
 	public getById(id: string): Promise<Bin> {
-		return getBinById(id).then((json) => json?.find((bin: any) => bin.id === id) || null);
+		return getBinById(id).then((json) => this.binMapper.toDomain(json));
 	}
 
 	public getBinsByZone(id: number): Promise<Bin[]> {

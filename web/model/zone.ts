@@ -59,7 +59,7 @@ class Zone {
 
     public getLevels(): [Bin[]] {
         let levels: [Bin[]] = [[]];
-        let level: number = 1;
+        let level: number = 0;
         for (let i = 0; i < this.bins.length; i++) {
             if (this.bins[i].getLevel() !== level) {
                 level = this.bins[i].getLevel();
@@ -72,7 +72,7 @@ class Zone {
 
     public getColumns(): [Bin[]] {
         let columns: [Bin[]] = [[]];
-        let column: number = 1;
+        let column: number = 0;
         for (let i = 0; i < this.bins.length; i++) {
             if (this.bins[i].getColumn() !== column) {
                 column = this.bins[i].getColumn();

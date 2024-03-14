@@ -1,10 +1,7 @@
-// sanitize.test.ts
-import { NextApiRequest, NextApiResponse } from "next";
-import SVGSanitizer from "../ServerActions/SVG/SVGSanitize";
-import { createMocks } from "node-mocks-http";
+import SVGSanitizer from "@/ServerActions/SVG/SVGSanitize";
 import * as fs from "fs";
 import { JSDOM } from "jsdom";
-import { exit, exitCode } from "process";
+import { exit } from "process";
 
 const dom = new JSDOM();
 const parser = new dom.window.DOMParser();
@@ -32,7 +29,7 @@ describe("Sanitize SVG API", () => {
 			expect(
 				outputDoc.documentElement.isEqualNode(expectedDoc.documentElement)
 			).toBe(true);
-		}else {
+		} else {
 			exit(1);
 		}
 	});
@@ -51,12 +48,9 @@ describe("Sanitize SVG API", () => {
 			"utf-8"
 		);
 
-		const response = await SVGSanitizer(dirtySVG) as string;
+		const response = (await SVGSanitizer(dirtySVG)) as string;
 
-		const outputDoc = parser.parseFromString(
-			response,
-			"image/svg+xml"
-		);
+		const outputDoc = parser.parseFromString(response, "image/svg+xml");
 		const expectedDoc = parser.parseFromString(
 			expectedCleanSVG,
 			"image/svg+xml"
