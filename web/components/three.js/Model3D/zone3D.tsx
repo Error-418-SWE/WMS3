@@ -12,7 +12,7 @@ interface Zone3DProps {
 export function Zone3D({ zone, position}: Zone3DProps) {
 	const zoneGeometry = new THREE.BoxGeometry(zone.getWidth(), zone.getHeight(), zone.getLength());
 	return (
-		<group position={[position.x, position.y + zone.getHeight() / 2, position.z]}>
+		<group position={[position.x, position.y + zone.getHeight() / 2, position.z]} rotation={[0,zone.getOrientation()? 0 : Math.PI / 2, 0]}>
 			{
 				zone.getLevels().map((level, levelIndex) => {
 					let levelVerticalPosition = 0;
@@ -20,7 +20,7 @@ export function Zone3D({ zone, position}: Zone3DProps) {
 					for (let i = 0; i < levelIndex; i++) {
 						levelVerticalPosition += levelsHeights[i].getHeight();
 					}
-					//each level is a level of the shelf.
+
 					return level.map((bin) => {
 						let binHorizontalPosition = 0;
 						for (let i = 0; i < bin.getColumn(); i++) {
