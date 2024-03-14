@@ -67,9 +67,9 @@ export default function App() {
 function Main() {
 	const [showPanel, setShowPanel] = useState(false);
 	const [panel, setPanel] = useState(<></>);
-	const { zones } = useZonesData();
-	const { bins } = useBinsData();
-	const { products } = useProductsData();
+	const { zones, zonesLoaded } = useZonesData();
+	const { bins, binsLoaded } = useBinsData();
+	const { products, productsLoaded } = useProductsData();
 	const { orders } = useOrdersData();
 	const { floor, setFloor } = useFloorData();
 	const { elementDetails, showElementDetails } = useElementDetails();
@@ -93,6 +93,11 @@ function Main() {
 			createFloor();
 		}
 	}, [params]);
+
+	const dataLoaded = zonesLoaded && productsLoaded && binsLoaded && floor;
+	if (!dataLoaded) {
+		return <div>Loading...</div>;
+	}
 
 	return (
 		<main className={"h-screen flex"}>
@@ -180,7 +185,7 @@ function Main() {
 			</nav>
 			<div className={"flex-grow relative"}>
 				{showPanel && <Suspense>{panel}</Suspense>}
-				<Warehouse />
+				{dataLoaded && <Warehouse />}
 			</div>
 			{showElementDetails ? (
 				<Panel className={"right-0"}>{elementDetails}</Panel>

@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Zone } from "@/model/zone";
 import { ZoneRepository } from "@/dataRepository/zoneRepository";
+import { set } from 'zod';
 
 const ZonesDataContext = createContext({
     zones: [] as Zone[],
@@ -9,15 +10,20 @@ const ZonesDataContext = createContext({
     getZoneById: (id: number) => {},
 	modifyZoneById: (id: number, zone: Zone) => {},
 	refresh: () => {},
+	zonesLoaded: false,
 });
 
 export function ZonesDataProvider({ children } : { children: React.ReactNode }) {
     const [zones, setZones] = useState<Zone[]>([]);
 	const [zoneRepository] = useState(new ZoneRepository());
+	const [zonesLoaded, setZonesLoaded] = useState(false);
 
     useEffect(() => {
         console.log("ZonesDataProvider: useEffect");
-        zoneRepository.getAll().then(setZones);
+        zoneRepository.getAll().then((zones) => {
+			setZones(zones);
+			setZonesLoaded(true);
+		});
     }, []);
 
     const deleteZone = (id: number) => {
@@ -45,10 +51,14 @@ export function ZonesDataProvider({ children } : { children: React.ReactNode }) 
 	}
 
 	const refresh = () => {
-		zoneRepository.getAll().then(setZones);
+		setZonesLoaded(false);
+		zoneRepository.getAll().then((zones) => {
+			setZones(zones);
+			setZonesLoaded(true);
+		});
 	}
 
-    const value = { zones, deleteZone, addZone, modifyZoneById, getZoneById, refresh};
+    const value = { zones, deleteZone, addZone, modifyZoneById, getZoneById, refresh, zonesLoaded};
 
     return (
         <ZonesDataContext.Provider value={value}>

@@ -5,23 +5,35 @@ import { Product } from "@/model/product";
 const ProductsDataContext = createContext({
     products: [] as Product[],
 	refresh: () => {},
+	productsLoaded: false,
 });
 
-// Create a provider component
 export function ProductsDataProvider({ children } : { children: React.ReactNode }) {
     const [products, setProducts] = useState<Product[]>([]);
 	const [productRepository] = useState(new ProductRepository());
+	const [productsLoaded, setProductsLoaded] = useState(false);
 
     useEffect(() => {
         console.log("ProductsDataProvider: useEffect");
-        productRepository.getAll().then(setProducts);
+        productRepository.getAll().then(
+			(products) => {
+				setProducts(products);
+				setProductsLoaded(true);
+			}
+		);
     }, []);
 
 	const refresh = () => {
-		productRepository.getAll().then(setProducts);
+		setProductsLoaded(false);
+		productRepository.getAll().then(
+			(products) => {
+				setProducts(products);
+				setProductsLoaded(true);
+			}
+		);
 	}
 
-    const value = { products, refresh};
+    const value = { products, refresh, productsLoaded };
 
     return (
         <ProductsDataContext.Provider value={value}>
