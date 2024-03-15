@@ -4,6 +4,7 @@ import { Bin } from '@/model/bin';
 import * as THREE from 'three';
 import { useElementDetails } from '@/components/providers/UI-Providers/ElementDetailsProvider';
 import BinItemDetails from '@/components/custom/panels/Bin/binItemDetails';
+import { ThreeEvent } from '@react-three/fiber';
 
 interface Bin3DProps {
 	bin: Bin;
@@ -20,7 +21,8 @@ export function Bin3D({ bin, position }: Bin3DProps) {
 
   const binGeometry = new THREE.BoxGeometry(bin.getWidth(), bin.getHeight(), bin.getLength());
 
-  const handleClick = () => {
+  const handleClick = (event : ThreeEvent<MouseEvent>) => {
+    event.stopPropagation();
     setIsSelected(true);
     setElementDetails(<BinItemDetails bin={bin} />);
     setShowElementDetails(true);
