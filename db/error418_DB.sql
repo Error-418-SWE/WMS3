@@ -84,7 +84,7 @@ CREATE TABLE public.level (
 
 -- tabella bin
 CREATE TABLE public.bin (
-    id SERIAL PRIMARY KEY,
+    id VARCHAR(10) PRIMARY KEY,
     level_id INTEGER REFERENCES public.level(id) NOT NULL,
     column_id INTEGER REFERENCES public.zone_column(id) NOT NULL,
     product_id INTEGER REFERENCES public.product(id) UNIQUE
