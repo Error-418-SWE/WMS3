@@ -10,9 +10,8 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import Link from "next/link";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const titleMap: Record<string, string> = {
 	default: "Definizione dell'ambiente 3D",
@@ -30,20 +29,11 @@ const descriptionMap: Record<string, string> = {
 export default function Home() {
 	const [title, setTitle] = useState("Definizione dell'ambiente 3D");
 	const [description, setDescription] = useState("");
-	const [isSubmitted, setIsSubmitted] = useState(false);
-	const [formData, setFormData] = useState({});
 
 	const updateCardHeading = (value: string) => {
 		setTitle(titleMap[value]);
 		setDescription(descriptionMap[value]);
 	};
-
-	useEffect(() => {
-		if (isSubmitted) {
-			setTitle("Caricamento dati");
-			setDescription("Dati caricati corretamente. Premere per continuare.");
-		}
-	}, [isSubmitted]);
 
 	return (
 		<main className={"h-screen flex items-center justify-center"}>
@@ -59,29 +49,11 @@ export default function Home() {
 				</CardHeader>
 				<CardContent>
 					<FormContextProvider>
-						{!isSubmitted ? (
-							<CreationForm
-								updateCardHeading={updateCardHeading}
-								titleMap={titleMap}
-								descriptionMap={descriptionMap}
-								setSubmitted={setIsSubmitted}
-								setFormData={setFormData}
-							/>
-						) : (
-							<div className={"flex flex-col gap-2"}>
-								<Link
-									className={
-										"bg-primary p-2 rounded-md text-primary-foreground text-right w-min ml-auto"
-									}
-									href={{
-										pathname: "/main",
-										query: formData,
-									}}
-								>
-									Continua
-								</Link>
-							</div>
-						)}
+						<CreationForm
+							updateCardHeading={updateCardHeading}
+							titleMap={titleMap}
+							descriptionMap={descriptionMap}
+						/>
 					</FormContextProvider>
 				</CardContent>
 			</Card>
