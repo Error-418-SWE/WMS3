@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Edges } from '@react-three/drei';
+import { Box, Edges, Line } from '@react-three/drei';
 import { Zone } from '@/model/zone';
 import * as THREE from 'three';
 import { Bin3D } from './bin3D';
@@ -12,7 +12,12 @@ interface Zone3DProps {
 export function Zone3D({ zone, position}: Zone3DProps) {
 	const zoneGeometry = new THREE.BoxGeometry(zone.getWidth(), zone.getHeight(), zone.getLength());
 	return (
-		<group position={[position.x, position.y + zone.getHeight() / 2, position.z]} rotation={[0,zone.getOrientation()? 0 : Math.PI / 2, 0]}>
+		<group position={[
+			position.x + (zone.getOrientation() ? zone.getLength() / 2 : zone.getWidth() / 2),
+			position.y + zone.getHeight() / 2,
+			position.z + (zone.getOrientation() ? zone.getWidth() / 2 : -zone.getLength() / 2),
+			]} rotation={[0,zone.getOrientation()? Math.PI / 2 : 0, 0]}>
+			
 			{
 				zone.getLevels().map((level, levelIndex) => {
 					let levelVerticalPosition = 0;
@@ -31,7 +36,7 @@ export function Zone3D({ zone, position}: Zone3DProps) {
 							levelVerticalPosition + bin.getHeight()/2 - zone.getHeight()/2,
 							bin.getLength()/2 - zone.getLength()/2
 						);
-						return <Bin3D bin={bin} position={binPosition} />
+						return <Bin3D bin={bin} position={binPosition}/>
 					});
 				})
 			}
