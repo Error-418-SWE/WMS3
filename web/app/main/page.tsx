@@ -41,6 +41,7 @@ import {
 	StandardFloorStrategy,
 	CustomFloorStrategy,
 } from "@/Strategy/FloorStrategy";
+import { Progress } from "@/components/ui/progress";
 
 const iconSize = 30;
 
@@ -95,8 +96,14 @@ function Main() {
 	}, [params]);
 
 	const dataLoaded = zonesLoaded && productsLoaded && binsLoaded && floor;
+	const progress = (+zonesLoaded + +binsLoaded + +productsLoaded + (floor ? 1 : 0)) / 4 * 100;
+
 	if (!dataLoaded) {
-		return <div>Loading...</div>;
+		return (
+		<div className={"flex flex-col gap-y-2 justify-center items-center m-auto w-[60%] h-screen"}>
+			<Progress value={progress} className="[60%]" />
+			<span>Caricamento in corso ...</span>
+		</div>)
 	}
 
 	return (
