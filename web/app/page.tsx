@@ -1,9 +1,6 @@
 "use client";
 import { CreationForm } from "@/components/custom/creationForm/creationForm";
 import {
-	FormContextProvider,
-} from "@/components/providers/formContextProvider";
-import {
 	Card,
 	CardContent,
 	CardDescription,
@@ -48,13 +45,11 @@ export default function Home() {
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
-					<FormContextProvider>
 						<CreationForm
 							updateCardHeading={updateCardHeading}
 							titleMap={titleMap}
 							descriptionMap={descriptionMap}
 						/>
-					</FormContextProvider>
 				</CardContent>
 			</Card>
 		</main>
