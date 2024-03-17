@@ -56,9 +56,7 @@ export default function FloorDimensionsItem() {
 	const handleSubmit = (event: any) => {
 		event.preventDefault();
 		console.log("new dimensions: ", newWidth, newLength);
-		setFloor(
-			new Floor(newLength, newWidth, floor.getSVG())
-		);
+		setFloor(floor.modifyDimension(newLength, newWidth));
 		setOpen(false);
 		console.log("submitted");
 	};
@@ -98,8 +96,7 @@ export default function FloorDimensionsItem() {
 											} else {
 												form.clearErrors("dimensionsFormSchema.width");
 											}
-										}
-										}
+										}}
 									/>
 								</FormControl>
 								<FormMessage className={"col-span-3"} />
@@ -130,8 +127,7 @@ export default function FloorDimensionsItem() {
 											} else {
 												form.clearErrors("dimensionsFormSchema.length");
 											}
-										}
-										}
+										}}
 									/>
 								</FormControl>
 								<FormMessage className={"col-span-3"} />
@@ -139,10 +135,12 @@ export default function FloorDimensionsItem() {
 						)}
 					/>
 
-
 					<Dialog open={open} onOpenChange={setOpen}>
 						<div className={"flex justify-end mt-3"}>
-							<DialogTrigger className={buttonVariants({ variant: "default" })} disabled={!checkIfNewValidDimensions()}>
+							<DialogTrigger
+								className={buttonVariants({ variant: "default" })}
+								disabled={!checkIfNewValidDimensions()}
+							>
 								Salva
 							</DialogTrigger>
 						</div>
@@ -171,8 +169,7 @@ export default function FloorDimensionsItem() {
 											backgroundColor: "rgba(255, 255, 255, 1)",
 											position: "absolute",
 											border:
-												newWidth === oldWidth &&
-													newLength === oldLength
+												newWidth === oldWidth && newLength === oldLength
 													? "1px solid black"
 													: "none",
 										}}
