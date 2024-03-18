@@ -9,7 +9,7 @@ import {
 import { UseFormReturn, set } from "react-hook-form";
 import { useContext, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
-import { ProcessingContext } from "@/components/providers/formContextProvider";
+import { ProcessingContext } from "@/components/providers/UI-Providers/formContextProvider";
 import { saveSVG } from "@/ServerActions/SVG/saveSVG";
 import SVGSanitize from "@/ServerActions/SVG/SVGSanitize";
 
