@@ -25,6 +25,7 @@ import {
 import { ManualCreationFrame } from "./manualCreationFrame";
 import { SVGCreationFrame } from "./svgCreationFrame";
 import { useRouter } from "next/navigation";
+import { useProcessingContext } from "@/components/providers/UI-Providers/formContextProvider";
 
 
 interface CreationFormProps {
@@ -40,6 +41,7 @@ export function CreationForm({
 }: CreationFormProps) {
 	const [choice, setChoice] = useState("manuale");
 	const [showNext, setShowNext] = useState(false);
+	const {isProcessing} = useProcessingContext();
 
 	const formSchema = z.discriminatedUnion("choice", [
 		manualCreationSchema,
@@ -84,7 +86,7 @@ export function CreationForm({
 					const dataAsString = Object.fromEntries(
 						Object.entries(data).map(([key, value]) => [key, String(value)])
 					);
-				
+
 					router.push("/main" + "?" + new URLSearchParams(dataAsString).toString());
 				})}
 				className={"space-y-8"}
