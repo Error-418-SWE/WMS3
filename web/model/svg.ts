@@ -20,14 +20,6 @@ class SVG {
 	public getString(): string {
 		return this.svg;
 	}
-
-	public setLength(length: number) {
-		this.length = length;
-	}
-
-	public setWidth(width: number) {
-		this.width = width;
-	}
 }
 
 export { SVG };

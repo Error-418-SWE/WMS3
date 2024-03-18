@@ -10,13 +10,6 @@ class Floor {
 		this.SVG = new SVG(svg, this.length, this.width);
 	}
 
-	modifyDimension(new_length: number, new_width: number) {
-		const floor = new Floor(new_length, new_width, this.SVG.getString());
-		floor.getSVG().setLength(this.getSVG().getLength());
-		floor.getSVG().setWidth(this.getSVG().getWidth());
-		return floor;
-	}
-
 	public getLength(): number {
 		return this.length;
 	}
@@ -27,6 +20,14 @@ class Floor {
 
 	public getSVG(): SVG {
 		return this.SVG!;
+	}
+
+	public setLength(length: number) {
+		this.length = length;
+	}
+
+	public setWidth(width: number) {
+		this.width = width;
 	}
 }
 
