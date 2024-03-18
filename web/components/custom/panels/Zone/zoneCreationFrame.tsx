@@ -27,6 +27,7 @@ import { z } from "zod";
 import { customColumns, equalColumns } from "./zoneZodSchemes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useZonesData } from "@/components/providers/zonesProvider";
+import { useWarehouseData } from "@/components/providers/Threejs/warehouseProvider";
 
 function checkIfEqualColumns(zone: Zone) {
 	const firstLevelBins = zone.getLevels()[0];
@@ -226,6 +227,7 @@ export default function ZoneCreationFrame({
 	const { setShowElementDetails } = useElementDetails();
 	const [zone, setZone] = useState(zoneToModify);
 	const [zoneHeight, setZoneHeight] = useState(zone?.getHeight() || 1);
+	const { setCurrentZone } = useWarehouseData();
 
 	useEffect(() => {
 		setZone(zoneToModify);
@@ -350,6 +352,8 @@ export default function ZoneCreationFrame({
 			bins,
 			form.getValues("direction") == "NS"
 		);
+
+		//setCurrentZone(newZone);
 
 		if (!zone) {
 			addZone(newZone);
