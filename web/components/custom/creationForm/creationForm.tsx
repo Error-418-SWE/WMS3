@@ -188,7 +188,7 @@ export function CreationForm({
 							>
 								Indietro
 							</Button>
-							<Button type="submit">Submit</Button>
+							<Button type="submit" disabled={isProcessing}>Submit</Button>
 						</div>
 					</>
 				)}
