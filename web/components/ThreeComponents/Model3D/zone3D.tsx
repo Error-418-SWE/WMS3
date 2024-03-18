@@ -39,7 +39,7 @@ export function Zone3D({ zone, position, floor3D, setIsDragging }: Zone3DProps) 
 							levelVerticalPosition + bin.getHeight() / 2 - zone.getHeight() / 2,
 							bin.getLength() / 2 - zone.getLength() / 2
 						);
-						return <Bin3D bin={bin} position={binPosition} />
+						return <Bin3D key={bin.getId()} bin={bin} position={binPosition} />
 					});
 				})
 			}

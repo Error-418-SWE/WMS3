@@ -39,7 +39,7 @@
 							0,
 							zone.getYcoordinate()
 						);
-						return <Zone3D zone={zone} position={zonePosition} floor3D={floor3D} setIsDragging={setIsDragging}/>;
+						return <Zone3D key={zone.getId()} zone={zone} position={zonePosition} floor3D={floor3D} setIsDragging={setIsDragging}/>;
 					})}
 
 					<ambientLight />
