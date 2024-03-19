@@ -46,6 +46,7 @@ const iconSize = 30;
 
 export default function App() {
 	return (
+		<Suspense>
 		<ZonesDataProvider>
 			<BinsDataProvider>
 				<ProductsDataProvider>
@@ -53,9 +54,7 @@ export default function App() {
 						<FloorDataProvider>
 							<ElementDetailsProvider>
 								<WarehouseDataProvider>
-									<Suspense>
 										<Main />
-									</Suspense>
 								</WarehouseDataProvider>
 							</ElementDetailsProvider>
 						</FloorDataProvider>
@@ -63,10 +62,13 @@ export default function App() {
 				</ProductsDataProvider>
 			</BinsDataProvider>
 		</ZonesDataProvider>
+		</Suspense>
 	);
 }
 
 function Main() {
+	const params = useSearchParams();
+
 	const [showPanel, setShowPanel] = useState(false);
 	const [panel, setPanel] = useState(<></>);
 	const { zones, zonesLoaded } = useZonesData();
@@ -75,8 +77,6 @@ function Main() {
 	const { orders } = useOrdersData();
 	const { floor, setFloor } = useFloorData();
 	const { elementDetails, showElementDetails } = useElementDetails();
-
-	const params = useSearchParams();
 
 	useEffect(() => {
 		if (params) {
