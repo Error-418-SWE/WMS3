@@ -227,7 +227,6 @@ export default function ZoneCreationFrame({
 	const { setShowElementDetails } = useElementDetails();
 	const [zone, setZone] = useState(zoneToModify);
 	const [zoneHeight, setZoneHeight] = useState(zone?.getHeight() || 1);
-	const { setCurrentZone } = useWarehouseData();
 
 	useEffect(() => {
 		setZone(zoneToModify);
@@ -352,8 +351,6 @@ export default function ZoneCreationFrame({
 			bins,
 			form.getValues("direction") == "NS"
 		);
-
-		//setCurrentZone(newZone);
 
 		if (!zone) {
 			addZone(newZone);
