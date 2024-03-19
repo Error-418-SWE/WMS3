@@ -4,20 +4,15 @@ import Floor from "./Model3D/Floor";
 import { useFloorData } from "../providers/floorProvider";
 import THREE, { Raycaster, Vector2, Vector3 } from "three";
 import { useZonesData } from "../providers/zonesProvider";
-import { useBinsData } from "../providers/binsProvider";
 import { Zone } from "@/model/zone";
 import { Zone3D } from "./Model3D/zone3D";
 import { useWarehouseData } from "../providers/Threejs/warehouseProvider";
-import { useState, useCallback } from "react";
 
 export default function Warehouse() {
 	const { floor } = useFloorData();
-	const { zones, addZone } = useZonesData();
-	const { bins } = useBinsData();
+	const { zones } = useZonesData();
 
-	const [isDragging, setIsDragging] = useState(false);
-
-	console.log("Warehouse.tsx: zones", zones);
+	const {isDragging} = useWarehouseData();
 
 	return (
 		<Canvas className={"h-screen, bg-BurlyWood"}>
@@ -39,7 +34,6 @@ export default function Warehouse() {
 						key={zone.getId()}
 						zone={zone}
 						position={zonePosition}
-						setIsDragging={setIsDragging}
 					/>
 				);
 			})}

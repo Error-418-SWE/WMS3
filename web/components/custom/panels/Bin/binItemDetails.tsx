@@ -5,6 +5,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { useElementDetails } from "@/components/providers/UI-Providers/ElementDetailsProvider";
 import { Input } from "@/components/ui/input";
 import { useWarehouseData } from "@/components/providers/Threejs/warehouseProvider";
+import { toast } from "sonner";
 
 interface ProductItemProps {
 	bin: Bin;

@@ -41,6 +41,7 @@ import {
 } from "@/Strategy/FloorStrategy";
 import { Progress } from "@/components/ui/progress";
 import { WarehouseDataProvider } from "@/components/providers/Threejs/warehouseProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 const iconSize = 30;
 
@@ -109,6 +110,7 @@ function Main() {
 
 	return (
 		<main className={"h-screen flex"}>
+			<Toaster />
 			<nav
 				className={
 					"flex flex-col h-screen bg-primary p-1.5 py-2 items-center gap-1"
