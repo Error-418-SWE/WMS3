@@ -1,50 +1,180 @@
-import React, { use, useRef, useState } from 'react';
-import { Box, Edges, Line } from '@react-three/drei';
-import { Zone } from '@/model/zone';
-import * as THREE from 'three';
-import { Bin3D } from './bin3D';
+import React, { use, useEffect, useRef, useState } from "react";
+import { Box, Edges, Line, Plane } from "@react-three/drei";
+import { Zone } from "@/model/zone";
+import * as THREE from "three";
+import { Bin3D } from "./bin3D";
+import { useDrag } from "@use-gesture/react";
+import { Vector2, Vector3 } from "three";
+import { useThree } from "@react-three/fiber";
+import { set } from "zod";
+import { useWarehouseData } from "@/components/providers/Threejs/warehouseProvider";
 
 interface Zone3DProps {
 	zone: Zone;
 	position: THREE.Vector3;
-	floor3D: JSX.Element;
-	setIsDragging: (isDragging: boolean) => void;
+	setIsDragging?: (boolean: boolean) => void;
+	toBePositionate?: boolean;
 }
 
-export function Zone3D({ zone, position, floor3D, setIsDragging }: Zone3DProps) {
-	const zoneGeometry = new THREE.BoxGeometry(zone.getWidth(), zone.getHeight(), zone.getLength());
+export function Zone3D({
+	zone,
+	position,
+	setIsDragging,
+	toBePositionate = false,
+}: Zone3DProps) {
+	const zoneGeometry = new THREE.BoxGeometry(
+		zone.getWidth(),
+		zone.getHeight(),
+		zone.getLength()
+	);
+
+	const [currentPosition, setCurrentPosition] = useState(position);
+	const { gl, camera, scene } = useThree();
+	const [toDrag, setToDrag] = useState(toBePositionate || false);
+	const [showRepositionButton, setShowRepositionButton] = useState(false);
+	const [lastValidPosition, setLastValidPosition] = useState(new Vector3( currentPosition.x, currentPosition.y, currentPosition.z ));
+	const {setCurrentZone} = useWarehouseData();
+	const planeRef = useRef();
+
+	// Function to calculate the target position
+	const calculateTargetPosition = (state: any) => {
+		const raycaster = new THREE.Raycaster();
+		const rect = gl.domElement.getBoundingClientRect();
+		const x =
+			(((state.event as PointerEvent).clientX - rect.left) / rect.width) * 2 -
+			1;
+		const y =
+			-(((state.event as PointerEvent).clientY - rect.top) / rect.height) * 2 +
+			1;
+		const mouse = new Vector2(x, y);
+		raycaster.setFromCamera(mouse, camera);
+		const floorMesh = scene.getObjectByName("floor");
+		const target = new Vector3();
+		let intersects = raycaster.intersectObject(floorMesh!);
+		if (intersects.length > 0) {
+			target.copy(intersects[0].point);
+		}
+		return target;
+	};
+
+	// Function to check for collision with other zones
+	const checkCollision = () => {
+		const zones = scene.children.filter((child) => child.name === "zone");
+		const currentBoundingBox = new THREE.Box3().setFromObject(planeRef.current);
+		const collision = zones.some((otherZone) => {
+			if (otherZone === planeRef.current.parent) {
+				return false;
+			}
+			const otherBoundingBox = new THREE.Box3().setFromObject(otherZone);
+			return currentBoundingBox.intersectsBox(otherBoundingBox);
+		});
+		return collision;
+	};
+
+	// Main drag function
+	const bind = useDrag((state) => {
+		state.event.stopPropagation();
+		if (toDrag) {
+		  setIsDragging!(true);
+		  planeRef.current.visible = true;
+		  const target = calculateTargetPosition(state);
+		  const collision = checkCollision();
+	  
+		  // Always update the temporary position during a drag event
+		  let tempPosition = new THREE.Vector3(target.x, target.y, target.z);
+		  setCurrentPosition(tempPosition.clone());
+		  if (!collision) {
+			setLastValidPosition(tempPosition);
+			planeRef.current.material.color.set("green");
+		  }else{
+			planeRef.current.material.color.set("red");
+		  }
+	  
+		  if (state.last) {
+			planeRef.current.visible = false;
+			state.event.stopPropagation();
+			setIsDragging!(false);
+			setToDrag(false);
+	  
+			if (checkCollision()) {
+			  // If the drag event ends and there's a collision, reset the position to the last valid position
+			  setCurrentPosition(new Vector3(lastValidPosition.x, lastValidPosition.y, lastValidPosition.z));
+			}
+	  
+			zone.setCoordinateX(lastValidPosition.x);
+			zone.setCoordinateY(lastValidPosition.z);
+			setCurrentZone(undefined);
+		  }
+		}
+	  });
+	  
+	  
 
 	return (
-		<group position={[
-			position.x + (zone.getOrientation() ? zone.getLength() / 2 : zone.getWidth() / 2),
-			position.y + zone.getHeight() / 2,
-			position.z + (zone.getOrientation() ? zone.getWidth() / 2 : -zone.getLength() / 2),
-		]} rotation={[0, zone.getOrientation() ? Math.PI / 2 : 0, 0]}>
+		// @ts-ignore
+		<group
+			position={[
+				currentPosition.x +
+					(zone.getOrientation() ? zone.getLength() / 2 : zone.getWidth() / 2),
+				currentPosition.y + zone.getHeight() / 2,
+				currentPosition.z +
+					(zone.getOrientation() ? zone.getWidth() / 2 : -zone.getLength() / 2),
+			]}
+			rotation={[0, zone.getOrientation() ? -Math.PI / 2 : 0, 0]}
+			{...bind()}
+			onPointerOver={(event) => {
+				event.stopPropagation();
+				setShowRepositionButton(true);
+			}}
+			onPointerOut={(event) => {
+				event.stopPropagation();
+				setShowRepositionButton(false)
+			}}
+			name="zone"
+		>
+			{zone.getLevels().map((level, levelIndex) => {
+				let levelVerticalPosition = 0;
+				let levelsHeights = zone.getColumns()[0];
+				for (let i = 0; i < levelIndex; i++) {
+					levelVerticalPosition += levelsHeights[i].getHeight();
+				}
 
-			{
-				zone.getLevels().map((level, levelIndex) => {
-					let levelVerticalPosition = 0;
-					let levelsHeights = zone.getColumns()[0];
-					for (let i = 0; i < levelIndex; i++) {
-						levelVerticalPosition += levelsHeights[i].getHeight();
+				return level.map((bin) => {
+					let binHorizontalPosition = 0;
+					for (let i = 0; i < bin.getColumn(); i++) {
+						binHorizontalPosition += level[i].getWidth();
 					}
-
-					return level.map((bin) => {
-						let binHorizontalPosition = 0;
-						for (let i = 0; i < bin.getColumn(); i++) {
-							binHorizontalPosition += (level[i].getWidth());
-						}
-						const binPosition = new THREE.Vector3(
-							binHorizontalPosition + bin.getWidth() / 2 - zone.getWidth() / 2,
-							levelVerticalPosition + bin.getHeight() / 2 - zone.getHeight() / 2,
-							bin.getLength() / 2 - zone.getLength() / 2
-						);
-						return <Bin3D key={bin.getId()} bin={bin} position={binPosition} />
-					});
-				})
-			}
+					const binPosition = new THREE.Vector3(
+						binHorizontalPosition + bin.getWidth() / 2 - zone.getWidth() / 2,
+						levelVerticalPosition + bin.getHeight() / 2 - zone.getHeight() / 2,
+						bin.getLength() / 2 - zone.getLength() / 2
+					);
+					return <Bin3D key={bin.getId()} bin={bin} position={binPosition} />;
+				});
+			})}
 			<Edges geometry={zoneGeometry} color="black" />
+
+			<Plane
+				ref={planeRef}
+				args={[zone.getWidth(), zone.getLength()]}
+				position={[0, -zone.getHeight() / 2 + 0.01, 0]}
+				rotation={[-Math.PI / 2, 0, 0]}
+			/>
+
+			<mesh
+				visible={showRepositionButton}
+				onPointerDown={(event) => {
+					setToDrag(true);
+				}}
+				position={[
+					-zone.getWidth() / 2,
+					-zone.getHeight() / 2 + 0.25,
+					zone.getLength() / 2,
+				]}
+			>
+				<boxGeometry args={[0.5, 0.5, 0.5]} />
+				<meshBasicMaterial color="red" />
+			</mesh>
 		</group>
 	);
 }
-
