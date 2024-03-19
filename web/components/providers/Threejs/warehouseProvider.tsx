@@ -1,12 +1,11 @@
 import { Bin } from '@/model/bin';
-import { Zone } from '@/model/zone';
 import React, { createContext, useContext, useState } from 'react';
 
 interface WarehouseContextType {
     selectedBin: Bin | null;
     setSelectedBin: (bin: Bin | null) => void,
-	currentZone: Zone | undefined;
-	setCurrentZone: (zone: Zone | undefined) => void;
+	isDragging: boolean;
+	setIsDragging: (isDragging: boolean) => void;
 }
 
 const warehouseContext = createContext<WarehouseContextType | null>(null);
@@ -14,9 +13,9 @@ const warehouseContext = createContext<WarehouseContextType | null>(null);
 export function WarehouseDataProvider({ children } : { children: React.ReactNode }) {
 
     const [selectedBin, setSelectedBin] = useState<Bin | null>(null);
-	const [currentZone, setCurrentZone] = useState<Zone>();
+	const [isDragging, setIsDragging] = useState<boolean>(false);
 
-    const value = { selectedBin, setSelectedBin, currentZone, setCurrentZone};
+    const value = { selectedBin, setSelectedBin, isDragging, setIsDragging};
 
     return (
         <warehouseContext.Provider value={value}>
