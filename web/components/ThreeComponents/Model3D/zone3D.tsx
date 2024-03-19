@@ -4,7 +4,7 @@ import { Zone } from "@/model/zone";
 import * as THREE from "three";
 import { Bin3D } from "./bin3D";
 import { useDrag } from "@use-gesture/react";
-import { Vector2, Vector3 } from "three";
+import { Group, Object3DEventMap, Vector2, Vector3 } from "three";
 import { ThreeEvent, useThree } from "@react-three/fiber";
 import { set } from "zod";
 import { useWarehouseData } from "@/components/providers/Threejs/warehouseProvider";
@@ -12,15 +12,11 @@ import { useWarehouseData } from "@/components/providers/Threejs/warehouseProvid
 interface Zone3DProps {
 	zone: Zone;
 	position: THREE.Vector3;
-	setIsDragging?: (boolean: boolean) => void;
-	toBePositionate?: boolean;
 }
 
 export function Zone3D({
 	zone,
 	position,
-	setIsDragging,
-	toBePositionate = false,
 }: Zone3DProps) {
 	const zoneGeometry = new THREE.BoxGeometry(
 		zone.getWidth(),
@@ -30,11 +26,12 @@ export function Zone3D({
 
 	const [currentPosition, setCurrentPosition] = useState(position);
 	const { gl, camera, scene } = useThree();
-	const [toDrag, setToDrag] = useState(toBePositionate || false);
+	const [toDrag, setToDrag] = useState(false);
 	const [showRepositionButton, setShowRepositionButton] = useState(false);
 	const [lastValidPosition, setLastValidPosition] = useState(new Vector3( currentPosition.x, currentPosition.y, currentPosition.z ));
-	const {setCurrentZone} = useWarehouseData();
+	const {setIsDragging} = useWarehouseData();
 	const planeRef = useRef<THREE.Mesh | null>(null);
+	const parentRef = useRef<Group<Object3DEventMap> | null>(null);
 
 	// Function to calculate the target position
 	const calculateTargetPosition = (state: any) => {
@@ -103,7 +100,6 @@ export function Zone3D({
 
 			zone.setCoordinateX(lastValidPosition.x);
 			zone.setCoordinateY(lastValidPosition.z);
-			setCurrentZone(undefined);
 		  }
 		}
 	  });
@@ -129,6 +125,7 @@ export function Zone3D({
 				setShowRepositionButton(false)
 			}}
 			name="zone"
+			ref={parentRef}
 		>
 			{zone.getLevels().map((level, levelIndex) => {
 				let levelVerticalPosition = 0;
@@ -147,7 +144,7 @@ export function Zone3D({
 						levelVerticalPosition + bin.getHeight() / 2 - zone.getHeight() / 2,
 						bin.getLength() / 2 - zone.getLength() / 2
 					);
-					return <Bin3D key={bin.getId()} bin={bin} position={binPosition} />;
+					return <Bin3D key={bin.getId()} bin={bin} position={binPosition} parentRef={parentRef} orientation={zone.getOrientation()}/>;
 				});
 			})}
 			<Edges geometry={zoneGeometry} color="black" />
