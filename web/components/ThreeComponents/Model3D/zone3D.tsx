@@ -108,8 +108,6 @@ export function Zone3D({
 		}
 	  });
 
-
-
 	return (
 		//@ts-ignore
 		<group
