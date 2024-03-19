@@ -21,12 +21,9 @@ class SVG {
 		return this.svg;
 	}
 
-	public setLength(length: number) {
-		this.length = length;
-	}
-
-	public setWidth(width: number) {
-		this.width = width;
+	public setSVG(svg: SVG) {
+		this.length = svg.getLength();
+		this.width = svg.getWidth();
 	}
 }
 
