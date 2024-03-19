@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { useElementDetails } from "@/components/providers/UI-Providers/ElementDetailsProvider";
 import { Input } from "@/components/ui/input";
+import { useWarehouseData } from "@/components/providers/Threejs/warehouseProvider";
 
 interface ProductItemProps {
 	bin: Bin;
@@ -11,6 +12,8 @@ interface ProductItemProps {
 
 export default function BinItemDetails({ bin }: ProductItemProps) {
 	const { setElementDetails, setShowElementDetails } = useElementDetails();
+	const { setSelectedBin } = useWarehouseData();
+	
 	const product = bin.getProduct();
 
 	return (
@@ -21,6 +24,7 @@ export default function BinItemDetails({ bin }: ProductItemProps) {
 					className={buttonVariants({ variant: "secondary" }) + " border"}
 					onClick={() => {
 						setShowElementDetails(false);
+						setSelectedBin(null);
 					}}
 				>
 					X
