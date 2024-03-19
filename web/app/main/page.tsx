@@ -7,7 +7,7 @@ import ZonePanel from "@/components/custom/panels/Zone/zonePanel";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Suspense, use, useEffect, useState } from "react";
-import Warehouse from "@/components/three.js/Warehouse";
+import Warehouse from "@/components/ThreeComponents/Warehouse";
 import {
 	ZonesDataProvider,
 	useZonesData,

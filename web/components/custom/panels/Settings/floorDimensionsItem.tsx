@@ -56,9 +56,10 @@ export default function FloorDimensionsItem() {
 	const handleSubmit = (event: any) => {
 		event.preventDefault();
 		console.log("new dimensions: ", newWidth, newLength);
-		floor.setLength(newLength);
-		floor.setWidth(newWidth);
-		setFloor(floor);
+		const new_floor = floor.clone();
+		new_floor.setLength(newLength);
+		new_floor.setWidth(newWidth);
+		setFloor(new_floor);
 		setOpen(false);
 		console.log("submitted");
 	};

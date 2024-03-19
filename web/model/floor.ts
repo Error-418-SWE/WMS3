@@ -10,6 +10,17 @@ class Floor {
 		this.SVG = new SVG(svg, this.length, this.width);
 	}
 
+	clone() {
+		const floor = new Floor(
+			this.getLength(),
+			this.getWidth(),
+			this.getSVG().getString()
+		);
+		floor.getSVG().setLength(this.getSVG().getLength());
+		floor.getSVG().setWidth(this.getSVG().getWidth());
+		return floor;
+	}
+
 	public getLength(): number {
 		return this.length;
 	}

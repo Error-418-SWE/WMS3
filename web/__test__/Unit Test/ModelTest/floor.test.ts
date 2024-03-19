@@ -33,7 +33,28 @@ describe("Floor", () => {
 		expect(floor.getSVG().getLength()).toBe(10);
 	});
 
+	it("returns the modified SVG length", () => {
+		floor.getSVG().setLength(30);
+		expect(floor.getSVG().getLength()).toBe(30);
+	});
+
 	it("returns the correct SVG width", () => {
 		expect(floor.getSVG().getWidth()).toBe(20);
+	});
+
+	it("returns the modified SVG width", () => {
+		floor.getSVG().setWidth(5);
+		expect(floor.getSVG().getWidth()).toBe(5);
+	});
+
+	it("returns the cloned floor", () => {
+		floor.getSVG().setLength(30);
+		floor.getSVG().setWidth(5);
+		const floor2 = floor.clone();
+		expect(floor2.getLength()).toBe(10);
+		expect(floor2.getWidth()).toBe(20);
+		expect(floor2.getSVG().getString()).toBe("<svg></svg>");
+		expect(floor2.getSVG().getLength()).toBe(30);
+		expect(floor2.getSVG().getWidth()).toBe(5);
 	});
 });
