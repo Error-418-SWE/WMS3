@@ -20,7 +20,7 @@ export default function ProductItem({ product }: ProductItemProps) {
 		>
 			<div className={"grow flex flex-col items-left"} >
 				<span className={"grow font-bold"}>{product.getName()}</span>
-				<span className={"text-slate-500 text-sm"}>{product.getId()} | {product.getCategories()}</span>
+				<span className={"text-slate-500 text-sm"}>{product.getId()} | {product.getCategories().join(" ")}</span>
 			</div>
 			<div className={"shrink-0"}>
 			<Button
@@ -28,8 +28,6 @@ export default function ProductItem({ product }: ProductItemProps) {
 				onClick={() => {
 					setElementDetails(<ProductItemDetails product={product} />);
 					setShowElementDetails(true);
-					console.log( elementDetails + "" + product.getId());
-					console.log("Visualizza dettagli prodotto con id: " + product.getId());
 				}}
 			>
 				<Image

@@ -27,6 +27,7 @@ import { z } from "zod";
 import { customColumns, equalColumns } from "./zoneZodSchemes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useZonesData } from "@/components/providers/zonesProvider";
+import { useWarehouseData } from "@/components/providers/Threejs/warehouseProvider";
 
 function checkIfEqualColumns(zone: Zone) {
 	const firstLevelBins = zone.getLevels()[0];

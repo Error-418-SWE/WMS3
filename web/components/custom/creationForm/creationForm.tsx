@@ -24,26 +24,24 @@ import {
 } from "@/components/ui/card";
 import { ManualCreationFrame } from "./manualCreationFrame";
 import { SVGCreationFrame } from "./svgCreationFrame";
-import { ProcessingContext } from "@/components/providers/formContextProvider";
+import { useRouter } from "next/navigation";
+import { useProcessingContext } from "@/components/providers/UI-Providers/formContextProvider";
+
 
 interface CreationFormProps {
 	updateCardHeading: (choice: string) => void;
 	titleMap: Record<string, string>;
 	descriptionMap: Record<string, string>;
-	setSubmitted: (isSubmitted: boolean) => void;
-	setFormData: (formData: object) => void;
 }
 
 export function CreationForm({
 	updateCardHeading,
 	titleMap,
-	descriptionMap,
-	setSubmitted,
-	setFormData
+	descriptionMap
 }: CreationFormProps) {
 	const [choice, setChoice] = useState("manuale");
 	const [showNext, setShowNext] = useState(false);
-	const { isProcessing } = useContext(ProcessingContext);
+	const {isProcessing} = useProcessingContext();
 
 	const formSchema = z.discriminatedUnion("choice", [
 		manualCreationSchema,
@@ -79,13 +77,17 @@ export function CreationForm({
 		);
 	}
 
+	const router = useRouter();
+
 	return (
 		<Form {...form}>
 			<form
 				onSubmit={form.handleSubmit((data: z.infer<typeof formSchema>) => {
-					console.log(data);
-					setFormData(data);
-					setSubmitted(true);
+					const dataAsString = Object.fromEntries(
+						Object.entries(data).map(([key, value]) => [key, String(value)])
+					);
+
+					router.push("/main" + "?" + new URLSearchParams(dataAsString).toString());
 				})}
 				className={"space-y-8"}
 			>

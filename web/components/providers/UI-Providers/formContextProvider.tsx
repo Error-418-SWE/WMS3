@@ -14,3 +14,11 @@ export function FormContextProvider({ children }: { children: React.ReactNode })
 		</ProcessingContext.Provider>
 	);
 }
+
+export function useProcessingContext() {
+	const context = React.useContext(ProcessingContext);
+	if (!context) {
+		throw new Error('useProcessingContext must be used within a ProcessingContextProvider');
+	}
+	return context;
+}

@@ -9,6 +9,8 @@ export default function movement(req: NextApiRequest, res: NextApiResponse) {
 	//
 
 	const movementCanBeDone = Math.random() > 0.25;
-	return res.status(200).json({ canBeDone: movementCanBeDone});
+	// generate random id for the new order
+	const newOrderId = Math.floor(Math.random() * 1000);
+	return res.status(200).json({ canBeDone: movementCanBeDone, orderId: newOrderId});
 
 }

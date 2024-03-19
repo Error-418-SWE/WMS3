@@ -57,6 +57,14 @@ class Zone {
         return this.bins.find(bin => bin.getId() === id);
     }
 
+	public setCoordinateX(x: number): void {
+		this.xcoordinate = x;
+	}
+
+	public setCoordinateY(y: number): void {
+		this.ycoordinate = y;
+	}
+
     public getLevels(): [Bin[]] {
         let levels: [Bin[]] = [[]];
         let level: number = 0;

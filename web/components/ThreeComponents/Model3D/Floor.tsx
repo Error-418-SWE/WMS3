@@ -1,7 +1,11 @@
-import { DoubleSide, Vector3 } from "three";
+import { DoubleSide, Vector3, GridHelper } from "three";
 import { useFloorData } from "../../providers/floorProvider";
 import * as THREE from "three";
 import React from "react";
+import { extend } from "@react-three/fiber";
+
+// This makes GridHelper usable as a JSX element.
+extend({ GridHelper });
 
 const inclination = Math.PI / 2;
 
@@ -32,12 +36,13 @@ const SvgPlane: React.FC<SvgPlaneProps> = ({ svgContent, width, length }) => {
 	);
 };
 
+
 export default function Floor() {
 	const { floor } = useFloorData();
-
 	if (floor && floor.getSVG().getString() == "") {
 		return (
 			<mesh
+        name = "floor"
 				position={new Vector3(floor.getWidth() / 2, 0, floor.getLength() / 2)}
 				rotation={[inclination, 0, 0]}
 			>
@@ -48,8 +53,9 @@ export default function Floor() {
 	}
 	if (floor && floor.getSVG().getString() != "") {
 		return (
-			<group>
+			<>
 				<mesh
+					name="floor"
 					position={new Vector3(floor.getWidth() / 2, 0, floor.getLength() / 2)}
 					rotation={[inclination, 0, 0]}
 				>
@@ -61,7 +67,15 @@ export default function Floor() {
 					width={floor.getSVG().getWidth()}
 					length={floor.getSVG().getLength()}
 				/>
-			</group>
+				<gridHelper
+					args={[
+						floor.getWidth(), // size of the grid
+						floor.getWidth() / 2, // number of divisions
+					]}
+					position={[floor.getWidth() / 2, 0.01, floor.getLength() / 2]} // slightly above the floor
+					scale={[1, 1, floor.getLength() / floor.getWidth()]} // scale the grid to make it rectangular
+				/>
+			</>
 		);
 	}
 }
