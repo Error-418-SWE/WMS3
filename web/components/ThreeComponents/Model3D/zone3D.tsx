@@ -5,7 +5,7 @@ import * as THREE from "three";
 import { Bin3D } from "./bin3D";
 import { useDrag } from "@use-gesture/react";
 import { Vector2, Vector3 } from "three";
-import { useThree } from "@react-three/fiber";
+import { ThreeEvent, useThree } from "@react-three/fiber";
 import { set } from "zod";
 import { useWarehouseData } from "@/components/providers/Threejs/warehouseProvider";
 
@@ -34,7 +34,7 @@ export function Zone3D({
 	const [showRepositionButton, setShowRepositionButton] = useState(false);
 	const [lastValidPosition, setLastValidPosition] = useState(new Vector3( currentPosition.x, currentPosition.y, currentPosition.z ));
 	const {setCurrentZone} = useWarehouseData();
-	const planeRef = useRef();
+	const planeRef = useRef<THREE.Mesh | null>(null);
 
 	// Function to calculate the target position
 	const calculateTargetPosition = (state: any) => {
@@ -60,13 +60,13 @@ export function Zone3D({
 	// Function to check for collision with other zones
 	const checkCollision = () => {
 		const zones = scene.children.filter((child) => child.name === "zone");
-		const currentBoundingBox = new THREE.Box3().setFromObject(planeRef.current);
+		const currentBoundingBox = planeRef.current ? new THREE.Box3().setFromObject(planeRef.current) : null;
 		const collision = zones.some((otherZone) => {
-			if (otherZone === planeRef.current.parent) {
+			if (otherZone === planeRef.current?.parent) {
 				return false;
 			}
 			const otherBoundingBox = new THREE.Box3().setFromObject(otherZone);
-			return currentBoundingBox.intersectsBox(otherBoundingBox);
+			return currentBoundingBox?.intersectsBox(otherBoundingBox);
 		});
 		return collision;
 	};
@@ -74,44 +74,44 @@ export function Zone3D({
 	// Main drag function
 	const bind = useDrag((state) => {
 		state.event.stopPropagation();
-		if (toDrag) {
+		if (toDrag && planeRef.current) {
 		  setIsDragging!(true);
 		  planeRef.current.visible = true;
 		  const target = calculateTargetPosition(state);
 		  const collision = checkCollision();
-	  
+
 		  // Always update the temporary position during a drag event
 		  let tempPosition = new THREE.Vector3(target.x, target.y, target.z);
 		  setCurrentPosition(tempPosition.clone());
 		  if (!collision) {
 			setLastValidPosition(tempPosition);
-			planeRef.current.material.color.set("green");
+			(planeRef.current.material as THREE.MeshBasicMaterial).color.set("green");
 		  }else{
-			planeRef.current.material.color.set("red");
+			(planeRef.current.material as THREE.MeshBasicMaterial).color.set("red");
 		  }
-	  
+
 		  if (state.last) {
 			planeRef.current.visible = false;
 			state.event.stopPropagation();
 			setIsDragging!(false);
 			setToDrag(false);
-	  
+
 			if (checkCollision()) {
 			  // If the drag event ends and there's a collision, reset the position to the last valid position
 			  setCurrentPosition(new Vector3(lastValidPosition.x, lastValidPosition.y, lastValidPosition.z));
 			}
-	  
+
 			zone.setCoordinateX(lastValidPosition.x);
 			zone.setCoordinateY(lastValidPosition.z);
 			setCurrentZone(undefined);
 		  }
 		}
 	  });
-	  
-	  
+
+
 
 	return (
-		// @ts-ignore
+		//@ts-ignore
 		<group
 			position={[
 				currentPosition.x +
@@ -122,11 +122,11 @@ export function Zone3D({
 			]}
 			rotation={[0, zone.getOrientation() ? -Math.PI / 2 : 0, 0]}
 			{...bind()}
-			onPointerOver={(event) => {
+			onPointerOver={(event : ThreeEvent<MouseEvent>) => {
 				event.stopPropagation();
 				setShowRepositionButton(true);
 			}}
-			onPointerOut={(event) => {
+			onPointerOut={(event : ThreeEvent<MouseEvent>) => {
 				event.stopPropagation();
 				setShowRepositionButton(false)
 			}}
