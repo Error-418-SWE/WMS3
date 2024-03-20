@@ -1,15 +1,36 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectTrigger, SelectValue, SelectItem } from "@/components/ui/select";
 import { useProductsData } from "@/components/providers/productsProvider";
 import ProductItem from "./productItem";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Panel from "@/components/custom/panels/panel";
+import { SearchEngine } from "./SearchEngine/searchEngine";
+import { useRef, useState } from "react";
+import { useZonesData } from "@/components/providers/zonesProvider";
+import { Product } from "@/model/product";
 
 export default function ProductsPanel() {
 
-	const { products } = useProductsData();
+	const { products, categories } = useProductsData();
+	const { zones } = useZonesData();
+	const [collocatedProducts] = useState<Product[]>(zones.flatMap((zone) => zone.getBins().flatMap((bin) => bin.getProduct())).filter((product) => product !== null) as Product[]);
+	const [notCollocatedProducts] = useState<Product[]>(products.filter((product) => !collocatedProducts.includes(product)));
+
+	const [collocatedToShow, setCollocatedToShow] = useState<Product[]>(collocatedProducts);
+	const [notCollocatedToShow, setNotCollocatedToShow] = useState<Product[]>(notCollocatedProducts);
+
+	const [searchType, setSearchType] = useState("id");
+	const inputRef = useRef<HTMLInputElement>(null);
+
+	function resetSearch() {
+		setCollocatedToShow(products);
+		setNotCollocatedToShow(products);
+		if (inputRef.current) {
+			inputRef.current.value = "";
+		}
+	}
 
 	return (
 		<Panel>
@@ -18,21 +39,46 @@ export default function ProductsPanel() {
 			</div>
 			<div className={"mx-5 mt-1"}>
 				<Label className={"sr-only"}>Ricerca prodotti</Label>
-				<Input
-					onChange={() => {
-						//TODO search products
-					}}
-					placeholder="Nome, descrizione..."
-				/>
+				<div className={"flex"}>
+					<Select defaultValue={"id"} onValueChange={(event) => {
+						resetSearch();
+						setSearchType(event);
+					}}>
+						<SelectTrigger className={"w-24 rounded-tr-none rounded-br-none"}>
+							<SelectValue placeholder="ID" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="id">ID</SelectItem>
+							<SelectItem value="name">Nome</SelectItem>
+						</SelectContent>
+					</Select>
+					<Input
+						ref={inputRef}
+						className={"rounded-tl-none rounded-bl-none"}
+						onChange={(event) => {
+							setCollocatedToShow(SearchEngine({ list: collocatedProducts, query: event.target.value, type: searchType }) || []);
+							setNotCollocatedToShow(SearchEngine({ list: notCollocatedProducts, query: event.target.value, type: searchType }) || []);
+						}}
+					/>
+				</div>
 			</div>
 			<div className={"mx-5 mt-1"}>
 				<Label className={"sr-only"}>Categoria Prodotti</Label>
-				<Select>
+				<Select onValueChange={
+					(value) => {
+						setCollocatedToShow(SearchEngine({ list: products, query: value, type: "category" }) || []);
+						setNotCollocatedToShow(SearchEngine({ list: products, query: value, type: "category" }) || []);
+					}
+				}
+
+				>
 					<SelectTrigger>
 						<SelectValue placeholder="Categoria Prodotti" />
 					</SelectTrigger>
 					<SelectContent>
-                        TODO load categories
+						{categories.map((category) => (
+							<SelectItem key={category} value={category}>{category}</SelectItem>
+						))}
 					</SelectContent>
 				</Select>
 			</div>
@@ -44,13 +90,17 @@ export default function ProductsPanel() {
 					</TabsList>
 					<TabsContent value="collocated">
 						<div id="productList">
-							{products.map((product) => (
+							{collocatedToShow.map((product) => (
 								<ProductItem key={product.getId()} product={product} />
 							))}
 						</div>
 					</TabsContent>
 					<TabsContent value="notCollocated">
-						<div id={"notCollocatedProducts"}>Lista non collocati</div>
+						<div id={"notCollocatedProducts"}>
+							{notCollocatedToShow.map((product) => (
+								<ProductItem key={product.getId()} product={product} />
+							))}
+						</div>
 					</TabsContent>
 				</Tabs>
 			</ScrollArea>

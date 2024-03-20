@@ -40,9 +40,9 @@ describe("Floor", () => {
 
 	it("correctly resize SVG dimension", () => {
 		const svg2 = new SVG("<svg></svg>", 5, 5);
-		svg2.setSVG(floor.getSVG());
-		expect(svg2.getLength()).toBe(10);
-		expect(svg2.getWidth()).toBe(20);
+		floor.setSVG(svg2);
+		expect(floor.getSVG().getLength()).toBe(5);
+		expect(floor.getSVG().getWidth()).toBe(5);
 	});
 
 	it("returns the cloned floor", () => {
