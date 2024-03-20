@@ -22,7 +22,7 @@ const SvgPlane: React.FC<SvgPlaneProps> = ({ svgContent, width, length }) => {
 
 	return (
 		<mesh
-			position={new Vector3(width / 2, 0.01, length / 2)}
+			position={new Vector3(width / 2, 0.05, length / 2)}
 			rotation={[inclination, 0, 0]}
 		>
 			<planeGeometry args={[width, length]} />
@@ -66,14 +66,6 @@ export default function Floor() {
 					svgContent={floor.getSVG().getString()}
 					width={floor.getSVG().getWidth()}
 					length={floor.getSVG().getLength()}
-				/>
-				<gridHelper
-					args={[
-						floor.getWidth(), // size of the grid
-						floor.getWidth() / 2, // number of divisions
-					]}
-					position={[floor.getWidth() / 2, 0.01, floor.getLength() / 2]} // slightly above the floor
-					scale={[1, 1, floor.getLength() / floor.getWidth()]} // scale the grid to make it rectangular
 				/>
 			</>
 		);

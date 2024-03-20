@@ -9,7 +9,7 @@ import {
 import { UseFormReturn, set } from "react-hook-form";
 import { useContext, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
-import { ProcessingContext } from "@/components/providers/UI-Providers/formContextProvider";
+import { useProcessingContext } from "@/components/providers/UI-Providers/formContextProvider";
 import { saveSVG } from "@/ServerActions/SVG/saveSVG";
 import SVGSanitize from "@/ServerActions/SVG/SVGSanitize";
 
@@ -19,7 +19,7 @@ interface DropFileAreaProps {
 
 export function DropFileArea({ form }: DropFileAreaProps) {
 	const [displayedText, setDisplayedText] = useState("Carica file SVG");
-	const { setIsProcessing } = useContext(ProcessingContext);
+	const { setIsProcessing } = useProcessingContext();
 
 	const handleFileChange = (event: any) => {
 		setIsProcessing(true);
@@ -31,13 +31,6 @@ export function DropFileArea({ form }: DropFileAreaProps) {
 			const response = await SVGSanitize(
 				event.target?.result ? (event.target?.result as string) : ""
 			);
-			// await fetch("/api/SVGSanitizer", {
-			// 	method: "POST",
-			// 	headers: {
-			// 		"Content-Type": "application/json",
-			// 	},
-			// 	body: JSON.stringify({ svg: event.target?.result }),
-			// });
 
 			if (response) {
 				await saveSVG(response);

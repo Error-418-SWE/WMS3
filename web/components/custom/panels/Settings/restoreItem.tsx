@@ -1,4 +1,5 @@
 import { useBinsData } from "@/components/providers/binsProvider";
+import { useFloorData } from "@/components/providers/floorProvider";
 import { useOrdersData } from "@/components/providers/ordersProvider";
 import { useProductsData } from "@/components/providers/productsProvider";
 import { useZonesData } from "@/components/providers/zonesProvider";
@@ -15,6 +16,7 @@ export default function RestoreItem() {
 	const { refresh:  refreshBins } = useBinsData();
 	const { refresh:  refreshProducts } = useProductsData();
 	const { refresh:  refreshOrders } = useOrdersData();
+	const { floorRefresher, setFloorRefresher } = useFloorData();
 
 
 	function handleRisincronizza() {
@@ -23,6 +25,7 @@ export default function RestoreItem() {
 		refreshBins();
 		refreshProducts();
 		refreshOrders();
+		setFloorRefresher( floorRefresher + 1);
 	}
 
 	function handleReimposta() {

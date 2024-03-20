@@ -3,7 +3,7 @@ import { SVG } from "@/model/svg";
 class Floor {
 	private length: number;
 	private width: number;
-	private SVG: SVG;
+	private SVG: SVG | null;
 	constructor(length: number, width: number, svg: string) {
 		this.length = length;
 		this.width = width;
@@ -11,8 +11,8 @@ class Floor {
 	}
 
 	clone() {
-		const floor = new Floor(this.length, this.width, this.getSVG().getString());
-		floor.getSVG().setSVG(this.SVG);
+		const floor = new Floor(this.length, this.width, this.SVG?.getString()? this.SVG.getString() : "");
+		floor.setSVG(this.SVG? this.SVG : null);
 		return floor;
 	}
 
@@ -34,6 +34,10 @@ class Floor {
 
 	public setWidth(width: number) {
 		this.width = width;
+	}
+
+	public setSVG(svg: SVG | null) {
+		this.SVG = svg;
 	}
 }
 

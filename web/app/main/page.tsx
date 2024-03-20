@@ -76,7 +76,7 @@ function Main() {
 	const { bins, binsLoaded } = useBinsData();
 	const { products, productsLoaded } = useProductsData();
 	const { orders } = useOrdersData();
-	const { floor, setFloor } = useFloorData();
+	const { floor, setFloor, floorRefresher } = useFloorData();
 	const { elementDetails, showElementDetails } = useElementDetails();
 
 	useEffect(() => {
@@ -95,7 +95,7 @@ function Main() {
 
 			createFloor();
 		}
-	}, [params]);
+	}, [params, floorRefresher]);
 
 	const dataLoaded = zonesLoaded && productsLoaded && binsLoaded && floor;
 	const progress = (+zonesLoaded + +binsLoaded + +productsLoaded + (floor ? 1 : 0)) / 4 * 100;
