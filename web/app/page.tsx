@@ -7,7 +7,6 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-
 import { useState } from "react";
 
 const titleMap: Record<string, string> = {
@@ -17,10 +16,10 @@ const titleMap: Record<string, string> = {
 };
 
 const descriptionMap: Record<string, string> = {
-	default: "",
+	default: "Ti diamo il benvenuto in WMS3! Scegli come definire l'ambiente 3D.",
 	manuale:
-		"Definisci le dimensioni del magazzino. \n È possibile definire solo magazzini a pianta rettangolare.",
-	custom: "Carica la planimetria o parti da un magazzino predefinito.",
+		"Definisci le dimensioni di un magazzino con planimetria rettangolare.",
+	custom: "Carica la planimetria in formato SVG.",
 };
 
 export default function Home() {

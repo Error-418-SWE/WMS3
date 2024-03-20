@@ -149,7 +149,7 @@ export function CreationForm({
 									updateCardHeading(choice);
 								}}
 							>
-								Prossimo
+								Avanti
 							</Button>
 						</div>
 					</>
@@ -188,7 +188,7 @@ export function CreationForm({
 							>
 								Indietro
 							</Button>
-							<Button type="submit" disabled={isProcessing}>Submit</Button>
+							<Button type="submit" disabled={isProcessing}>Conferma</Button>
 						</div>
 					</>
 				)}
