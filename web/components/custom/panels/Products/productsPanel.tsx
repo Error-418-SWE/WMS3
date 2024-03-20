@@ -7,7 +7,7 @@ import ProductItem from "./productItem";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Panel from "@/components/custom/panels/panel";
 import { SearchEngine } from "./SearchEngine/searchEngine";
-import { useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import { useZonesData } from "@/components/providers/zonesProvider";
 import { Product } from "@/model/product";
 
@@ -16,17 +16,25 @@ export default function ProductsPanel() {
 	const { products, categories } = useProductsData();
 	const { zones } = useZonesData();
 	const [collocatedProducts] = useState<Product[]>(zones.flatMap((zone) => zone.getBins().flatMap((bin) => bin.getProduct())).filter((product) => product !== null) as Product[]);
-	const [notCollocatedProducts] = useState<Product[]>(products.filter((product) => !collocatedProducts.includes(product)));
+	const [notCollocatedProducts, setNotCollocatedProducts] = useState<Product[]>([]);
+	const [collocatedToShow, setCollocatedToShow] = useState<Product[]>([]);
+	const [notCollocatedToShow, setNotCollocatedToShow] = useState<Product[]>([]);
 
-	const [collocatedToShow, setCollocatedToShow] = useState<Product[]>(collocatedProducts);
-	const [notCollocatedToShow, setNotCollocatedToShow] = useState<Product[]>(notCollocatedProducts);
+	useEffect(() => {
+		setNotCollocatedProducts(products.filter((product) => collocatedProducts.filter((collocatedProduct) => collocatedProduct.getId() === product.getId()).length === 0));
+	}, [collocatedProducts]);
+
+	useEffect(() => {
+		setNotCollocatedToShow([...notCollocatedProducts].sort((a, b) => a.getId() - b.getId()));
+		setCollocatedToShow([...collocatedProducts]);
+	}, [collocatedProducts, notCollocatedProducts]);
 
 	const [searchType, setSearchType] = useState("id");
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	function resetSearch() {
-		setCollocatedToShow(products);
-		setNotCollocatedToShow(products);
+		setCollocatedToShow(collocatedProducts);
+		setNotCollocatedToShow(notCollocatedProducts);
 		if (inputRef.current) {
 			inputRef.current.value = "";
 		}
@@ -66,8 +74,8 @@ export default function ProductsPanel() {
 				<Label className={"sr-only"}>Categoria Prodotti</Label>
 				<Select onValueChange={
 					(value) => {
-						setCollocatedToShow(SearchEngine({ list: products, query: value, type: "category" }) || []);
-						setNotCollocatedToShow(SearchEngine({ list: products, query: value, type: "category" }) || []);
+						setCollocatedToShow(SearchEngine({ list: collocatedProducts, query: value, type: "category" }) || []);
+						setNotCollocatedToShow(SearchEngine({ list: notCollocatedProducts, query: value, type: "category" }) || []);
 					}
 				}
 
