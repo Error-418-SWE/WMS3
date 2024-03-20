@@ -67,7 +67,7 @@ export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 		}
 		return null;
 	}
-	
+
 	const getIntersectedPoint = (raycaster : Raycaster, objects : Object3D[]) => {
 		const intersects = raycaster.intersectObjects(objects);
 		if (intersects.length > 0) {
@@ -75,13 +75,13 @@ export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 		}
 		return null;
 	}
-	
+
 	const rotateTargetPosition = (target : Vector3, pivot : Vector3, angle : number) => {
 		let direction = new THREE.Vector3().subVectors(target, pivot);
 		direction.applyAxisAngle(new THREE.Vector3(0, 1, 0), angle);
 		return pivot.clone().add(direction);
 	}
-	
+
 	const bind = useDrag(async (state: any) => {
 		if (draggable && groupRef.current) {
 			setIsDragging(true);
@@ -91,16 +91,16 @@ export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 			const y = (-((state.event as PointerEvent).clientY - rect.top) / rect.height) * 2 + 1;
 			raycaster.setFromCamera(new Vector2(x, y), camera);
 			const floorMesh = scene.getObjectByName("floor");
-	
+
 			const bins = scene.children.flatMap((child) =>
 				child.name === "zone"
 					? child.children.filter((bin) => bin !== groupRef.current)
 					: []
 			);
-	
+
 			let target = new Vector3();
 			groupRef.current.visible = false;
-	
+
 			intersectedBin = getIntersectedObject(raycaster, bins)!;
 			if (intersectedBin) {
 				target.copy(getIntersectedPoint(raycaster, bins)!);
@@ -108,36 +108,40 @@ export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 					lastIntersectedBin = intersectedBin;
 				}
 			} else {
-				target.copy(getIntersectedPoint(raycaster, [floorMesh!])!);
+				let intersectedPoint = getIntersectedPoint(raycaster, [floorMesh!]);
+				if(intersectedPoint){
+					target.copy(intersectedPoint);
+				}
 			}
-	
+
 			groupRef.current.visible = true;
-	
+
 			if (orientation) {
 				target = rotateTargetPosition(target, parentRef.current.position, Math.PI / 2);
 			}
-	
+
 			target.sub(parentRef.current!.position);
 			target.y += bin.getHeight() / 2;
 			setCurrentPosition(target);
-	
+
 			if (state.last) {
 				if(intersectedBin){
-					const result = await newMovementOrder(bin.getId(), intersectedBin.userData.id, bin.getProduct()!.getId());
-					if(result){
-						setDraggable(false);
-					}
+					newMovementOrder(bin.getId(), intersectedBin.userData.id, bin.getProduct()!.getId()).then((result) => {
+						if(result){
+							setDraggable(false);
+						}
+					});
 				}
 				setIsDragging(false);
 				setCurrentPosition(initialPosition);
 			}
 		}
-	}, {threshold: 5});
-	
+	}, {threshold: 1});
+
 
 	return (
 		//@ts-ignore
-		<group name="bin" position={currentPosition} {...bind()} ref={groupRef} onClick={handleClick} 
+		<group name="bin" position={currentPosition} {...bind()} ref={groupRef} onClick={handleClick}
 		onPointerOver={(e) => {
 			if(draggable){
 				document.body.style.cursor = "grab";
