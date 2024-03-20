@@ -1,5 +1,5 @@
-import React, { use, useEffect, useRef, useState } from "react";
-import { Box, Edges, Line, Plane } from "@react-three/drei";
+import React, { useRef, useState } from "react";
+import { Edges, Plane } from "@react-three/drei";
 import { Zone } from "@/model/zone";
 import * as THREE from "three";
 import { Bin3D } from "./bin3D";
@@ -26,11 +26,12 @@ export function Zone3D({
 	const [currentPosition, setCurrentPosition] = useState(position);
 	const { gl, camera, scene } = useThree();
 	const [toDrag, setToDrag] = useState(false);
-	const [showRepositionButton, setShowRepositionButton] = useState(false);
 	const [lastValidPosition, setLastValidPosition] = useState(new Vector3( currentPosition.x, currentPosition.y, currentPosition.z ));
 	const {setIsDragging} = useWarehouseData();
 	const planeRef = useRef<THREE.Mesh | null>(null);
 	const parentRef = useRef<Group<Object3DEventMap> | null>(null);
+
+	const showRepositionButtonRef = useRef<THREE.Mesh>(null);
 
 	// Function to calculate the target position
 	const calculateTargetPosition = (state: any) => {
@@ -117,11 +118,11 @@ export function Zone3D({
 			{...bind()}
 			onPointerEnter={(event : ThreeEvent<MouseEvent>) => {
 				event.stopPropagation();
-				setShowRepositionButton(true);
+				showRepositionButtonRef.current!.visible = true;
 			}}
 			onPointerOut={(event : ThreeEvent<MouseEvent>) => {
 				event.stopPropagation();
-				setShowRepositionButton(false)
+				showRepositionButtonRef.current!.visible = false;
 			}}
 			name="zone"
 			ref={parentRef}
@@ -156,7 +157,6 @@ export function Zone3D({
 			/>
 
 			<mesh
-				visible={showRepositionButton}
 				onPointerDown={(event) => {
 					setToDrag(true);
 				}}
@@ -165,6 +165,9 @@ export function Zone3D({
 					-zone.getHeight() / 2 + 0.25,
 					zone.getLength() / 2,
 				]}
+
+				ref={showRepositionButtonRef}
+				visible={false}
 			>
 				<boxGeometry args={[0.5, 0.5, 0.5]} />
 				<meshBasicMaterial color="red" />
