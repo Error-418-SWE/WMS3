@@ -50,7 +50,7 @@ export function SVGCreationFrame({ form }: SVGCreationFrameProps) {
 					<>
 						<FormItem>
 							<FormControl>
-								<Checkbox onCheckedChange={field.onChange}/>
+								<Checkbox checked={field.value} onCheckedChange={field.onChange}/>
 							</FormControl>
 							<FormLabel className={"pl-2"}>Importa gli scaffali dal database</FormLabel>
 						</FormItem>
