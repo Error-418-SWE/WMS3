@@ -6,7 +6,6 @@ import { Bin3D } from "./bin3D";
 import { useDrag } from "@use-gesture/react";
 import { Group, Object3DEventMap, Vector2, Vector3 } from "three";
 import { ThreeEvent, useThree } from "@react-three/fiber";
-import { set } from "zod";
 import { useWarehouseData } from "@/components/providers/Threejs/warehouseProvider";
 
 interface Zone3DProps {
@@ -116,7 +115,7 @@ export function Zone3D({
 			]}
 			rotation={[0, zone.getOrientation() ? -Math.PI / 2 : 0, 0]}
 			{...bind()}
-			onPointerOver={(event : ThreeEvent<MouseEvent>) => {
+			onPointerEnter={(event : ThreeEvent<MouseEvent>) => {
 				event.stopPropagation();
 				setShowRepositionButton(true);
 			}}

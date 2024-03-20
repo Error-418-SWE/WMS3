@@ -1,7 +1,7 @@
 import { DoubleSide, Vector3, GridHelper } from "three";
 import { useFloorData } from "../../providers/floorProvider";
 import * as THREE from "three";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { extend } from "@react-three/fiber";
 
 // This makes GridHelper usable as a JSX element.
@@ -16,9 +16,17 @@ interface SvgPlaneProps {
 }
 
 const SvgPlane: React.FC<SvgPlaneProps> = ({ svgContent, width, length }) => {
-	const texture = new THREE.TextureLoader().load(
-		`data:image/svg+xml;base64,${btoa(svgContent)}`
-	);
+
+	const [texture, setTexture] = useState<THREE.Texture>();
+
+	useEffect(() => {
+		setTexture(new THREE.TextureLoader().load(
+			`data:image/svg+xml;base64,${btoa(svgContent)}`
+		));
+	}, [svgContent]);
+		
+
+	console.log("SVG reloading");
 
 	return (
 		<mesh
