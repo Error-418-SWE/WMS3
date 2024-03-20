@@ -33,10 +33,10 @@ export default function Home() {
 	};
 
 	return (
-		<main className={"h-screen flex items-center justify-center"}>
+		<main className={"h-screen flex items-center justify-center bg-slate-300"}>
 			<Card className={"max-w-sm mx-auto"}>
 				<CardHeader>
-					<CardTitle className={"text-4xl"}>{title}</CardTitle>
+					<CardTitle className={"text-3xl"}>{title}</CardTitle>
 					<CardDescription
 						className={"pt-3"}
 						style={{ whiteSpace: "pre-line" }}
