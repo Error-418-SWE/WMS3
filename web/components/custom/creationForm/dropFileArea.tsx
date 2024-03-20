@@ -84,7 +84,7 @@ export function DropFileArea({ form }: DropFileAreaProps) {
 							onDragOver={handleDragOver}
 							onClick={handleClick}
 							className={
-								"bg-secondary w-50 h-24 rounded-lg border-2 border-dashed border-gray-300 m-5 text-black flex flex-col justify-center text-center"
+								"bg-secondary h-24 rounded-lg border-2 border-dashed border-gray-300 text-black flex flex-col justify-center items-center text-center"
 							}
 						>
 							<Image
