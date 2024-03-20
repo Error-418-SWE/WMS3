@@ -5,12 +5,14 @@ import { useSearchParams } from 'next/navigation';
 
 const ProductsDataContext = createContext({
 	products: [] as Product[],
+	categories: [] as string[],
 	refresh: () => { },
 	productsLoaded: false,
 });
 
 export function ProductsDataProvider({ children }: { children: React.ReactNode }) {
 	const [products, setProducts] = useState<Product[]>([]);
+	const [categories, setCategories] = useState<string[]>([]);
 	const [productRepository] = useState(new ProductRepository());
 	const [productsLoaded, setProductsLoaded] = useState(false);
 
@@ -26,7 +28,12 @@ export function ProductsDataProvider({ children }: { children: React.ReactNode }
 					setProducts(products);
 				}
 			);
-			console.log("products from database");
+
+			productRepository.getAllCategories().then(
+				(categories) => {
+					setCategories(categories);
+				}
+			);
 		}
 		setProductsLoaded(true);
 	}, []);
@@ -46,7 +53,7 @@ export function ProductsDataProvider({ children }: { children: React.ReactNode }
 		}
 	}
 
-	const value = { products, refresh, productsLoaded };
+	const value = { products, categories, refresh, productsLoaded };
 
 	return (
 		<ProductsDataContext.Provider value={value}>
