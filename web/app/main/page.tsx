@@ -43,7 +43,7 @@ import { Progress } from "@/components/ui/progress";
 import { WarehouseDataProvider } from "@/components/providers/Threejs/warehouseProvider";
 import { Toaster } from "@/components/ui/sonner";
 
-const iconSize = 30;
+const iconSize = 28;
 
 export default function App() {
 	return (
@@ -55,7 +55,7 @@ export default function App() {
 						<FloorDataProvider>
 							<ElementDetailsProvider>
 								<WarehouseDataProvider>
-										<Main />
+									<Main />
 								</WarehouseDataProvider>
 							</ElementDetailsProvider>
 						</FloorDataProvider>
@@ -102,9 +102,9 @@ function Main() {
 
 	if (!dataLoaded) {
 		return (
-			<div className={"flex flex-col gap-y-2 justify-center items-center m-auto w-[60%] h-screen"}>
-				<Progress value={progress} className="[60%]" />
-				<span>Caricamento in corso ...</span>
+			<div className={"flex flex-col gap-y-2 justify-center items-center m-auto w-[40%] h-screen"}>
+				<Progress value={progress} className="[40%]" />
+				<span>Caricamento in corso...</span>
 			</div>)
 	}
 
@@ -113,15 +113,14 @@ function Main() {
 			<Toaster />
 			<nav
 				className={
-					"flex flex-col h-screen bg-primary p-1.5 py-2 items-center gap-1"
+					"flex flex-col h-screen bg-primary px-1.5 py-4 items-center gap-4"
 				}
 			>
 				<Image
 					src="/icons/logo.svg"
-					alt="logo"
+					alt=""
 					width={50}
 					height={50}
-					className={"flex flex-col items-center"}
 					priority
 				/>
 				<Button
@@ -129,64 +128,60 @@ function Main() {
 						setPanel(<ZonePanel />);
 						setShowPanel(panel.type !== ZonePanel || !showPanel);
 					}}
-					className={`flex flex-col items-center w-full h-auto ${panel.type === ZonePanel && showPanel ? "invert grayscale" : ""
-						}`}
+					className={`flex flex-col gap-1.5 p-1 items-center p-2 w-16 h-16 hover:bg-slate-600 group ${panel.type === ZonePanel && showPanel ? "bg-slate-700" : "" }`}
 				>
 					<Image
 						src="/icons/zone.svg"
-						alt="Zone"
+						alt=""
 						width={iconSize}
 						height={iconSize}
 					/>
-					<span>Zone</span>
+					<span className={"sr-only group-hover:not-sr-only"}>Zone</span>
 				</Button>
 				<Button
 					onClick={() => {
 						setPanel(<ProductsPanel />);
 						setShowPanel(panel.type !== ProductsPanel || !showPanel);
 					}}
-					className={`flex flex-col items-center w-full h-auto ${panel.type === ProductsPanel && showPanel ? "invert grayscale" : ""
-						}`}
+					className={`flex flex-col gap-1.5 items-center p-2 w-16 h-16 hover:bg-slate-600 group ${panel.type === ProductsPanel && showPanel ? "bg-slate-700" : "" }`}
 				>
 					<Image
 						src="/icons/products.svg"
-						alt="products"
+						alt=""
 						width={iconSize}
 						height={iconSize}
 					/>
-					<span>Products</span>
+					<span className={"sr-only group-hover:not-sr-only"}>Prodotti</span>
 				</Button>
 				<Button
 					onClick={() => {
 						setPanel(<OrdersPanel />);
 						setShowPanel(panel.type !== OrdersPanel || !showPanel);
 					}}
-					className={`flex flex-col items-center w-full h-auto ${panel.type === OrdersPanel && showPanel ? "invert grayscale" : ""
-						}`}
+					className={`flex flex-col gap-1.5 items-center p-2 w-16 h-16 hover:bg-slate-600 group ${panel.type === OrdersPanel && showPanel ? "bg-slate-700" : "" }`}
 				>
 					<Image
 						src="/icons/orders.svg"
-						alt="orders"
+						alt=""
 						width={iconSize}
 						height={iconSize}
 					/>
-					<span>Orders</span>
+					<span className={"sr-only group-hover:not-sr-only"}>Ordini</span>
 				</Button>
 				<Button
 					onClick={() => {
 						setPanel(<SettingsPanel />);
 						setShowPanel(panel.type !== SettingsPanel || !showPanel);
 					}}
-					className={`mt-auto flex flex-col items-center w-full h-auto ${panel.type === SettingsPanel && showPanel ? "invert grayscale" : ""
-						}`}
+					className={`mt-auto flex flex-col gap-1.5 items-center p-2 w-16 h-16 hover:bg-slate-600 group ${panel.type === SettingsPanel && showPanel ? "bg-slate-700" : "" }`}
 				>
 					<Image
 						src="/icons/settings.svg"
-						alt="settings"
+						alt=""
 						width={iconSize}
 						height={iconSize}
 					/>
-					<span>Settings</span>
+					<span className={"sr-only"}>Impostazioni</span>
 				</Button>
 			</nav>
 			<div className={"flex-grow relative"}>
