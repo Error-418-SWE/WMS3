@@ -17,10 +17,9 @@ export function CameraController({
 
 	useFrame((state) => {
 		const { forward, backward, left, right, quick } = get()
+		const moveSpeed = quick ? 0.75 : 0.25;
 
 		setIsNavigating(forward || backward || left || right || false);
-
-		const moveSpeed = quick ? 0.75 : 0.25;
 
 		state.camera.position.set(
 			camera.camera.position.x + (right ? moveSpeed : 0) + (left ? -moveSpeed : 0),
@@ -29,6 +28,7 @@ export function CameraController({
 		);
 
 		setCameraPosition(state.camera.position);
+		state.camera.updateProjectionMatrix();
 	});
 	return (
 		<></>
