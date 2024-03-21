@@ -12,7 +12,7 @@ export default function Warehouse() {
 	const { floor } = useFloorData();
 	const { zones } = useZonesData();
 
-	const {isDragging} = useWarehouseData();
+	const { orbitRef } = useWarehouseData();
 
 	return (
 		<Canvas className={"h-screen, bg-BurlyWood"}>
@@ -43,7 +43,7 @@ export default function Warehouse() {
 				screenSpacePanning={false}
 				minPolarAngle={Math.PI / 5}
 				maxPolarAngle={Math.PI / 2.3}
-				enabled={!isDragging}
+				ref={orbitRef}
 			/>
 		</Canvas>
 	);

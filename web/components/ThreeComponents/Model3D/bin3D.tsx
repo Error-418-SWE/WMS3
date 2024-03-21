@@ -35,13 +35,10 @@ export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 	const {
 		selectedBin,
 		setSelectedBin,
-		isDragging,
-		setIsDragging,
 		newMovementOrder,
+		orbitRef,
 	} = useWarehouseData();
-	const [draggable, setDraggable] = useState(
-		bin.getProduct() && bin.getBinState() === BinState.Idle
-	);
+
 	const [currentPosition, setCurrentPosition] = useState(position);
 
 	const groupRef = useRef<Group<Object3DEventMap> | null>(null);
@@ -56,13 +53,11 @@ export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 		setCurrentPosition(position);
 	}, [position]);
 
-	const handleClick = (event: ThreeEvent<MouseEvent>) => {
+	const handleDoubleClick = (event: ThreeEvent<MouseEvent>) => {
 		event.stopPropagation();
-		if (!isDragging) {
-			setSelectedBin(bin);
-			setElementDetails(<BinItemDetails bin={bin} />);
-			setShowElementDetails(true);
-		}
+		setSelectedBin(bin);
+		setElementDetails(<BinItemDetails bin={bin} />);
+		setShowElementDetails(true);
 	};
 
 	const { gl, scene, camera } = useThree();
@@ -99,8 +94,8 @@ export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 
 	const bind = useDrag(
 		async (state: any) => {
-			if (draggable && groupRef.current) {
-				setIsDragging(true);
+			if (bin.getProduct() && bin.getBinState() === BinState.Idle  && groupRef.current) {
+				orbitRef.current.enabled = false;
 				const raycaster = new Raycaster();
 				const rect = gl.domElement.getBoundingClientRect();
 				const x =
@@ -156,13 +151,9 @@ export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 							bin.getId(),
 							intersectedBin.userData.id,
 							bin.getProduct()!.getId()
-						).then((result) => {
-							if (result) {
-								setDraggable(false);
-							}
-						});
+						)
 					}
-					setIsDragging(false);
+					orbitRef.current.enabled = true;
 					setCurrentPosition(initialPosition);
 				}
 			}
@@ -177,9 +168,9 @@ export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 			position={currentPosition}
 			{...bind()}
 			ref={groupRef}
-			onClick={handleClick}
+			onDoubleClick={handleDoubleClick}
 			onPointerOver={(e) => {
-				if (draggable) {
+				if (bin.getBinState() === BinState.Idle) {
 					document.body.style.cursor = "grab";
 				}
 			}}
