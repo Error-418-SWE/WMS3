@@ -5,12 +5,13 @@ import { useFloorData } from "../providers/floorProvider";
 import { useState } from "react";
 
 interface CameraControllerProps {
-	setIsNavigating?: (boolean: boolean) => void;
-	setCameraPosition?: (position: Vector3) => void;
+	setIsNavigating: (boolean: boolean) => void;
+	setCameraPosition: (position: Vector3) => void;
 }
 
 export function CameraController({
 	setIsNavigating,
+	setCameraPosition
 }: CameraControllerProps) {
 
 	const [,get] = useKeyboardControls();
