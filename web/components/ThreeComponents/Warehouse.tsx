@@ -30,7 +30,6 @@ export default function Warehouse() {
 				className={"h-screen, w-screen, bg-BurlyWood"}
 				camera={{
 					position: [cameraPosition.x, cameraPosition.y, cameraPosition.z],
-					rotation: [Math.PI / 2, Math.PI / 2, Math.PI / 2]
 				}}>
 
 				<Floor />
