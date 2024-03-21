@@ -7,6 +7,8 @@ import { useDrag } from "@use-gesture/react";
 import { Group, Object3DEventMap, Vector2, Vector3 } from "three";
 import { ThreeEvent, useThree } from "@react-three/fiber";
 import { useWarehouseData } from "@/components/providers/Threejs/warehouseProvider";
+import ZoneItemDetails from "@/components/custom/panels/Zone/zoneItemDetails";
+import { useElementDetails } from "@/components/providers/UI-Providers/ElementDetailsProvider";
 
 interface Zone3DProps {
 	zone: Zone;
@@ -27,7 +29,8 @@ export function Zone3D({
 	const { gl, camera, scene } = useThree();
 	const [toDrag, setToDrag] = useState(false);
 	const [lastValidPosition, setLastValidPosition] = useState(new Vector3( currentPosition.x, currentPosition.y, currentPosition.z ));
-	const {setIsDragging} = useWarehouseData();
+	const { orbitRef } = useWarehouseData();
+	const { setElementDetails, setShowElementDetails } = useElementDetails();
 	const planeRef = useRef<THREE.Mesh | null>(null);
 	const parentRef = useRef<Group<Object3DEventMap> | null>(null);
 
@@ -72,7 +75,7 @@ export function Zone3D({
 	const bind = useDrag((state) => {
 		state.event.stopPropagation();
 		if (toDrag && planeRef.current) {
-		  setIsDragging!(true);
+		  orbitRef.current.enabled = false;
 		  planeRef.current.visible = true;
 		  const target = calculateTargetPosition(state);
 		  const collision = checkCollision();
@@ -90,7 +93,7 @@ export function Zone3D({
 		  if (state.last) {
 			planeRef.current.visible = false;
 			state.event.stopPropagation();
-			setIsDragging!(false);
+			orbitRef.current.enabled = true;
 			setToDrag(false);
 
 			if (checkCollision()) {
@@ -102,7 +105,7 @@ export function Zone3D({
 			zone.setCoordinateY(lastValidPosition.z);
 		  }
 		}
-	  });
+	  }, { threshold: 1});
 
 	return (
 		//@ts-ignore
@@ -157,6 +160,11 @@ export function Zone3D({
 			/>
 
 			<mesh
+				onDoubleClick={(event) => {
+					event.stopPropagation();
+					setElementDetails(<ZoneItemDetails zone={zone} />);
+					setShowElementDetails(true);
+				}}
 				onPointerDown={(event) => {
 					setToDrag(true);
 				}}

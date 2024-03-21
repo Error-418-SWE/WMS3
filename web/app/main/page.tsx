@@ -48,21 +48,21 @@ const iconSize = 30;
 export default function App() {
 	return (
 		<Suspense>
-		<ZonesDataProvider>
-			<BinsDataProvider>
-				<ProductsDataProvider>
-					<OrdersDataProvider>
+			<ZonesDataProvider>
+				<BinsDataProvider>
+					<ProductsDataProvider>
 						<FloorDataProvider>
 							<ElementDetailsProvider>
-								<WarehouseDataProvider>
+								<OrdersDataProvider>
+									<WarehouseDataProvider>
 										<Main />
-								</WarehouseDataProvider>
+									</WarehouseDataProvider>
+								</OrdersDataProvider>
 							</ElementDetailsProvider>
 						</FloorDataProvider>
-					</OrdersDataProvider>
-				</ProductsDataProvider>
-			</BinsDataProvider>
-		</ZonesDataProvider>
+					</ProductsDataProvider>
+				</BinsDataProvider>
+			</ZonesDataProvider>
 		</Suspense>
 	);
 }
@@ -72,10 +72,9 @@ function Main() {
 
 	const [showPanel, setShowPanel] = useState(false);
 	const [panel, setPanel] = useState(<></>);
-	const { zones, zonesLoaded } = useZonesData();
-	const { bins, binsLoaded } = useBinsData();
-	const { products, productsLoaded } = useProductsData();
-	const { orders } = useOrdersData();
+	const { zonesLoaded } = useZonesData();
+	const { binsLoaded } = useBinsData();
+	const { productsLoaded } = useProductsData();
 	const { floor, setFloor, floorRefresher } = useFloorData();
 	const { elementDetails, showElementDetails } = useElementDetails();
 
@@ -98,14 +97,21 @@ function Main() {
 	}, [params, floorRefresher]);
 
 	const dataLoaded = zonesLoaded && productsLoaded && binsLoaded && floor;
-	const progress = (+zonesLoaded + +binsLoaded + +productsLoaded + (floor ? 1 : 0)) / 4 * 100;
+	const progress =
+		((+zonesLoaded + +binsLoaded + +productsLoaded + (floor ? 1 : 0)) / 4) *
+		100;
 
 	if (!dataLoaded) {
 		return (
-			<div className={"flex flex-col gap-y-2 justify-center items-center m-auto w-[60%] h-screen"}>
+			<div
+				className={
+					"flex flex-col gap-y-2 justify-center items-center m-auto w-[60%] h-screen"
+				}
+			>
 				<Progress value={progress} className="[60%]" />
 				<span>Caricamento in corso ...</span>
-			</div>)
+			</div>
+		);
 	}
 
 	return (
@@ -129,8 +135,9 @@ function Main() {
 						setPanel(<ZonePanel />);
 						setShowPanel(panel.type !== ZonePanel || !showPanel);
 					}}
-					className={`flex flex-col items-center w-full h-auto ${panel.type === ZonePanel && showPanel ? "invert grayscale" : ""
-						}`}
+					className={`flex flex-col items-center w-full h-auto ${
+						panel.type === ZonePanel && showPanel ? "invert grayscale" : ""
+					}`}
 				>
 					<Image
 						src="/icons/zone.svg"
@@ -145,8 +152,9 @@ function Main() {
 						setPanel(<ProductsPanel />);
 						setShowPanel(panel.type !== ProductsPanel || !showPanel);
 					}}
-					className={`flex flex-col items-center w-full h-auto ${panel.type === ProductsPanel && showPanel ? "invert grayscale" : ""
-						}`}
+					className={`flex flex-col items-center w-full h-auto ${
+						panel.type === ProductsPanel && showPanel ? "invert grayscale" : ""
+					}`}
 				>
 					<Image
 						src="/icons/products.svg"
@@ -161,8 +169,9 @@ function Main() {
 						setPanel(<OrdersPanel />);
 						setShowPanel(panel.type !== OrdersPanel || !showPanel);
 					}}
-					className={`flex flex-col items-center w-full h-auto ${panel.type === OrdersPanel && showPanel ? "invert grayscale" : ""
-						}`}
+					className={`flex flex-col items-center w-full h-auto ${
+						panel.type === OrdersPanel && showPanel ? "invert grayscale" : ""
+					}`}
 				>
 					<Image
 						src="/icons/orders.svg"
@@ -177,8 +186,9 @@ function Main() {
 						setPanel(<SettingsPanel />);
 						setShowPanel(panel.type !== SettingsPanel || !showPanel);
 					}}
-					className={`mt-auto flex flex-col items-center w-full h-auto ${panel.type === SettingsPanel && showPanel ? "invert grayscale" : ""
-						}`}
+					className={`mt-auto flex flex-col items-center w-full h-auto ${
+						panel.type === SettingsPanel && showPanel ? "invert grayscale" : ""
+					}`}
 				>
 					<Image
 						src="/icons/settings.svg"
