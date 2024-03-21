@@ -8,12 +8,25 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import Panel from "@/components/custom/panels/panel";
 import { useElementDetails } from "@/components/providers/UI-Providers/ElementDetailsProvider";
 import ZoneCreationFrame from "@/components/custom/panels/Zone/zoneCreationFrame";
-import { set } from "zod";
+import { Zone } from "@/model/zone";
+import { SearchStrategyFactory } from "@/model/SearchEngine/searchStrategyFactory";
+import { useEffect, useState } from "react";
 
 export default function ZonePanel() {
 
 	const { zones } = useZonesData();
 	const { setElementDetails, setShowElementDetails } = useElementDetails();
+	const [zonesToShow, setZonesToShow] = useState<Zone[]>([]);
+
+	useEffect(() => {
+		setZonesToShow(zones);
+	}, [zones]);
+
+	function handleEmptySearch() {
+		setZonesToShow(zones);
+	}
+
+	const searchEngine = SearchStrategyFactory.createSearchStrategy<Zone>("Zone");
 
 	return (
 		<Panel>
@@ -28,10 +41,19 @@ export default function ZonePanel() {
 			</div>
 			<div className={"mx-5 mt-1"}>
 				<Label className={"sr-only"}>Ricerca le zone</Label>
-				<Input placeholder="Search..." />
+				<Input placeholder="Search..." onChange={
+					(event) => {
+						const query = event.target.value;
+						if (query === "") {
+							handleEmptySearch();
+						} else {
+							setZonesToShow(searchEngine.search(zones, query, "id"));
+						}
+					}
+				}/>
 			</div>
 			<ScrollArea id="zoneList" className={"flex flex-col mx-5 my-4 gap-2"}>
-				{zones.length > 0 ? zones.map((zone) => (
+				{zonesToShow.length > 0 ? zonesToShow.map((zone) => (
 						<ZoneItem key={zone.getId()} zone={zone} />
 				)) : <div className={"text-center text-muted-foreground"}>Nessuna zona trovata</div>}
 			</ScrollArea>
