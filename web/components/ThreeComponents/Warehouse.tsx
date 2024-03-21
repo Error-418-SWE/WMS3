@@ -54,21 +54,16 @@ export default function Warehouse() {
 							);
 						})}
 
-				{/* <OrbitControls
-					minAzimuthAngle={-Math.PI / 3}
-					maxAzimuthAngle={Math.PI / 3}
-					enablePan={true}
-					enabled={!isDragging && !isNavigating}
-				/> */}
-
-				<OrbitControls
-				screenSpacePanning={false}
-					minPolarAngle={Math.PI / 5}
-					maxPolarAngle={Math.PI / 2.3}
-					maxDistance={100}
+				<CameraControls
+					minPolarAngle={Math.PI / 10}
+					maxPolarAngle={Math.PI / 3}
 					minDistance={5}
-					dampingFactor={0.05}
-					zoomSpeed={2}
+					maxDistance={100}
+					minZoom={5}
+					maxZoom={100}
+					dollySpeed={1}
+					dollyDragInverted
+					dollyToCursor
 					enabled={!isDragging && !isNavigating}
 					/>
 
