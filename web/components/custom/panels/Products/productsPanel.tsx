@@ -6,10 +6,10 @@ import { useProductsData } from "@/components/providers/productsProvider";
 import ProductItem from "./productItem";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Panel from "@/components/custom/panels/panel";
-import { SearchEngine } from "./SearchEngine/searchEngine";
 import { use, useEffect, useRef, useState } from "react";
 import { useZonesData } from "@/components/providers/zonesProvider";
 import { Product } from "@/model/product";
+import { SearchStrategyFactory } from "@/model/SearchEngine/searchStrategyFactory";
 
 export default function ProductsPanel() {
 
@@ -19,6 +19,8 @@ export default function ProductsPanel() {
 	const [notCollocatedProducts, setNotCollocatedProducts] = useState<Product[]>([]);
 	const [collocatedToShow, setCollocatedToShow] = useState<Product[]>([]);
 	const [notCollocatedToShow, setNotCollocatedToShow] = useState<Product[]>([]);
+
+	const searchEngine = SearchStrategyFactory.createSearchStrategy<Product>("Product");
 
 	useEffect(() => {
 		setNotCollocatedProducts(products.filter((product) => collocatedProducts.filter((collocatedProduct) => collocatedProduct.getId() === product.getId()).length === 0));
@@ -64,8 +66,8 @@ export default function ProductsPanel() {
 						ref={inputRef}
 						className={"rounded-tl-none rounded-bl-none"}
 						onChange={(event) => {
-							setCollocatedToShow(SearchEngine({ list: collocatedProducts, query: event.target.value, type: searchType }) || []);
-							setNotCollocatedToShow(SearchEngine({ list: notCollocatedProducts, query: event.target.value, type: searchType }) || []);
+							setCollocatedToShow(searchEngine.search(collocatedProducts, event.target.value, searchType) || []);
+							setNotCollocatedToShow(searchEngine.search(notCollocatedProducts, event.target.value, searchType) || []);
 						}}
 					/>
 				</div>
@@ -74,8 +76,8 @@ export default function ProductsPanel() {
 				<Label className={"sr-only"}>Categoria Prodotti</Label>
 				<Select onValueChange={
 					(value) => {
-						setCollocatedToShow(SearchEngine({ list: collocatedProducts, query: value, type: "category" }) || []);
-						setNotCollocatedToShow(SearchEngine({ list: notCollocatedProducts, query: value, type: "category" }) || []);
+						setCollocatedToShow(searchEngine.search(collocatedProducts, value, "category") || []);
+						setNotCollocatedToShow(searchEngine.search(notCollocatedProducts, value, "category") || []);
 					}
 				}
 
