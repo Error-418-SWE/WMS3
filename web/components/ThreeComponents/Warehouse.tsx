@@ -29,12 +29,12 @@ export default function Warehouse() {
 				{ name: "right", keys: ["ArrowRight", "d", "D"] },
 				{ name: "quick", keys: ["ShiftLeft", "ShiftRight"]}
 			]}>
-			<Canvas className={"h-screen, bg-BurlyWood"}>
-				<PerspectiveCamera
-					makeDefault
-					position={[floor.getWidth() / 2, 60, floor.getLength()]}
-					rotation={[Math.PI / 2, Math.PI / 2, Math.PI / 2]}
-					/>
+			<Canvas
+				className={"h-screen, w-screen, bg-BurlyWood"}
+				camera={{
+					position: [cameraPosition.x, cameraPosition.y, cameraPosition.z],
+					rotation: [Math.PI / 2, Math.PI / 2, Math.PI / 2]
+				}}>
 
 				<Floor />
 
