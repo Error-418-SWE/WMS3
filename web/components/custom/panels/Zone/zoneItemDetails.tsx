@@ -30,7 +30,7 @@ export default function ZoneItemDetails({ zone }: ZoneItemProps) {
 			<div className={"flex items-center mt-2 justify-between"}>
 				<span className={"font-bold"}>{zone.getId()}</span>
 				<Button
-					className={buttonVariants({ variant: "secondary" }) + " border"}
+					variant="ghost"
 					onClick={() => {
 						setShowElementDetails(false);
 					}}
