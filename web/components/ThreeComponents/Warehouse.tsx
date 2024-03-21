@@ -1,14 +1,13 @@
-import { Canvas, useThree } from "@react-three/fiber";
-import { KeyboardControls, OrbitControls, PerspectiveCamera } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import { CameraControls, KeyboardControls, OrthographicCamera, PerspectiveCamera } from "@react-three/drei";
 import Floor from "./Model3D/Floor";
 import { useFloorData } from "../providers/floorProvider";
-import { Camera, Vector3 } from "three";
+import { Vector3 } from "three";
 import { useZonesData } from "../providers/zonesProvider";
 import { Zone } from "@/model/zone";
 import { Zone3D } from "./Model3D/zone3D";
-import { useWarehouseData } from "../providers/Threejs/warehouseProvider";
-import { useState } from "react";
 import { CameraController } from "./CameraController";
+import { useState } from "react";
 
 export default function Warehouse() {
 	const { floor } = useFloorData();
