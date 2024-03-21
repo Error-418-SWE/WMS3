@@ -22,9 +22,9 @@ export default function Warehouse() {
 			map={[
 				{ name: "forward", keys: ["ArrowUp", "w", "W"] },
 				{ name: "backward", keys: ["ArrowDown", "s", "S"] },
-				{ name: "left", keys: ["ArrowLeft", "a", "A"] },
+				{ name: "left",	keys: ["ArrowLeft", "a", "A"] },
 				{ name: "right", keys: ["ArrowRight", "d", "D"] },
-				{ name: "quick", keys: ["ShiftLeft", "ShiftRight"]}
+				{ name: "quick", keys: ["ShiftLeft", "ShiftRight"] },
 			]}>
 			<Canvas
 				className={"h-screen, w-screen, bg-BurlyWood"}
