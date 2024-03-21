@@ -1,5 +1,6 @@
 import {
 	FormControl,
+	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
@@ -25,19 +26,19 @@ export function SVGCreationFrame({ form }: SVGCreationFrameProps) {
 				defaultValue=""
 				render={({ field }) => (
 					<>
-						<FormItem className={"flex justify-around gap-2 items-center"}>
+						<FormItem>
 							<FormLabel>Lato maggiore</FormLabel>
-							<div>
-								<FormControl>
-									<Input
-										{...field}
-										type="number"
-										placeholder="Lato maggiore"
-										min={1}
-									/>
-								</FormControl>
-								<FormMessage />
-							</div>
+							<FormControl>
+								<Input
+									{...field}
+									type="number"
+									placeholder="In metri"
+									min={1}
+									step={0.01}
+								/>
+							</FormControl>
+							<FormDescription>Il lato minore sarà determinato in modo automatico.</FormDescription>
+							<FormMessage />
 						</FormItem>
 					</>
 				)}
@@ -50,7 +51,7 @@ export function SVGCreationFrame({ form }: SVGCreationFrameProps) {
 					<>
 						<FormItem>
 							<FormControl>
-								<Checkbox onCheckedChange={field.onChange}/>
+								<Checkbox checked={field.value} onCheckedChange={field.onChange}/>
 							</FormControl>
 							<FormLabel className={"pl-2"}>Importa gli scaffali dal database</FormLabel>
 						</FormItem>

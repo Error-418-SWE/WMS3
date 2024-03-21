@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/form";
 import { UseFormReturn, set } from "react-hook-form";
 import { useContext, useRef, useState } from "react";
+import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { useProcessingContext } from "@/components/providers/UI-Providers/formContextProvider";
 import { saveSVG } from "@/ServerActions/SVG/saveSVG";
@@ -83,9 +84,17 @@ export function DropFileArea({ form }: DropFileAreaProps) {
 							onDragOver={handleDragOver}
 							onClick={handleClick}
 							className={
-								"bg-secondary w-50 h-24 rounded-lg border-2 border-dashed border-gray-300 m-5 text-black flex flex-col justify-center text-center"
+								"bg-secondary h-24 rounded-lg border-2 border-dashed border-gray-300 text-black flex flex-col justify-center items-center text-center"
 							}
 						>
+							<Image
+								src="/icons/upload.svg"
+								alt=""
+								width={48}
+								height={48}
+								priority
+								className={"h-6 mb-2"}
+							/>
 							{displayedText}
 						</div>
 						<FormMessage className={"text-center"}>
