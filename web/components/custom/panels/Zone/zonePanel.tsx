@@ -23,14 +23,14 @@ export default function ZonePanel() {
 					setElementDetails(<ZoneCreationFrame />);
 					setShowElementDetails(true);
 				}}>
-					<Image src="/icons/add.svg" width={13} height={13} alt="Add" />
+					<Image src="/icons/add.svg" width={13} height={13} alt="Crea zona" />
 				</Button>
 			</div>
 			<div className={"mx-5 mt-1"}>
 				<Label className={"sr-only"}>Ricerca le zone</Label>
-				<Input placeholder="Search..." />
+				<Input placeholder="Cerca per ID..." />
 			</div>
-			<ScrollArea id="zoneList" className={"flex flex-col mx-5 my-4 gap-2"}>
+			<ScrollArea id="zoneList" className={"flex flex-col mx-5 mt-6 mb-4 gap-2"}>
 				{zones.length > 0 ? zones.map((zone) => (
 						<ZoneItem key={zone.getId()} zone={zone} />
 				)) : <div className={"text-center text-muted-foreground"}>Nessuna zona trovata</div>}

@@ -367,7 +367,7 @@ export default function ZoneCreationFrame({
 		<div className={"flex flex-col h-full mx-5"}>
 			<div className={"flex items-center mt-2 justify-between"}>
 				<h1 className={"grow font-bold text-2xl"}>
-					{zone ? "Zona: " + zone.getId() : "Nuova Zona"}
+					{zone ? "Zona: " + zone.getId() : "Nuova zona"}
 				</h1>
 				<Button
 					className={buttonVariants({ variant: "secondary" })}
@@ -543,7 +543,7 @@ export default function ZoneCreationFrame({
 						</div>
 
 						<Button type="submit">
-							{zone ? "Salva le modifiche alla " : "Crea "} Zona
+							{zone ? "Salva le modifiche alla " : "Crea "} zona
 						</Button>
 					</div>
 				</form>
