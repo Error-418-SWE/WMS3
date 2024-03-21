@@ -146,7 +146,7 @@ export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 				setCurrentPosition(target);
 
 				if (state.last) {
-					if (intersectedBin) {
+					if (intersectedBin && intersectedBin.userData.id && intersectedBin.userData.id !== bin.getId()) {
 						newMovementOrder(
 							bin.getId(),
 							intersectedBin.userData.id,
