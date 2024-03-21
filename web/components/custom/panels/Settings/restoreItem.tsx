@@ -34,12 +34,16 @@ export default function RestoreItem() {
 
 	return (
 		<div>
-			<h2 className={"font-bold mt-4"}>Demo</h2>
-			<p>Reimposta la demo di WMS3. <br /> Non è possibile annullare l&apos;operazione</p>
+			<h2 className={"font-bold my-4"}>Demo</h2>
+			<p className={"text-muted-foreground"}>
+				Reimposta la demo di WMS3.
+				<br />
+				Non è possibile annullare l&apos;operazione.
+			</p>
 
-			<div className={"flex justify-end gap-x-2"}>
+			<div className={"flex justify-end mt-4 gap-x-2"}>
 				<Dialog open={isOpen}>
-					<DialogTrigger className={buttonVariants({ variant: "secondary" }) + " w-min border-2"} onClick={
+					<DialogTrigger className={buttonVariants({ variant: "outline" })} onClick={
 						() => {
 							setIsOpen(true);
 						}
@@ -50,7 +54,7 @@ export default function RestoreItem() {
 						<DialogHeader>
 							<DialogTitle>Risincronizza dati</DialogTitle>
 							<DialogDescription>
-								Questa azione non può essere annullata. I dati saranno riportati ai loro valori iniziali: le zone, i prodotti, la lista movimenti e la planimetria verranno ripristinati al loro stato inziale.
+								Questa azione non può essere annullata. I dati saranno riportati ai loro valori iniziali: le zone, i prodotti, la lista movimenti e la planimetria saranno ripristinati al loro stato inziale.
 							</DialogDescription>
 						</DialogHeader>
 						<Button onClick={handleRisincronizza} className={buttonVariants({ variant: "destructive" }) + " w-min ml-auto"}>Risincronizza</Button>
@@ -65,7 +69,7 @@ export default function RestoreItem() {
 						<DialogHeader>
 							<DialogTitle>Reimposta l&apos;ambiente</DialogTitle>
 							<DialogDescription>
-								Questa azione non può essere annullata. Abbandonerai la pagina tornando alla definizione dell&apos;ambiente. Tutti i dati verranno persi.
+								Questa azione non può essere annullata. Sarai reindirizzato alla pagina di configurazione di un nuovo &apos;ambiente. Tutti i dati andranno perduti.
 							</DialogDescription>
 						</DialogHeader>
 						<Button onClick={handleReimposta} className={buttonVariants({ variant: "destructive" }) + " w-min ml-auto"}>Reimposta</Button>
