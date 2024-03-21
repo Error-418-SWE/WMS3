@@ -15,10 +15,7 @@ export default function Warehouse() {
 
 	const [isDragging, setIsDragging] = useState(false);
 	const [isNavigating, setIsNavigating] = useState(false);
-	// const [cameraPosition, setCameraPosition] = useState({ x: 0, y: 0, z: 0 });
-
-	console.log(setIsNavigating);
-	console.log(isNavigating);
+	const [cameraPosition, setCameraPosition] = useState({ x: floor.getWidth(), y: 60, z: floor.getLength() });
 
 	return (
 		<KeyboardControls
@@ -69,7 +66,7 @@ export default function Warehouse() {
 
 				<CameraController
 					setIsNavigating={setIsNavigating}
-					// setCameraPosition={setCameraPosition}
+					setCameraPosition={setCameraPosition}
 					/>
 			</Canvas>
 		</KeyboardControls>
