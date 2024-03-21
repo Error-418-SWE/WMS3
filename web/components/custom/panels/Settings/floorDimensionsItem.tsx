@@ -68,24 +68,21 @@ export default function FloorDimensionsItem() {
 
 	return (
 		<div>
-			<h2 className={"font-bold"}>Planimetria</h2>
+			<h2 className={"font-bold my-4"}>Planimetria</h2>
 			<Form {...form}>
-				<form>
-					<FormDescription>
-						La planimetria sarà estesa rispetto all&apos;origine
-					</FormDescription>
+				<form className={"flex flex-col gap-4"}>
+					<p className={"text-muted-foreground"}>
+						La planimetria sarà estesa rispetto all&apos;origine.
+					</p>
 					<FormField
 						control={form.control}
 						name={"dimensionsFormSchema.width"}
 						render={({ field }) => (
-							<FormItem
-								className={"grid grid-cols-3 items-center justify-start"}
-							>
+							<FormItem>
 								<FormLabel>Larghezza</FormLabel>
 								<FormControl>
 									<Input
 										{...field}
-										className={"col-span-2"}
 										type={"number"}
 										step={0.01}
 										onKeyUp={(e) => {
@@ -100,7 +97,7 @@ export default function FloorDimensionsItem() {
 										}}
 									/>
 								</FormControl>
-								<FormMessage className={"col-span-3"} />
+								<FormMessage />
 							</FormItem>
 						)}
 					/>
@@ -109,14 +106,11 @@ export default function FloorDimensionsItem() {
 						control={form.control}
 						name={"dimensionsFormSchema.length"}
 						render={({ field }) => (
-							<FormItem
-								className={"grid grid-cols-3 items-center justify-start"}
-							>
+							<FormItem>
 								<FormLabel>Lunghezza</FormLabel>
 								<FormControl>
 									<Input
 										{...field}
-										className={"col-span-2"}
 										type={"number"}
 										step={0.01}
 										onKeyUp={(e) => {
@@ -131,15 +125,15 @@ export default function FloorDimensionsItem() {
 										}}
 									/>
 								</FormControl>
-								<FormMessage className={"col-span-3"} />
+								<FormMessage />
 							</FormItem>
 						)}
 					/>
 
 					<Dialog open={open} onOpenChange={setOpen}>
-						<div className={"flex justify-end mt-3"}>
+						<div className={"flex justify-end"}>
 							<DialogTrigger
-								className={buttonVariants({ variant: "default" })}
+								className={buttonVariants({ variant: "outline" })}
 								disabled={!checkIfNewValidDimensions()}
 							>
 								Salva
