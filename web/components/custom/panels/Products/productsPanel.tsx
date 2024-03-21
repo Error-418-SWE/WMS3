@@ -71,7 +71,7 @@ export default function ProductsPanel() {
 				</div>
 			</div>
 			<div className={"mx-5 mt-1"}>
-				<Label className={"sr-only"}>Categoria Prodotti</Label>
+				<Label className={"sr-only"}>Categoria prodotto</Label>
 				<Select onValueChange={
 					(value) => {
 						setCollocatedToShow(SearchEngine({ list: collocatedProducts, query: value, type: "category" }) || []);
@@ -81,7 +81,7 @@ export default function ProductsPanel() {
 
 				>
 					<SelectTrigger>
-						<SelectValue placeholder="Categoria Prodotti" />
+						<SelectValue placeholder="Categoria prodotto" />
 					</SelectTrigger>
 					<SelectContent>
 						{categories.map((category) => (
@@ -91,23 +91,35 @@ export default function ProductsPanel() {
 				</Select>
 			</div>
 			<ScrollArea>
-				<Tabs defaultValue="collocated" className={"mx-5 my-2"}>
+				<Tabs defaultValue="collocated" className={"mx-5 mt-6"}>
 					<TabsList className={"flex w-full"}>
 						<TabsTrigger value="collocated" className={"grow"}>Collocati</TabsTrigger>
 						<TabsTrigger value="notCollocated" className={"grow"}>Non collocati</TabsTrigger>
 					</TabsList>
-					<TabsContent value="collocated">
+					<TabsContent value="collocated" className={"mt-6"}>
 						<div id="productList">
-							{collocatedToShow.map((product) => (
-								<ProductItem key={product.getId()} product={product} />
-							))}
+							{
+								(collocatedToShow.length === 0) &&
+									<p className={"text-center text-muted-foreground"}>Nessun prodotto trovato</p>
+							}
+							{
+								collocatedToShow.map((product) => (
+									<ProductItem key={product.getId()} product={product} />
+								))
+							}
 						</div>
 					</TabsContent>
-					<TabsContent value="notCollocated">
+					<TabsContent value="notCollocated" className={"mt-6"}>
 						<div id={"notCollocatedProducts"}>
-							{notCollocatedToShow.map((product) => (
-								<ProductItem key={product.getId()} product={product} />
-							))}
+							{
+								(notCollocatedToShow.length === 0) &&
+									<p className={"text-center text-muted-foreground"}>Nessun prodotto trovato</p>
+							}
+							{
+								notCollocatedToShow.map((product) => (
+									<ProductItem key={product.getId()} product={product} />
+								))
+							}
 						</div>
 					</TabsContent>
 				</Tabs>
