@@ -7,3 +7,5 @@ Il contenuto di questo repository è prodotto nell'ambito del corso di **Ingegne
 ## Documenti
 
 I documenti sono consultabili presso il [repository dedicato](https://github.com/Error-418-SWE/Documenti/tree/main) o al [sito web](https://error418swe.netlify.app/) del gruppo.
+
+[![Coverage Status](https://coveralls.io/repos/github/Error-418-SWE/WMS3/badge.svg?branch=main)](https://coveralls.io/github/Error-418-SWE/WMS3?branch=main)
