@@ -6,7 +6,7 @@ import { Vector3 } from "three";
 import { useZonesData } from "../providers/zonesProvider";
 import { Zone } from "@/model/zone";
 import { Zone3D } from "./Model3D/zone3D";
-import { CameraController } from "./CameraController";
+import { ExtendedCameraControls } from "./ExtendedCameraControls";
 import { useRef, useState } from "react";
 
 export default function Warehouse() {
@@ -60,7 +60,7 @@ export default function Warehouse() {
 					ref={cameraRef}
 					/>
 
-				<CameraController
+				<ExtendedCameraControls
 					cameraRef={cameraRef}
 					/>
 			</Canvas>
