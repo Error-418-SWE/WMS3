@@ -6,6 +6,7 @@ import {
 	FormMessage,
 	FormLabel,
 } from "@/components/ui/form";
+import Image from "next/image";
 import { Input } from "@/components/ui/input";
 
 export default function LevelItem({
