@@ -2,13 +2,13 @@ import { CameraControls, useKeyboardControls } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { RefObject } from "react";
 
-interface CameraControllerProps {
+interface ExtendedCameraControlsProps {
 	cameraRef: RefObject<CameraControls>;
 }
 
-export function CameraController({
+export function ExtendedCameraControls({
 	cameraRef,
-}: CameraControllerProps) {
+}: ExtendedCameraControlsProps) {
 
 	const [,get] = useKeyboardControls();
 
