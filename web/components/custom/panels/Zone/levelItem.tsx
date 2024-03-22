@@ -26,25 +26,31 @@ export default function LevelItem({
 
 	const height = level.height;
 	return (
-	  <div className={"border p-3 rounded-md"}>
-		<div className={"flex justify-between"}>
+	  <div className={"border p-3 rounded-md bg-slate-100 group hover:bg-slate-200 focus-within:bg-slate-200"}>
+		<div className={"flex justify-between items-center h-8"}>
 			<span>
-				<span className="text-muted-foreground">Livello #</span>
+				<span className="text-muted-foreground">#</span>
 				{levelOrder}
 			</span>
-			{removable ? <Button
-			type="button"
-			className={buttonVariants({ variant: "secondary" }) + " border-2"}
-			onClick={() => {
-				var newlist = levels.filter(l => l.id !== level.id);
-				setLevels(newlist);
-				form.unregister("level_height_" + level.id);
-				console.log(levels);
-				console.log(newlist);
-			}}
-		>
-		-
-		</Button> : <></>}
+			{removable ?
+				<Button
+					type="button"
+					className={buttonVariants({ variant: "outline" })}
+					onClick={() => {
+						var newlist = levels.filter(l => l.id !== level.id);
+						setLevels(newlist);
+						form.unregister("level_height_" + level.id);
+						console.log(levels);
+						console.log(newlist);
+					}}>
+					<Image
+						src="/icons/list-remove.svg"
+						alt=""
+						width={16}
+						height={16}
+					/>
+				</Button> : <></>
+			}
 		</div>
 		<div className={"mt-2"}>
 			<FormField
