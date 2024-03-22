@@ -14,8 +14,6 @@ export default function Warehouse() {
 	const { zones } = useZonesData();
 
 	const [isDragging, setIsDragging] = useState(false);
-	const [isNavigating, setIsNavigating] = useState(false);
-	const [cameraPosition, setCameraPosition] = useState({ x: floor.getWidth(), y: 60, z: floor.getLength() });
 	let cameraRef = useRef<CameraControls>(null);
 
 	return (
@@ -30,7 +28,7 @@ export default function Warehouse() {
 			<Canvas
 				className={"h-screen, w-screen, bg-BurlyWood"}
 				camera={{
-					position: [cameraPosition.x, cameraPosition.y, cameraPosition.z],
+					position: [floor.getWidth(), 60, floor.getLength()],
 				}}>
 
 				<Floor />
@@ -58,13 +56,11 @@ export default function Warehouse() {
 					maxDistance={100}
 					minZoom={5}
 					maxZoom={100}
-					enabled={!isDragging && !isNavigating}
+					enabled={!isDragging}
 					ref={cameraRef}
 					/>
 
 				<CameraController
-					setIsNavigating={setIsNavigating}
-					setCameraPosition={setCameraPosition}
 					cameraRef={cameraRef}
 					/>
 			</Canvas>
