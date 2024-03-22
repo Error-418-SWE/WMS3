@@ -23,7 +23,7 @@ export default function ZonePanel() {
 					setElementDetails(<ZoneCreationFrame />);
 					setShowElementDetails(true);
 				}}>
-					<Image src="/icons/add.svg" width={13} height={13} alt="Crea zona" />
+					<Image src="/icons/add.svg" width={16} height={16} alt="Crea zona" />
 				</Button>
 			</div>
 			<div className={"mx-5 mt-1"}>

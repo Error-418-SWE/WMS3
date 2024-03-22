@@ -28,6 +28,7 @@ import { customColumns, equalColumns } from "./zoneZodSchemes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useZonesData } from "@/components/providers/zonesProvider";
 import { useWarehouseData } from "@/components/providers/Threejs/warehouseProvider";
+import Image from "next/image";
 
 function checkIfEqualColumns(zone: Zone) {
 	const firstLevelBins = zone.getLevels()[0];
@@ -384,7 +385,7 @@ export default function ZoneCreationFrame({
 
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
-					<div className={"flex flex-col gap-y-4 mt-2"}>
+					<div className={"flex flex-col gap-y-4 mt-2 h-fit"}>
 						<FormField
 							control={form.control}
 							name="id"
@@ -424,8 +425,8 @@ export default function ZoneCreationFrame({
 											</SelectTrigger>
 										</FormControl>
 										<SelectContent>
-											<SelectItem value="NS">NS</SelectItem>
-											<SelectItem value="EW">EW</SelectItem>
+											<SelectItem value="NS">Nord ↔ Sud</SelectItem>
+											<SelectItem value="EW">Est ↔ Ovest</SelectItem>
 										</SelectContent>
 									</Select>
 									<FormMessage />
@@ -514,19 +515,23 @@ export default function ZoneCreationFrame({
 							<Button
 								type="button"
 								className={
-									buttonVariants({ variant: "secondary" }) + " border-2"
+									buttonVariants({ variant: "outline" })
 								}
 								onClick={() => {
 									setLevels([...levels, { id: Math.random(), height: 1 }]);
-								}}
-							>
-								+
+								}}>
+								<Image
+									src="/icons/list-add.svg"
+									alt=""
+									width={16}
+									height={16}
+								/>
 							</Button>
 						</div>
 
 						<div
 							className={
-								"h-80 flex flex-col gap-2 flex-grow overflow-y-auto mb-10"
+								"flex flex-col gap-2 flex-grow overflow-y-auto mb-10"
 							}
 						>
 							{levels.map((level, index) => (
@@ -542,10 +547,13 @@ export default function ZoneCreationFrame({
 							))}
 						</div>
 
-						<Button type="submit">
-							{zone ? "Salva le modifiche alla " : "Crea "} zona
-						</Button>
 					</div>
+					<Button
+						type="submit"
+						className={"w-full"}
+						>
+						{zone ? "Salva le modifiche alla " : "Crea "} zona
+					</Button>
 				</form>
 			</Form>
 		</div>

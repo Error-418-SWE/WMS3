@@ -16,8 +16,6 @@ import {
 import ZoneCreationFrame from "./zoneCreationFrame";
 import { useZonesData } from "@/components/providers/zonesProvider";
 
-const imageButtonSize = 15;
-
 interface ZoneItemProps {
 	zone: Zone;
 }
@@ -28,7 +26,7 @@ export default function ZoneItemDetails({ zone }: ZoneItemProps) {
 	return (
 		<div className={"flex flex-col h-full mx-5"}>
 			<div className={"flex items-center mt-2 justify-between"}>
-				<span className={"font-bold"}>{zone.getId()}</span>
+				<h1 className={"grow font-bold text-2x"}>{zone.getId()}</h1>
 				<Button
 					variant="ghost"
 					onClick={() => {
@@ -39,7 +37,7 @@ export default function ZoneItemDetails({ zone }: ZoneItemProps) {
 				</Button>
 			</div>
 			<span className={"text-sm text-muted-foreground"}>
-				Informazioni della zona
+				Informazioni sulla zona
 			</span>
 			<div className={"grid items-center grid-cols-3 grid-rows-2 gap-y-2 mt-2"}>
 				<Label>Direzione</Label>
@@ -79,7 +77,7 @@ export default function ZoneItemDetails({ zone }: ZoneItemProps) {
 						<DialogHeader>
 							<DialogTitle>Eliminazione scaffale</DialogTitle>
 							<DialogDescription>
-								Questa azione non può essere annullata. Sei sicuro di voler
+								Questa azione non può essere annullata. Vuoi davvero
 								eliminare la zona {zone.getId()}?
 							</DialogDescription>
 						</DialogHeader>
