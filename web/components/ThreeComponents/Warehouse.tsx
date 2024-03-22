@@ -7,7 +7,7 @@ import { useZonesData } from "../providers/zonesProvider";
 import { Zone } from "@/model/zone";
 import { Zone3D } from "./Model3D/zone3D";
 import { CameraController } from "./CameraController";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export default function Warehouse() {
 	const { floor } = useFloorData();
@@ -16,6 +16,7 @@ export default function Warehouse() {
 	const [isDragging, setIsDragging] = useState(false);
 	const [isNavigating, setIsNavigating] = useState(false);
 	const [cameraPosition, setCameraPosition] = useState({ x: floor.getWidth(), y: 60, z: floor.getLength() });
+	let cameraRef = useRef<CameraControls>(null);
 
 	return (
 		<KeyboardControls
@@ -45,7 +46,7 @@ export default function Warehouse() {
 								key={zone.getId()}
 								zone={zone}
 								position={zonePosition}
-								setIsDragging={setIsDragging}
+								//setIsDragging={setIsDragging}
 							/>
 							);
 						})}
@@ -57,15 +58,14 @@ export default function Warehouse() {
 					maxDistance={100}
 					minZoom={5}
 					maxZoom={100}
-					dollySpeed={1}
-					dollyDragInverted
-					dollyToCursor
 					enabled={!isDragging && !isNavigating}
+					ref={cameraRef}
 					/>
 
 				<CameraController
 					setIsNavigating={setIsNavigating}
 					setCameraPosition={setCameraPosition}
+					cameraRef={cameraRef}
 					/>
 			</Canvas>
 		</KeyboardControls>
