@@ -75,7 +75,7 @@ export function Zone3D({
 	const bind = useDrag((state) => {
 		state.event.stopPropagation();
 		if (toDrag && planeRef.current) {
-		  orbitRef.current.enabled = false;
+		  orbitRef.current.disconnect();
 		  planeRef.current.visible = true;
 		  const target = calculateTargetPosition(state);
 		  const collision = checkCollision();
@@ -93,7 +93,7 @@ export function Zone3D({
 		  if (state.last) {
 			planeRef.current.visible = false;
 			state.event.stopPropagation();
-			orbitRef.current.enabled = true;
+			orbitRef.current.connect();
 			setToDrag(false);
 
 			if (checkCollision()) {
