@@ -14,12 +14,13 @@ export function ExtendedCameraControls({
 
 	useFrame(() => {
 
-		const { forward, backward, left, right, quick } = get();
+		if(cameraRef.current?.enabled) {
+			const { forward, backward, left, right, quick } = get();
+			const moveSpeed = quick ? 0.75 : 0.25;
 
-		const moveSpeed = quick ? 0.75 : 0.25;
-
-		cameraRef.current?.forward((forward ? moveSpeed : 0) + (backward ? -moveSpeed : 0));
-		cameraRef.current?.truck((right ? moveSpeed : 0) + (left ? -moveSpeed : 0), 0);
+			cameraRef.current?.forward((forward ? moveSpeed : 0) + (backward ? -moveSpeed : 0));
+			cameraRef.current?.truck((right ? moveSpeed : 0) + (left ? -moveSpeed : 0), 0);
+		}
 
 	});
 
