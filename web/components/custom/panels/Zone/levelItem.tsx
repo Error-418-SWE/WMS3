@@ -65,7 +65,7 @@ export default function LevelItem({
 								className={"col-span-2"}
 								{...field}
 								type="number"
-								step={0.1}
+								step={0.01}
 								min={1}
 								onChange={(e) => {
 								field.onChange(e);
