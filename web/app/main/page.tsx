@@ -48,21 +48,17 @@ const iconSize = 28;
 export default function App() {
 	return (
 		<Suspense>
-		<ZonesDataProvider>
-			<BinsDataProvider>
-				<ProductsDataProvider>
-					<OrdersDataProvider>
+			<ZonesDataProvider>
+				<BinsDataProvider>
+					<ProductsDataProvider>
 						<FloorDataProvider>
 							<ElementDetailsProvider>
-								<WarehouseDataProvider>
-									<Main />
-								</WarehouseDataProvider>
+								<Main />
 							</ElementDetailsProvider>
 						</FloorDataProvider>
-					</OrdersDataProvider>
-				</ProductsDataProvider>
-			</BinsDataProvider>
-		</ZonesDataProvider>
+					</ProductsDataProvider>
+				</BinsDataProvider>
+			</ZonesDataProvider>
 		</Suspense>
 	);
 }
@@ -72,10 +68,9 @@ function Main() {
 
 	const [showPanel, setShowPanel] = useState(false);
 	const [panel, setPanel] = useState(<></>);
-	const { zones, zonesLoaded } = useZonesData();
-	const { bins, binsLoaded } = useBinsData();
-	const { products, productsLoaded } = useProductsData();
-	const { orders } = useOrdersData();
+	const { zonesLoaded } = useZonesData();
+	const { binsLoaded } = useBinsData();
+	const { productsLoaded } = useProductsData();
 	const { floor, setFloor, floorRefresher } = useFloorData();
 	const { elementDetails, showElementDetails } = useElementDetails();
 
@@ -98,20 +93,28 @@ function Main() {
 	}, [params, floorRefresher]);
 
 	const dataLoaded = zonesLoaded && productsLoaded && binsLoaded && floor;
-	const progress = (+zonesLoaded + +binsLoaded + +productsLoaded + (floor ? 1 : 0)) / 4 * 100;
+	const progress =
+		((+zonesLoaded + +binsLoaded + +productsLoaded + (floor ? 1 : 0)) / 4) *
+		100;
 
 	if (!dataLoaded) {
 		return (
-			<div className={"flex flex-col gap-y-2 justify-center items-center m-auto w-[40%] h-screen"}>
+			<div
+				className={
+					"flex flex-col gap-y-2 justify-center items-center m-auto w-[40%] h-screen"
+				}
+			>
 				<Progress value={progress} className="[40%]" />
 				<span>Caricamento in corso...</span>
-			</div>)
+			</div>
+		);
 	}
 
 	return (
 		<main className={"h-screen flex"}>
 			<Toaster />
-			<nav
+			<OrdersDataProvider>
+				<nav
 				className={
 					"flex flex-col h-screen bg-primary px-1.5 py-4 items-center gap-4"
 				}
@@ -184,15 +187,18 @@ function Main() {
 					<span className={"sr-only"}>Impostazioni</span>
 				</Button>
 			</nav>
-			<div className={"flex-grow relative"}>
-				{showPanel && <Suspense>{panel}</Suspense>}
-				{dataLoaded && <Warehouse />}
-			</div>
-			{showElementDetails ? (
-				<Panel className={"right-0"}>{elementDetails}</Panel>
-			) : (
-				<></>
-			)}
+				<WarehouseDataProvider>
+					<div className={"flex-grow relative"}>
+						{showPanel && <Suspense>{panel}</Suspense>}
+						{dataLoaded && <Warehouse />}
+					</div>
+					{showElementDetails ? (
+						<Panel className={"right-0"}>{elementDetails}</Panel>
+					) : (
+						<></>
+					)}
+				</WarehouseDataProvider>
+			</OrdersDataProvider>
 		</main>
 	);
 }

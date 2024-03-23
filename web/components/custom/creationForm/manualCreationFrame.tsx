@@ -21,14 +21,12 @@ export function ManualCreationFrame({ form }: ManualCreationFrameProps) {
 				defaultValue=""
 				render={({ field }) => (
 					<>
-						<FormItem className={"flex justify-around items-center gap-2"}>
+						<FormItem>
 							<FormLabel>Larghezza</FormLabel>
-							<div>
-								<FormControl>
-									<Input placeholder="Larghezza" {...field} type="number" min={1}/>
-								</FormControl>
-								<FormMessage />
-							</div>
+							<FormControl>
+								<Input placeholder="In metri" {...field} type="number" min={1} step={0.01}/>
+							</FormControl>
+							<FormMessage />
 						</FormItem>
 					</>
 				)}
@@ -39,14 +37,12 @@ export function ManualCreationFrame({ form }: ManualCreationFrameProps) {
 				defaultValue=""
 				render={({ field }) => (
 					<>
-						<FormItem className={"flex justify-around items-center gap-2"}>
-							<FormLabel>Profondità</FormLabel>
-							<div >
-								<FormControl>
-									<Input placeholder="Profondità" {...field} type="number" min={1}/>
-								</FormControl>
-								<FormMessage />
-							</div>
+						<FormItem>
+							<FormLabel>Lunghezza</FormLabel>
+							<FormControl>
+								<Input placeholder="In metri" {...field} type="number" min={1} step={0.01}/>
+							</FormControl>
+							<FormMessage />
 						</FormItem>
 					</>
 				)}

@@ -1,13 +1,14 @@
-import React, { use, useEffect, useRef, useState } from "react";
-import { Box, Edges, Line, Plane } from "@react-three/drei";
+import React, { useRef, useState } from "react";
+import { Edges, Plane } from "@react-three/drei";
 import { Zone } from "@/model/zone";
 import * as THREE from "three";
 import { Bin3D } from "./bin3D";
 import { useDrag } from "@use-gesture/react";
 import { Group, Object3DEventMap, Vector2, Vector3 } from "three";
 import { ThreeEvent, useThree } from "@react-three/fiber";
-import { set } from "zod";
 import { useWarehouseData } from "@/components/providers/Threejs/warehouseProvider";
+import ZoneItemDetails from "@/components/custom/panels/Zone/zoneItemDetails";
+import { useElementDetails } from "@/components/providers/UI-Providers/ElementDetailsProvider";
 
 interface Zone3DProps {
 	zone: Zone;
@@ -27,11 +28,13 @@ export function Zone3D({
 	const [currentPosition, setCurrentPosition] = useState(position);
 	const { gl, camera, scene } = useThree();
 	const [toDrag, setToDrag] = useState(false);
-	const [showRepositionButton, setShowRepositionButton] = useState(false);
 	const [lastValidPosition, setLastValidPosition] = useState(new Vector3( currentPosition.x, currentPosition.y, currentPosition.z ));
-	const {setIsDragging} = useWarehouseData();
+	const { orbitRef } = useWarehouseData();
+	const { setElementDetails, setShowElementDetails } = useElementDetails();
 	const planeRef = useRef<THREE.Mesh | null>(null);
 	const parentRef = useRef<Group<Object3DEventMap> | null>(null);
+
+	const showRepositionButtonRef = useRef<THREE.Mesh>(null);
 
 	// Function to calculate the target position
 	const calculateTargetPosition = (state: any) => {
@@ -72,7 +75,7 @@ export function Zone3D({
 	const bind = useDrag((state) => {
 		state.event.stopPropagation();
 		if (toDrag && planeRef.current) {
-		  setIsDragging!(true);
+		  orbitRef.current.enabled = false;
 		  planeRef.current.visible = true;
 		  const target = calculateTargetPosition(state);
 		  const collision = checkCollision();
@@ -90,7 +93,7 @@ export function Zone3D({
 		  if (state.last) {
 			planeRef.current.visible = false;
 			state.event.stopPropagation();
-			setIsDragging!(false);
+			orbitRef.current.enabled = true;
 			setToDrag(false);
 
 			if (checkCollision()) {
@@ -102,7 +105,7 @@ export function Zone3D({
 			zone.setCoordinateY(lastValidPosition.z);
 		  }
 		}
-	  });
+	  }, { threshold: 1});
 
 	return (
 		//@ts-ignore
@@ -116,13 +119,13 @@ export function Zone3D({
 			]}
 			rotation={[0, zone.getOrientation() ? -Math.PI / 2 : 0, 0]}
 			{...bind()}
-			onPointerOver={(event : ThreeEvent<MouseEvent>) => {
+			onPointerEnter={(event : ThreeEvent<MouseEvent>) => {
 				event.stopPropagation();
-				setShowRepositionButton(true);
+				showRepositionButtonRef.current!.visible = true;
 			}}
 			onPointerOut={(event : ThreeEvent<MouseEvent>) => {
 				event.stopPropagation();
-				setShowRepositionButton(false)
+				showRepositionButtonRef.current!.visible = false;
 			}}
 			name="zone"
 			ref={parentRef}
@@ -157,7 +160,11 @@ export function Zone3D({
 			/>
 
 			<mesh
-				visible={showRepositionButton}
+				onDoubleClick={(event) => {
+					event.stopPropagation();
+					setElementDetails(<ZoneItemDetails zone={zone} />);
+					setShowElementDetails(true);
+				}}
 				onPointerDown={(event) => {
 					setToDrag(true);
 				}}
@@ -166,6 +173,9 @@ export function Zone3D({
 					-zone.getHeight() / 2 + 0.25,
 					zone.getLength() / 2,
 				]}
+
+				ref={showRepositionButtonRef}
+				visible={false}
 			>
 				<boxGeometry args={[0.5, 0.5, 0.5]} />
 				<meshBasicMaterial color="red" />

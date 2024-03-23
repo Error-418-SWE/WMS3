@@ -1,50 +1,66 @@
-import { Canvas, useThree } from "@react-three/fiber";
-import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import { CameraControls, KeyboardControls } from "@react-three/drei";
 import Floor from "./Model3D/Floor";
 import { useFloorData } from "../providers/floorProvider";
-import THREE, { Raycaster, Vector2, Vector3 } from "three";
+import { Vector3 } from "three";
 import { useZonesData } from "../providers/zonesProvider";
 import { Zone } from "@/model/zone";
 import { Zone3D } from "./Model3D/zone3D";
 import { useWarehouseData } from "../providers/Threejs/warehouseProvider";
+import { ExtendedCameraControls } from "./ExtendedCameraControls";
 
 export default function Warehouse() {
 	const { floor } = useFloorData();
 	const { zones } = useZonesData();
 
-	const {isDragging} = useWarehouseData();
+	const { orbitRef } = useWarehouseData();
 
 	return (
-		<Canvas className={"h-screen, bg-BurlyWood"}>
-			<PerspectiveCamera
-				makeDefault
-				position={[floor.getWidth() / 2, 60, floor.getLength()]}
-				rotation={[Math.PI / 2, Math.PI / 2, Math.PI / 2]}
-			/>
-			<Floor />
+		<KeyboardControls
+			map={[
+				{ name: "forward", keys: ["ArrowUp", "w", "W"] },
+				{ name: "backward", keys: ["ArrowDown", "s", "S"] },
+				{ name: "left",	keys: ["ArrowLeft", "a", "A"] },
+				{ name: "right", keys: ["ArrowRight", "d", "D"] },
+				{ name: "quick", keys: ["ShiftLeft", "ShiftRight"] },
+			]}>
+			<Canvas
+				className={"h-screen, w-screen, bg-BurlyWood"}
+				camera={{
+					position: [floor.getWidth(), 60, floor.getLength()],
+				}}>
 
-			{zones.map((zone: Zone, index: number) => {
-				const zonePosition = new Vector3(
-					zone.getXcoordinate(),
-					0,
-					zone.getYcoordinate()
-				);
-				return (
-					<Zone3D
-						key={zone.getId()}
-						zone={zone}
-						position={zonePosition}
+				<Floor />
+
+				{zones.map((zone: Zone, index: number) => {
+					const zonePosition = new Vector3(
+						zone.getXcoordinate(),
+						0,
+						zone.getYcoordinate()
+					);
+					return (
+						<Zone3D
+							key={zone.getId()}
+							zone={zone}
+							position={zonePosition}
+						/>
+					);
+				})}
+
+				<CameraControls
+					minPolarAngle={Math.PI / 10}
+					maxPolarAngle={Math.PI / 3}
+					minDistance={5}
+					maxDistance={100}
+					minZoom={5}
+					maxZoom={100}
+					ref={orbitRef}
+				/>
+
+				<ExtendedCameraControls
+					cameraRef={orbitRef}
 					/>
-				);
-			})}
-
-			<OrbitControls
-				dampingFactor={0.05}
-				screenSpacePanning={false}
-				minPolarAngle={Math.PI / 5}
-				maxPolarAngle={Math.PI / 2.3}
-				enabled={!isDragging}
-			/>
-		</Canvas>
+			</Canvas>
+		</KeyboardControls>
 	);
 }

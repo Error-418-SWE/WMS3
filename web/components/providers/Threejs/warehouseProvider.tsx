@@ -1,5 +1,5 @@
 import { Bin, BinState } from "@/model/bin";
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useOrdersData } from "@/components/providers/ordersProvider";
 import { useBinsData } from "../binsProvider";
@@ -9,13 +9,12 @@ import { useZonesData } from "../zonesProvider";
 interface WarehouseContextType {
 	selectedBin: Bin | null;
 	setSelectedBin: (bin: Bin | null) => void;
-	isDragging: boolean;
-	setIsDragging: (isDragging: boolean) => void;
 	newMovementOrder: (
 		startPoint: string,
 		endPoint: string,
 		product: number
 	) => Promise<unknown>;
+    orbitRef: React.MutableRefObject<any>;  
 }
 
 const warehouseContext = createContext<WarehouseContextType | null>(null);
@@ -26,9 +25,9 @@ export function WarehouseDataProvider({
 	children: React.ReactNode;
 }) {
 	const [selectedBin, setSelectedBin] = useState<Bin | null>(null);
-	const [isDragging, setIsDragging] = useState<boolean>(false);
     const { addOrder } = useOrdersData();
     const { zones } = useZonesData();
+    let orbitRef = useRef(null);
 
     async function newMovementOrder(
         startPoint: string,
@@ -85,9 +84,8 @@ export function WarehouseDataProvider({
 	const value = {
 		selectedBin,
 		setSelectedBin,
-		isDragging,
-		setIsDragging,
 		newMovementOrder,
+        orbitRef
 	};
 
 	return (
