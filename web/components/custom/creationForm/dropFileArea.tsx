@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { useProcessingContext } from "@/components/providers/UI-Providers/formContextProvider";
 import { saveSVG } from "@/ServerActions/SVG/saveSVG";
 import SVGSanitize from "@/ServerActions/SVG/SVGSanitize";
+import { Upload } from "lucide-react";
 
 interface DropFileAreaProps {
 	form: UseFormReturn;
@@ -84,17 +85,10 @@ export function DropFileArea({ form }: DropFileAreaProps) {
 							onDragOver={handleDragOver}
 							onClick={handleClick}
 							className={
-								"bg-secondary h-24 rounded-lg border-2 border-dashed border-gray-300 text-black flex flex-col justify-center items-center text-center"
+								"bg-secondary h-24 rounded-lg border-2 border-dashed border-gray-300 text-black flex flex-col justify-center items-center text-center cursor-pointer"
 							}
 						>
-							<Image
-								src="/icons/upload.svg"
-								alt=""
-								width={48}
-								height={48}
-								priority
-								className={"h-6 mb-2"}
-							/>
+							<Upload size={48} className={"h-6 mb-2"} />
 							{displayedText}
 						</div>
 						<FormMessage className={"text-center"}>
