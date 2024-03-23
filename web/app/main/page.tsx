@@ -42,6 +42,7 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { WarehouseDataProvider } from "@/components/providers/Threejs/warehouseProvider";
 import { Toaster } from "@/components/ui/sonner";
+import { LayoutDashboard, Package, Clipboard, Settings } from "lucide-react";
 
 const iconSize = 28;
 
@@ -115,10 +116,8 @@ function Main() {
 			<Toaster />
 			<OrdersDataProvider>
 				<nav
-				className={
-					"flex flex-col h-screen bg-primary px-1.5 py-4 items-center gap-4"
-				}
-			>
+					className={"flex flex-col h-screen bg-primary px-1.5 py-4 items-center gap-4"}
+				>
 				<Image
 					src="/icons/logo.svg"
 					alt=""
@@ -133,12 +132,7 @@ function Main() {
 					}}
 					className={`flex flex-col gap-1.5 p-1 items-center p-2 w-16 h-16 hover:bg-slate-600 group ${panel.type === ZonePanel && showPanel ? "bg-slate-700" : "" }`}
 				>
-					<Image
-						src="/icons/zone.svg"
-						alt=""
-						width={iconSize}
-						height={iconSize}
-					/>
+					<LayoutDashboard size={iconSize} />
 					<span className={"sr-only group-hover:not-sr-only"}>Zone</span>
 				</Button>
 				<Button
@@ -148,12 +142,7 @@ function Main() {
 					}}
 					className={`flex flex-col gap-1.5 items-center p-2 w-16 h-16 hover:bg-slate-600 group ${panel.type === ProductsPanel && showPanel ? "bg-slate-700" : "" }`}
 				>
-					<Image
-						src="/icons/products.svg"
-						alt=""
-						width={iconSize}
-						height={iconSize}
-					/>
+					<Package size={iconSize} />
 					<span className={"sr-only group-hover:not-sr-only"}>Prodotti</span>
 				</Button>
 				<Button
@@ -163,12 +152,7 @@ function Main() {
 					}}
 					className={`flex flex-col gap-1.5 items-center p-2 w-16 h-16 hover:bg-slate-600 group ${panel.type === OrdersPanel && showPanel ? "bg-slate-700" : "" }`}
 				>
-					<Image
-						src="/icons/orders.svg"
-						alt=""
-						width={iconSize}
-						height={iconSize}
-					/>
+					<Clipboard size={iconSize} />
 					<span className={"sr-only group-hover:not-sr-only"}>Ordini</span>
 				</Button>
 				<Button
@@ -178,27 +162,22 @@ function Main() {
 					}}
 					className={`mt-auto flex flex-col gap-1.5 items-center p-2 w-16 h-16 hover:bg-slate-600 group ${panel.type === SettingsPanel && showPanel ? "bg-slate-700" : "" }`}
 				>
-					<Image
-						src="/icons/settings.svg"
-						alt=""
-						width={iconSize}
-						height={iconSize}
-					/>
+					<Settings size={iconSize} />
 					<span className={"sr-only"}>Impostazioni</span>
 				</Button>
 			</nav>
-				<WarehouseDataProvider>
-					<div className={"flex-grow relative"}>
-						{showPanel && <Suspense>{panel}</Suspense>}
-						{dataLoaded && <Warehouse />}
-					</div>
-					{showElementDetails ? (
-						<Panel className={"right-0"}>{elementDetails}</Panel>
-					) : (
-						<></>
-					)}
-				</WarehouseDataProvider>
-			</OrdersDataProvider>
-		</main>
+			<WarehouseDataProvider>
+				<div className={"flex-grow relative"}>
+					{showPanel && <Suspense>{panel}</Suspense>}
+					{dataLoaded && <Warehouse />}
+				</div>
+				{showElementDetails ? (
+					<Panel className={"right-0"}>{elementDetails}</Panel>
+				) : (
+					<></>
+				)}
+			</WarehouseDataProvider>
+		</OrdersDataProvider>
+	</main>
 	);
 }
