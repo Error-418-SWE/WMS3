@@ -190,7 +190,7 @@ export function CreationForm({
 								Indietro
 							</Button>
 							<Button type="submit" disabled={isProcessing}>
-								{isProcessing && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" /> }
+								{isProcessing && <LoaderCircle size={16} className="mr-2 animate-spin" /> }
 								Conferma
 							</Button>
 						</div>
