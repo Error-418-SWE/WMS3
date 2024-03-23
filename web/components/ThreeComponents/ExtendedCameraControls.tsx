@@ -24,6 +24,17 @@ export function ExtendedCameraControls({
 
 	});
 
+	const bound = 10;
+
+	useEffect(() => {
+		cameraRef.current?.setBoundary(
+			new Box3(
+				new Vector3(-bound, 0, -bound),
+				new Vector3(floor.getWidth() + bound, 20, floor.getLength() + bound)
+			)
+		)
+	  })
+
 	return (
 		<></>
 	);
