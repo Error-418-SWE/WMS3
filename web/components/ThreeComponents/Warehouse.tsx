@@ -27,7 +27,7 @@ export default function Warehouse() {
 			<Canvas
 				className={"h-screen, w-screen, bg-BurlyWood"}
 				camera={{
-					position: [floor.getWidth(), 60, floor.getLength()],
+					position: [floor.getWidth(), 50, floor.getLength()],
 				}}>
 
 				<Floor />
