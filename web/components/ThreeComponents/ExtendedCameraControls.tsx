@@ -1,6 +1,7 @@
 import { CameraControls, useKeyboardControls } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { RefObject } from "react";
+import { useFloorData } from "../providers/floorProvider";
 
 interface ExtendedCameraControlsProps {
 	cameraRef: RefObject<CameraControls>;
@@ -11,6 +12,7 @@ export function ExtendedCameraControls({
 }: ExtendedCameraControlsProps) {
 
 	const [,get] = useKeyboardControls();
+	const { floor } = useFloorData();
 
 	useFrame(() => {
 
@@ -23,6 +25,12 @@ export function ExtendedCameraControls({
 		}
 
 	});
+
+	addEventListener("keydown", (e) => {
+		if(e.key === "r" || e.key === "R") {
+			cameraRef.current?.setLookAt(floor.getWidth(), 60, floor.getLength(), 0, 0, 0)
+		}
+	}, false);
 
 	return (
 		<></>
