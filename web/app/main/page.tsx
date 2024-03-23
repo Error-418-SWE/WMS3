@@ -42,9 +42,14 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { WarehouseDataProvider } from "@/components/providers/Threejs/warehouseProvider";
 import { Toaster } from "@/components/ui/sonner";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { LayoutDashboard, Package, Clipboard, Settings } from "lucide-react";
 
-const iconSize = 28;
 
 export default function App() {
 	return (
@@ -66,6 +71,7 @@ export default function App() {
 
 function Main() {
 	const params = useSearchParams();
+	const iconSize = 28;
 
 	const [showPanel, setShowPanel] = useState(false);
 	const [panel, setPanel] = useState(<></>);
@@ -115,69 +121,101 @@ function Main() {
 		<main className={"h-screen flex"}>
 			<Toaster />
 			<OrdersDataProvider>
-				<nav
-					className={"flex flex-col h-screen bg-primary px-1.5 py-4 items-center gap-4"}
-				>
-				<Image
-					src="/icons/logo.svg"
-					alt=""
-					width={50}
-					height={50}
-					priority
-				/>
-				<Button
-					onClick={() => {
-						setPanel(<ZonePanel />);
-						setShowPanel(panel.type !== ZonePanel || !showPanel);
-					}}
-					className={`flex flex-col gap-1.5 p-1 items-center p-2 w-16 h-16 hover:bg-slate-600 group ${panel.type === ZonePanel && showPanel ? "bg-slate-700" : "" }`}
-				>
-					<LayoutDashboard size={iconSize} />
-					<span className={"sr-only group-hover:not-sr-only"}>Zone</span>
-				</Button>
-				<Button
-					onClick={() => {
-						setPanel(<ProductsPanel />);
-						setShowPanel(panel.type !== ProductsPanel || !showPanel);
-					}}
-					className={`flex flex-col gap-1.5 items-center p-2 w-16 h-16 hover:bg-slate-600 group ${panel.type === ProductsPanel && showPanel ? "bg-slate-700" : "" }`}
-				>
-					<Package size={iconSize} />
-					<span className={"sr-only group-hover:not-sr-only"}>Prodotti</span>
-				</Button>
-				<Button
-					onClick={() => {
-						setPanel(<OrdersPanel />);
-						setShowPanel(panel.type !== OrdersPanel || !showPanel);
-					}}
-					className={`flex flex-col gap-1.5 items-center p-2 w-16 h-16 hover:bg-slate-600 group ${panel.type === OrdersPanel && showPanel ? "bg-slate-700" : "" }`}
-				>
-					<Clipboard size={iconSize} />
-					<span className={"sr-only group-hover:not-sr-only"}>Ordini</span>
-				</Button>
-				<Button
-					onClick={() => {
-						setPanel(<SettingsPanel />);
-						setShowPanel(panel.type !== SettingsPanel || !showPanel);
-					}}
-					className={`mt-auto flex flex-col gap-1.5 items-center p-2 w-16 h-16 hover:bg-slate-600 group ${panel.type === SettingsPanel && showPanel ? "bg-slate-700" : "" }`}
-				>
-					<Settings size={iconSize} />
-					<span className={"sr-only"}>Impostazioni</span>
-				</Button>
-			</nav>
-			<WarehouseDataProvider>
-				<div className={"flex-grow relative"}>
-					{showPanel && <Suspense>{panel}</Suspense>}
-					{dataLoaded && <Warehouse />}
-				</div>
-				{showElementDetails ? (
-					<Panel className={"right-0"}>{elementDetails}</Panel>
-				) : (
-					<></>
-				)}
-			</WarehouseDataProvider>
-		</OrdersDataProvider>
-	</main>
+				<TooltipProvider>
+					<nav
+						className={"flex flex-col flex-wrap justify-between h-screen bg-primary px-1.5 py-4 h-full"}
+					>
+						<div className={"flex flex-col gap-4 items-center"}>
+							<Image
+								src="/icons/logo.svg"
+								alt=""
+								width={50}
+								height={50}
+								priority
+							/>
+							<Tooltip>
+								<TooltipTrigger>
+									<Button
+										onClick={() => {
+											setPanel(<ZonePanel />);
+											setShowPanel(panel.type !== ZonePanel || !showPanel);
+										}}
+										className={`p-2 w-16 h-16 hover:bg-slate-600 ${panel.type === ZonePanel && showPanel ? "bg-slate-700" : ""}`}
+									>
+										<LayoutDashboard size={iconSize} />
+									</Button>
+								</TooltipTrigger>
+								<TooltipContent side="right" sideOffset={8}>
+									<p>Zone</p>
+								</TooltipContent>
+							</Tooltip>
+							<Tooltip>
+								<TooltipTrigger>
+									<Button
+										onClick={() => {
+											setPanel(<ProductsPanel />);
+											setShowPanel(panel.type !== ProductsPanel || !showPanel);
+										}}
+										className={`p-2 w-16 h-16 hover:bg-slate-600 ${panel.type === ProductsPanel && showPanel ? "bg-slate-700" : ""}`}
+									>
+										<Package size={iconSize} />
+									</Button>
+								</TooltipTrigger>
+								<TooltipContent side="right" sideOffset={8}>
+									<p>Prodotti</p>
+								</TooltipContent>
+							</Tooltip>
+							<Tooltip>
+								<TooltipTrigger>
+									<Button
+										onClick={() => {
+											setPanel(<OrdersPanel />);
+											setShowPanel(panel.type !== OrdersPanel || !showPanel);
+										}}
+										className={`p-2 w-16 h-16 hover:bg-slate-600 ${panel.type === OrdersPanel && showPanel ? "bg-slate-700" : ""}`}
+									>
+										<Clipboard size={iconSize} />
+									</Button>
+								</TooltipTrigger>
+								<TooltipContent side="right" sideOffset={8}>
+									<p>Ordini di movimentazione</p>
+								</TooltipContent>
+							</Tooltip>
+						</div>
+
+						<div className={"flex flex-col gap-4"}>
+							<Tooltip>
+								<TooltipTrigger>
+									<Button
+										onClick={() => {
+											setPanel(<SettingsPanel />);
+											setShowPanel(panel.type !== SettingsPanel || !showPanel);
+										}}
+										className={`p-2 w-16 h-16 hover:bg-slate-600 ${panel.type === SettingsPanel && showPanel ? "bg-slate-700" : ""}`}
+									>
+										<Settings size={iconSize} />
+									</Button>
+								</TooltipTrigger>
+								<TooltipContent side="right" sideOffset={8}>
+									<p>Impostazioni</p>
+								</TooltipContent>
+							</Tooltip>
+						</div>
+					</nav>
+				</TooltipProvider>
+
+				<WarehouseDataProvider>
+					<div className={"flex-grow relative"}>
+						{showPanel && <Suspense>{panel}</Suspense>}
+						{dataLoaded && <Warehouse />}
+					</div>
+					{showElementDetails ? (
+						<Panel className={"right-0"}>{elementDetails}</Panel>
+					) : (
+						<></>
+					)}
+				</WarehouseDataProvider>
+			</OrdersDataProvider>
+		</main>
 	);
 }
