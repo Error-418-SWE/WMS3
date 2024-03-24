@@ -1,6 +1,7 @@
 import { CameraControls, useKeyboardControls } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { RefObject } from "react";
+import { RefObject, useEffect } from "react";
+import { Box3, Vector3 } from "three";
 import { useFloorData } from "../providers/floorProvider";
 
 interface ExtendedCameraControlsProps {
@@ -31,6 +32,17 @@ export function ExtendedCameraControls({
 			cameraRef.current?.setLookAt(floor.getWidth(), 60, floor.getLength(), 0, 0, 0)
 		}
 	});
+
+	const bound = 10;
+
+	useEffect(() => {
+		cameraRef.current?.setBoundary(
+			new Box3(
+				new Vector3(-bound, 0, -bound),
+				new Vector3(floor.getWidth() + bound, 20, floor.getLength() + bound)
+			)
+		)
+	  })
 
 	return (
 		<></>
