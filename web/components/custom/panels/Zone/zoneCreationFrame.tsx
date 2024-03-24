@@ -15,6 +15,7 @@ import { SetStateAction, use, useEffect, useState } from "react";
 import {
 	Form,
 	FormControl,
+	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
@@ -27,8 +28,8 @@ import { z } from "zod";
 import { customColumns, equalColumns } from "./zoneZodSchemes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useZonesData } from "@/components/providers/zonesProvider";
-import { useWarehouseData } from "@/components/providers/Threejs/warehouseProvider";
-import Image from "next/image";
+import { ListPlus, X } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 function checkIfEqualColumns(zone: Zone) {
 	const firstLevelBins = zone.getLevels()[0];
@@ -70,6 +71,7 @@ function ColumnCreation(form: any, zone?: Zone) {
 					<FormItem>
 						<FormControl>
 							<RadioGroup
+								className={"gap-4"}
 								defaultValue={
 									zone ? (!customColumns ? "equal" : "custom") : "equal"
 								}
@@ -78,99 +80,97 @@ function ColumnCreation(form: any, zone?: Zone) {
 									setCustomColumns(value == "custom" ? true : false);
 								}}
 							>
-								<div className={"flex items-center space-x-2"}>
-									<RadioGroupItem value="equal" id="equal" />
-									<div className={"flex items-center w-full justify-between"}>
-										<FormField
-											name="nColumns"
-											control={form.control}
-											defaultValue={
-												zone
-													? !customColumns
-														? zone.getLevels()[0].length
-														: "1"
-													: "1"
+								<div className={"flex gap-x-2 content-center"}>
+									<RadioGroupItem value="equal" id="equal" className={"mt-1"}/>
+									<FormField
+										name="nColumns"
+										control={form.control}
+										defaultValue={
+											zone
+												? !customColumns
+												? zone.getLevels()[0].length
+												: "1"
+												: "1"
 											}
 											render={({ field }) => (
 												<>
-													<FormItem className={"flex"}>
-														<div className={"grid grid-cols-3 items-center"}>
-															<FormLabel className={"col-span-2"}>
-																# colonne uguali
-															</FormLabel>
-															<FormControl>
-																<Input
-																	className={"w-content"}
-																	placeholder="N°"
-																	{...field}
-																	type="number"
-																	min={zone ? zone.getMaxUsedColumn() : 1}
-																	disabled={customColumns}
-																	onChange={(e) => {
-																		form.clearErrors("customColumns");
-																		if (zone) {
-																			if (
-																				parseInt(e.target.value) >=
-																				zone.getMaxUsedColumn()
-																			) {
-																				field.onChange(e);
-																				form.clearErrors("nColumns");
-																			} else {
-																				console.log(parseInt(e.target.value));
-																				console.log(zone.getMaxUsedColumn());
-																				form.setError("nColumns", {
-																					type: "manual",
-																					message:
-																						"La zona necessita di almeno " +
-																						zone.getMaxUsedColumn() +
-																						" colonne",
-																				});
-																			}
-																		} else {
+												<FormItem>
+													<FormLabel>
+														Dividi in parti uguali
+													</FormLabel>
+													<FormControl>
+														<Input
+															placeholder="N°"
+															{...field}
+															type="number"
+															min={zone ? zone.getMaxUsedColumn() : 1}
+															disabled={customColumns}
+															onChange={(e) => {
+																form.clearErrors("customColumns");
+																if (zone) {
+																	if (
+																		parseInt(e.target.value) >=
+																		zone.getMaxUsedColumn()
+																		) {
 																			field.onChange(e);
-																		}
-																	}}
-																/>
-															</FormControl>
-															<FormMessage className={"col-span-3"} />
-														</div>
-													</FormItem>
-												</>
-											)}
-										/>
-									</div>
+																			form.clearErrors("nColumns");
+																		} else {
+																		console.log(parseInt(e.target.value));
+																		console.log(zone.getMaxUsedColumn());
+																		form.setError("nColumns", {
+																			type: "manual",
+																			message:
+																			"La zona necessita di almeno " +
+																			zone.getMaxUsedColumn() +
+																			" colonne",
+																		});
+																	}
+																} else {
+																	field.onChange(e);
+																}
+															}}
+														/>
+													</FormControl>
+													<FormMessage />
+													<FormDescription>
+														Indica il numero di colonne in cui dividere la zona.
+													</FormDescription>
+												</FormItem>
+											</>
+										)}
+									/>
 								</div>
-								<div className={"flex items-start space-x-2"}>
-									<RadioGroupItem value="custom" id="custom" />
+
+								<div className={"flex gap-x-2 content-center"}>
+									<RadioGroupItem value="custom" id="custom" className={"mt-1"}/>
 									<FormField
 										name="customColumns"
 										control={form.control}
 										defaultValue={
 											zone
 												? zone
-														.getLevels()[0]
-														.map((bin) => bin.getWidth())
-														.join(" ")
+													.getLevels()[0]
+													.map((bin) => bin.getWidth())
+													.join(" ")
 												: ""
 										}
 										render={({ field }) => (
 											<>
-												<FormItem className={"flex flex-col"}>
-													<FormLabel className={"col-span-2"}>
+												<FormItem>
+													<FormLabel>
 														Colonne personalizzate
 													</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
-															className={"w-content"}
-															placeholder=" x x x..."
+															placeholder="x x x..."
 															disabled={!customColumns}
 															onChange={(e) => {
 																form.clearErrors("nColumns");
 																if (
 																	zone &&
 																	e.target.value.trim().split(" ").length <
-																		zone.getMaxUsedColumn()
+																	zone.getMaxUsedColumn()
 																) {
 																	form.setError("customColumns", {
 																		type: "manual",
@@ -201,10 +201,10 @@ function ColumnCreation(form: any, zone?: Zone) {
 														/>
 													</FormControl>
 													<FormMessage />
-													<span className={"text-sm text-muted-foreground"}>
+													<FormDescription>
 														Inserisci la larghezza delle colonne separando i
 														valori con uno spazio.
-													</span>
+													</FormDescription>
 												</FormItem>
 											</>
 										)}
@@ -251,9 +251,9 @@ export default function ZoneCreationFrame({
 			"customColumns",
 			zone
 				? zone
-						.getLevels()[0]
-						.map((bin) => bin.getWidth())
-						.join(" ")
+					.getLevels()[0]
+					.map((bin) => bin.getWidth())
+					.join(" ")
 				: ""
 		);
 		form.setValue("nColumns", zone ? zone.getLevels()[0].length : 1);
@@ -365,173 +365,171 @@ export default function ZoneCreationFrame({
 	}
 
 	return (
-		<div className={"flex flex-col h-full mx-5"}>
-			<div className={"flex items-center mt-2 justify-between"}>
-				<h1 className={"grow font-bold text-2xl"}>
-					{zone ? "Zona: " + zone.getId() : "Nuova zona"}
-				</h1>
+		<div className={"flex flex-col h-full mx-5 my-2"}>
+			<div className={"flex items-center justify-between mb-4"}>
+				<div>
+					<h1 className={"grow font-bold text-2xl"}>
+						{zone ? "Zona: " + zone.getId() : "Nuova zona"}
+					</h1>
+					<span className={"text-sm text-muted-foreground"}>
+						{zone ? "Modifica" : "Definisci"} le proprietà della zona
+					</span>
+				</div>
 				<Button
 					className={buttonVariants({ variant: "secondary" })}
 					onClick={() => {
 						setShowElementDetails(false);
 					}}
 				>
-					X
+					<X size={16} />
 				</Button>
 			</div>
-			<span className={"text-sm text-muted-foreground"}>
-				{zone ? "Modifica" : "Definisci"} le proprietà della zona
-			</span>
 
+		<ScrollArea>
 			<Form {...form}>
-				<form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
-					<div className={"flex flex-col gap-y-4 mt-2 h-fit"}>
-						<FormField
-							control={form.control}
-							name="id"
-							defaultValue={zone ? zone.getId() : 0}
-							render={({ field }) => (
-								<FormItem className={"grid items-center grid-cols-3"}>
-									<FormLabel>ID</FormLabel>
-									<FormControl>
-										<Input
-											className={"col-span-2"}
-											{...field}
-											placeholder="ID"
-											disabled={zone ? true : false}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						<FormField
-							control={form.control}
-							name="direction"
-							render={({ field }) => (
-								<FormItem className={"grid items-center grid-cols-3"}>
-									<FormLabel>Direzione</FormLabel>
-
-									<Select
-										onValueChange={field.onChange}
-										defaultValue={
-											zone ? (zone.getOrientation() ? "NS" : "EW") : "NS"
-										}
-									>
+				<form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-wrap gap-4 content-start h-full">
+						<div className="w-1/3 flex-auto">
+							<FormField
+								control={form.control}
+								name="id"
+								defaultValue={zone ? zone.getId() : 0}
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>ID</FormLabel>
 										<FormControl>
-											<SelectTrigger className={"col-span-2"}>
-												<SelectValue placeholder="Direzione" />
-											</SelectTrigger>
+											<Input
+												{...field}
+												placeholder="ID"
+												disabled={zone ? true : false}
+											/>
 										</FormControl>
-										<SelectContent>
-											<SelectItem value="NS">Nord ↔ Sud</SelectItem>
-											<SelectItem value="EW">Est ↔ Ovest</SelectItem>
-										</SelectContent>
-									</Select>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						<div className={"grid items-center grid-cols-3"}>
-							<Label>Dimensioni</Label>
-							<div className={"flex col-span-2 gap-x-2"}>
-								<FormField
-									control={form.control}
-									name="length"
-									defaultValue={zone ? zone.getLength() : 1}
-									render={({ field }) => (
-										<FormItem>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+						</div>
+						<div className="w-1/3 flex-auto">
+							<FormField
+								control={form.control}
+								name="direction"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Direzione</FormLabel>
+										<Select
+											onValueChange={field.onChange}
+											defaultValue={
+												zone ? (zone.getOrientation() ? "NS" : "EW") : "NS"
+											}
+										>
 											<FormControl>
-												<Input
-													{...field}
-													placeholder="Depth"
-													type="number"
-													min={1}
-													step={0.1}
-												></Input>
+												<SelectTrigger>
+													<SelectValue placeholder="Direzione" />
+												</SelectTrigger>
 											</FormControl>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
-
-								<FormField
-									control={form.control}
-									name="width"
-									defaultValue={zone ? zone.getWidth() : 1}
-									render={({ field }) => (
-										<FormItem>
-											<FormControl>
-												<Input
-													{...field}
-													type="number"
-													min={1}
-													step={0.1}
-													placeholder="Length"
-													disabled={form.getValues("columnsType") != "equal"}
-												></Input>
-											</FormControl>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
-
-								<FormField
-									control={form.control}
-									name="height"
-									defaultValue={zone ? zone.getHeight() : 1}
-									render={({ field }) => (
-										<FormItem>
-											<FormControl>
-												<Input
-													{...field}
-													type="number"
-													min={1}
-													placeholder="Height"
-													disabled
-												></Input>
-											</FormControl>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
-							</div>
+											<SelectContent>
+												<SelectItem value="NS">Nord ↔ Sud</SelectItem>
+												<SelectItem value="EW">Est ↔ Ovest</SelectItem>
+											</SelectContent>
+										</Select>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+						</div>
+						<div className="w-1/4 flex-auto">
+							<FormField
+								control={form.control}
+								name="length"
+								defaultValue={zone ? zone.getLength() : 1}
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Lunghezza</FormLabel>
+										<FormControl>
+											<Input
+												{...field}
+												placeholder="In m"
+												type="number"
+												min={1}
+												step={0.1}
+											></Input>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+						</div>
+						<div className="w-1/4 flex-auto">
+							<FormField
+								control={form.control}
+								name="width"
+								defaultValue={zone ? zone.getWidth() : 1}
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Larghezza</FormLabel>
+										<FormControl>
+											<Input
+												{...field}
+												type="number"
+												min={1}
+												step={0.1}
+												placeholder="In m"
+												disabled={form.getValues("columnsType") != "equal"}
+											></Input>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+						</div>
+						<div className="w-1/4 flex-auto">
+							<FormField
+								control={form.control}
+								name="height"
+								defaultValue={zone ? zone.getHeight() : 1}
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Altezza</FormLabel>
+										<FormControl>
+											<Input
+												{...field}
+												type="number"
+												min={1}
+												placeholder="In m"
+												disabled
+											></Input>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
 						</div>
 
-						<div className={"grid items-center grid-cols-3"}>
+						<div className="w-full">
 							<Label>Colonne</Label>
-							<div className={"col-span-2"}>{ColumnCreation(form, zone)}</div>
+							{ColumnCreation(form, zone)}
 						</div>
 
-						<hr />
+						<hr className="w-full"/>
 
-						<div className={"flex justify-between"}>
+						<div className={"flex w-full justify-between items-center sticky top-0 bg-slate-50 pb-2"}>
 							<span className={"font-bold"}>
 								{zone?.getColumns()[0].length || "0"}{" "}
-								{zone?.getColumns()[0].length != 1 ? "Livelli" : "Livello"}
+								{zone?.getColumns()[0].length != 1 ? "livelli" : "livello"}
 							</span>
 							<Button
 								type="button"
-								className={
-									buttonVariants({ variant: "outline" })
-								}
+								className={buttonVariants({ variant: "outline" }) + " text-black"}
 								onClick={() => {
 									setLevels([...levels, { id: Math.random(), height: 1 }]);
 								}}>
-								<Image
-									src="/icons/list-add.svg"
-									alt=""
-									width={16}
-									height={16}
-								/>
+								<ListPlus size={16} className="mr-2" />
+								Aggiungi
 							</Button>
 						</div>
 
 						<div
 							className={
-								"flex flex-col gap-2 flex-grow overflow-y-auto mb-10"
+								"flex flex-col gap-2 mb-16"
 							}
 						>
 							{levels.map((level, index) => (
@@ -547,15 +545,15 @@ export default function ZoneCreationFrame({
 							))}
 						</div>
 
-					</div>
 					<Button
 						type="submit"
-						className={"w-full"}
-						>
+						className={"w-full absolute bottom-4 z-10"}
+					>
 						{zone ? "Salva le modifiche alla " : "Crea "} zona
 					</Button>
 				</form>
 			</Form>
+			</ScrollArea>
 		</div>
 	);
 }
