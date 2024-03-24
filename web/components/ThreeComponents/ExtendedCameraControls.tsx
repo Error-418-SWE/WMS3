@@ -1,6 +1,8 @@
 import { CameraControls, useKeyboardControls } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { RefObject } from "react";
+import { RefObject, useEffect } from "react";
+import { Box3, Vector3 } from "three";
+import { useFloorData } from "../providers/floorProvider";
 
 interface ExtendedCameraControlsProps {
 	cameraRef: RefObject<CameraControls>;
@@ -11,6 +13,7 @@ export function ExtendedCameraControls({
 }: ExtendedCameraControlsProps) {
 
 	const [,get] = useKeyboardControls();
+	const { floor } = useFloorData();
 
 	useFrame(() => {
 
