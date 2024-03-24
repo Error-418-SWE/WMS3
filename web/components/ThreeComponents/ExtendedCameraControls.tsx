@@ -27,6 +27,12 @@ export function ExtendedCameraControls({
 
 	});
 
+	addEventListener("keydown", (e) => {
+		if(e.key === "r" || e.key === "R") {
+			cameraRef.current?.setLookAt(floor.getWidth(), 60, floor.getLength(), 0, 0, 0)
+		}
+	});
+
 	const bound = 10;
 
 	useEffect(() => {
