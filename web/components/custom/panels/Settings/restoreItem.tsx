@@ -42,12 +42,8 @@ export default function RestoreItem() {
 			</p>
 
 			<div className={"flex justify-end mt-4 gap-x-2"}>
-				<Dialog open={isOpen}>
-					<DialogTrigger className={buttonVariants({ variant: "outline" })} onClick={
-						() => {
-							setIsOpen(true);
-						}
-					}>
+				<Dialog>
+					<DialogTrigger className={buttonVariants({ variant: "outline" })}>
 						Risincronizza
 					</DialogTrigger>
 					<DialogContent>
@@ -61,7 +57,7 @@ export default function RestoreItem() {
 					</DialogContent>
 				</Dialog>
 				<Dialog>
-					<DialogTrigger className={buttonVariants({ variant: "destructive" }) + " w-min"}>
+					<DialogTrigger className={buttonVariants({ variant: "destructive" })}>
 						Reimposta
 					</DialogTrigger>
 
