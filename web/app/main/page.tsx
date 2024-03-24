@@ -133,7 +133,7 @@ function Main() {
 								height={50}
 								priority
 							/>
-							<Tooltip>
+							<Tooltip delayDuration={300}>
 								<TooltipTrigger>
 									<Button
 										onClick={() => {
@@ -149,7 +149,7 @@ function Main() {
 									<p>Zone</p>
 								</TooltipContent>
 							</Tooltip>
-							<Tooltip>
+							<Tooltip delayDuration={300}>
 								<TooltipTrigger>
 									<Button
 										onClick={() => {
@@ -165,7 +165,7 @@ function Main() {
 									<p>Prodotti</p>
 								</TooltipContent>
 							</Tooltip>
-							<Tooltip>
+							<Tooltip delayDuration={300}>
 								<TooltipTrigger>
 									<Button
 										onClick={() => {
@@ -184,7 +184,7 @@ function Main() {
 						</div>
 
 						<div className={"flex flex-col gap-4"}>
-							<Tooltip>
+							<Tooltip delayDuration={300}>
 								<TooltipTrigger>
 									<Button
 										onClick={() => {
