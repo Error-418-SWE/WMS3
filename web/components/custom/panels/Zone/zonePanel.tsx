@@ -11,6 +11,7 @@ import ZoneCreationFrame from "@/components/custom/panels/Zone/zoneCreationFrame
 import { Zone } from "@/model/zone";
 import { SearchStrategyFactory } from "@/model/SearchEngine/searchStrategyFactory";
 import { useEffect, useState } from "react";
+import { Plus } from "lucide-react";
 
 export default function ZonePanel() {
 
@@ -36,7 +37,8 @@ export default function ZonePanel() {
 					setElementDetails(<ZoneCreationFrame />);
 					setShowElementDetails(true);
 				}}>
-					<Image src="/icons/add.svg" width={16} height={16} alt="Crea zona" />
+					<Plus size={16} className={"mr-2"} />
+					Nuova
 				</Button>
 			</div>
 			<div className={"mx-5 mt-1"}>

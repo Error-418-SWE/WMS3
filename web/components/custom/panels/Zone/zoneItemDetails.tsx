@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import ZoneCreationFrame from "./zoneCreationFrame";
 import { useZonesData } from "@/components/providers/zonesProvider";
+import { X } from "lucide-react";
 
 interface ZoneItemProps {
 	zone: Zone;
@@ -33,7 +34,7 @@ export default function ZoneItemDetails({ zone }: ZoneItemProps) {
 						setShowElementDetails(false);
 					}}
 				>
-					X
+					<X size={16} />
 				</Button>
 			</div>
 			<span className={"text-sm text-muted-foreground"}>

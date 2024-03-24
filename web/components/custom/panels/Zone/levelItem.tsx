@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/form";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
+import { ListX } from "lucide-react";
 
 export default function LevelItem({
 	form,
@@ -36,7 +37,7 @@ export default function LevelItem({
 			{removable ?
 				<Button
 					type="button"
-					className={buttonVariants({ variant: "outline" })}
+					className={buttonVariants({ variant: "outline" }) + " text-black hover:bg-destructive focus:bg-destructive hover:text-white focus:text-white"}
 					onClick={() => {
 						var newlist = levels.filter(l => l.id !== level.id);
 						setLevels(newlist);
@@ -44,12 +45,7 @@ export default function LevelItem({
 						console.log(levels);
 						console.log(newlist);
 					}}>
-					<Image
-						src="/icons/list-remove.svg"
-						alt=""
-						width={16}
-						height={16}
-					/>
+					<ListX size={16} className={"text-inherit"}/>
 				</Button> : <></>
 			}
 		</div>
@@ -66,6 +62,7 @@ export default function LevelItem({
 								className={"col-span-2"}
 								{...field}
 								type="number"
+								placeholder="In m"
 								step={0.01}
 								min={1}
 								onChange={(e) => {
