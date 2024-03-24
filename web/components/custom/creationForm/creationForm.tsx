@@ -8,6 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { manualCreationSchema, svgCreationSchema } from "./zodScheme";
+import { LoaderCircle } from "lucide-react";
 
 import {
 	Form,
@@ -188,7 +189,10 @@ export function CreationForm({
 							>
 								Indietro
 							</Button>
-							<Button type="submit" disabled={isProcessing}>Conferma</Button>
+							<Button type="submit" disabled={isProcessing}>
+								{isProcessing && <LoaderCircle size={16} className="mr-2 animate-spin" /> }
+								Conferma
+							</Button>
 						</div>
 					</>
 				)}

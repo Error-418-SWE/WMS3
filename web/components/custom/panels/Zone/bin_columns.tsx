@@ -40,7 +40,7 @@ export const columns: ColumnDef<Bin>[] = [
 		header: "Stato",
 		cell: ({ row }) => {
 			const product: Product | null = row.getValue("product");
-			return product && product.getName() ? product.getName() : "Empty";
+			return product && product.getName() ? product.getName() : "Libero";
 		},
 	},
     {

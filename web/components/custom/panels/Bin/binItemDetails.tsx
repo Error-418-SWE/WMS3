@@ -6,6 +6,7 @@ import { useElementDetails } from "@/components/providers/UI-Providers/ElementDe
 import { Input } from "@/components/ui/input";
 import { useWarehouseData } from "@/components/providers/Threejs/warehouseProvider";
 import { toast } from "sonner";
+import { X } from "lucide-react";
 
 interface ProductItemProps {
 	bin: Bin;
@@ -14,7 +15,7 @@ interface ProductItemProps {
 export default function BinItemDetails({ bin }: ProductItemProps) {
 	const { setElementDetails, setShowElementDetails } = useElementDetails();
 	const { setSelectedBin } = useWarehouseData();
-	
+
 	const product = bin.getProduct();
 
 	return (
@@ -28,7 +29,7 @@ export default function BinItemDetails({ bin }: ProductItemProps) {
 						setSelectedBin(null);
 					}}
 				>
-					X
+					<X size={16} />
 				</Button>
 			</div>
 			<span className={"text-sm text-muted-foreground"}>
@@ -48,7 +49,7 @@ export default function BinItemDetails({ bin }: ProductItemProps) {
 			<hr />
 
 			{(product && ProductItemDetails({ product: product })) || (
-				<div className={"flex flex-col items-center justify-center"}>
+				<div className={"flex flex-col items-center justify-center mt-6"}>
 					<span className={"text-muted-foreground"}>
 						Nessun prodotto presente
 					</span>

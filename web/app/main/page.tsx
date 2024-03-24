@@ -42,8 +42,14 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { WarehouseDataProvider } from "@/components/providers/Threejs/warehouseProvider";
 import { Toaster } from "@/components/ui/sonner";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "@/components/ui/tooltip"
+import { LayoutDashboard, Package, Clipboard, Settings } from "lucide-react";
 
-const iconSize = 30;
 
 export default function App() {
 	return (
@@ -65,6 +71,7 @@ export default function App() {
 
 function Main() {
 	const params = useSearchParams();
+	const iconSize = 28;
 
 	const [showPanel, setShowPanel] = useState(false);
 	const [panel, setPanel] = useState(<></>);
@@ -101,11 +108,11 @@ function Main() {
 		return (
 			<div
 				className={
-					"flex flex-col gap-y-2 justify-center items-center m-auto w-[60%] h-screen"
+					"flex flex-col gap-y-2 justify-center items-center m-auto w-[40%] h-screen"
 				}
 			>
-				<Progress value={progress} className="[60%]" />
-				<span>Caricamento in corso ...</span>
+				<Progress value={progress} className="[40%]" />
+				<span>Caricamento in corso...</span>
 			</div>
 		);
 	}
@@ -114,92 +121,89 @@ function Main() {
 		<main className={"h-screen flex"}>
 			<Toaster />
 			<OrdersDataProvider>
-				<nav
-					className={
-						"flex flex-col h-screen bg-primary p-1.5 py-2 items-center gap-1"
-					}
-				>
-					<Image
-						src="/icons/logo.svg"
-						alt="logo"
-						width={50}
-						height={50}
-						className={"flex flex-col items-center"}
-						priority
-					/>
-					<Button
-						onClick={() => {
-							setPanel(<ZonePanel />);
-							setShowPanel(panel.type !== ZonePanel || !showPanel);
-						}}
-						className={`flex flex-col items-center w-full h-auto ${
-							panel.type === ZonePanel && showPanel ? "invert grayscale" : ""
-						}`}
+				<TooltipProvider>
+					<nav
+						className={"flex flex-col flex-wrap justify-between h-screen bg-primary px-1.5 py-4 h-full"}
 					>
-						<Image
-							src="/icons/zone.svg"
-							alt="Zone"
-							width={iconSize}
-							height={iconSize}
-						/>
-						<span>Zone</span>
-					</Button>
-					<Button
-						onClick={() => {
-							setPanel(<ProductsPanel />);
-							setShowPanel(panel.type !== ProductsPanel || !showPanel);
-						}}
-						className={`flex flex-col items-center w-full h-auto ${
-							panel.type === ProductsPanel && showPanel
-								? "invert grayscale"
-								: ""
-						}`}
-					>
-						<Image
-							src="/icons/products.svg"
-							alt="products"
-							width={iconSize}
-							height={iconSize}
-						/>
-						<span>Products</span>
-					</Button>
-					<Button
-						onClick={() => {
-							setPanel(<OrdersPanel />);
-							setShowPanel(panel.type !== OrdersPanel || !showPanel);
-						}}
-						className={`flex flex-col items-center w-full h-auto ${
-							panel.type === OrdersPanel && showPanel ? "invert grayscale" : ""
-						}`}
-					>
-						<Image
-							src="/icons/orders.svg"
-							alt="orders"
-							width={iconSize}
-							height={iconSize}
-						/>
-						<span>Orders</span>
-					</Button>
-					<Button
-						onClick={() => {
-							setPanel(<SettingsPanel />);
-							setShowPanel(panel.type !== SettingsPanel || !showPanel);
-						}}
-						className={`mt-auto flex flex-col items-center w-full h-auto ${
-							panel.type === SettingsPanel && showPanel
-								? "invert grayscale"
-								: ""
-						}`}
-					>
-						<Image
-							src="/icons/settings.svg"
-							alt="settings"
-							width={iconSize}
-							height={iconSize}
-						/>
-						<span>Settings</span>
-					</Button>
-				</nav>
+						<div className={"flex flex-col gap-4 items-center"}>
+							<Image
+								src="/icons/logo.svg"
+								alt=""
+								width={50}
+								height={50}
+								priority
+							/>
+							<Tooltip delayDuration={300}>
+								<TooltipTrigger>
+									<Button
+										onClick={() => {
+											setPanel(<ZonePanel />);
+											setShowPanel(panel.type !== ZonePanel || !showPanel);
+										}}
+										className={`p-2 w-16 h-16 hover:bg-slate-600 ${panel.type === ZonePanel && showPanel ? "bg-slate-700" : ""}`}
+									>
+										<LayoutDashboard size={iconSize} />
+									</Button>
+								</TooltipTrigger>
+								<TooltipContent side="right" sideOffset={8}>
+									<p>Zone</p>
+								</TooltipContent>
+							</Tooltip>
+							<Tooltip delayDuration={300}>
+								<TooltipTrigger>
+									<Button
+										onClick={() => {
+											setPanel(<ProductsPanel />);
+											setShowPanel(panel.type !== ProductsPanel || !showPanel);
+										}}
+										className={`p-2 w-16 h-16 hover:bg-slate-600 ${panel.type === ProductsPanel && showPanel ? "bg-slate-700" : ""}`}
+									>
+										<Package size={iconSize} />
+									</Button>
+								</TooltipTrigger>
+								<TooltipContent side="right" sideOffset={8}>
+									<p>Prodotti</p>
+								</TooltipContent>
+							</Tooltip>
+							<Tooltip delayDuration={300}>
+								<TooltipTrigger>
+									<Button
+										onClick={() => {
+											setPanel(<OrdersPanel />);
+											setShowPanel(panel.type !== OrdersPanel || !showPanel);
+										}}
+										className={`p-2 w-16 h-16 hover:bg-slate-600 ${panel.type === OrdersPanel && showPanel ? "bg-slate-700" : ""}`}
+									>
+										<Clipboard size={iconSize} />
+									</Button>
+								</TooltipTrigger>
+								<TooltipContent side="right" sideOffset={8}>
+									<p>Ordini di movimentazione</p>
+								</TooltipContent>
+							</Tooltip>
+						</div>
+
+						<div className={"flex flex-col gap-4"}>
+							<Tooltip delayDuration={300}>
+								<TooltipTrigger>
+									<Button
+										onClick={() => {
+											setPanel(<SettingsPanel />);
+											setShowPanel(panel.type !== SettingsPanel || !showPanel);
+										}}
+										className={`p-2 w-16 h-16 hover:bg-slate-600 ${panel.type === SettingsPanel && showPanel ? "bg-slate-700" : ""}`}
+									>
+										<Settings size={iconSize} />
+									</Button>
+								</TooltipTrigger>
+								<TooltipContent side="right" sideOffset={8}>
+									<p>Impostazioni</p>
+								</TooltipContent>
+							</Tooltip>
+						</div>
+					</nav>
+				</TooltipProvider>
+
 				<WarehouseDataProvider>
 					<div className={"flex-grow relative"}>
 						{showPanel && <Suspense>{panel}</Suspense>}

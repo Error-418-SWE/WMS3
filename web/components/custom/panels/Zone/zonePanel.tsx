@@ -11,6 +11,7 @@ import ZoneCreationFrame from "@/components/custom/panels/Zone/zoneCreationFrame
 import { Zone } from "@/model/zone";
 import { SearchStrategyFactory } from "@/model/SearchEngine/searchStrategyFactory";
 import { useEffect, useState } from "react";
+import { Plus } from "lucide-react";
 
 export default function ZonePanel() {
 
@@ -36,12 +37,13 @@ export default function ZonePanel() {
 					setElementDetails(<ZoneCreationFrame />);
 					setShowElementDetails(true);
 				}}>
-					<Image src="/icons/add.svg" width={13} height={13} alt="Add" />
+					<Plus size={16} className={"mr-2"} />
+					Nuova
 				</Button>
 			</div>
 			<div className={"mx-5 mt-1"}>
 				<Label className={"sr-only"}>Ricerca le zone</Label>
-				<Input placeholder="Search..." onChange={
+				<Input placeholder="Cerca per ID..." onChange={
 					(event) => {
 						const query = event.target.value;
 						if (query === "") {
@@ -52,7 +54,7 @@ export default function ZonePanel() {
 					}
 				}/>
 			</div>
-			<ScrollArea id="zoneList" className={"flex flex-col mx-5 my-4 gap-2"}>
+			<ScrollArea id="zoneList" className={"flex flex-col mx-5 mt-6 mb-4 gap-2"}>
 				{zonesToShow.length > 0 ? zonesToShow.map((zone) => (
 						<ZoneItem key={zone.getId()} zone={zone} />
 				)) : <div className={"text-center text-muted-foreground"}>Nessuna zona trovata</div>}
