@@ -49,7 +49,7 @@ export default function BinItemDetails({ bin }: ProductItemProps) {
 			<hr />
 
 			{(product && ProductItemDetails({ product: product })) || (
-				<div className={"flex flex-col items-center justify-center"}>
+				<div className={"flex flex-col items-center justify-center mt-6"}>
 					<span className={"text-muted-foreground"}>
 						Nessun prodotto presente
 					</span>
