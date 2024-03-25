@@ -13,7 +13,7 @@ export default function Warehouse() {
 	const { floor } = useFloorData();
 	const { zones } = useZonesData();
 
-	const { orbitRef } = useWarehouseData();
+	const { orbitRef, gridCellSize, setGridCellSize } = useWarehouseData();
 
 	return (
 		<KeyboardControls
