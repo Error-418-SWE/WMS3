@@ -86,7 +86,7 @@ export function Zone3D({
 		  if (!collision) {
 			setLastValidPosition(tempPosition);
 			(planeRef.current.material as THREE.MeshBasicMaterial).color.set("green");
-		  }else{
+		  } else {
 			(planeRef.current.material as THREE.MeshBasicMaterial).color.set("red");
 		  }
 
