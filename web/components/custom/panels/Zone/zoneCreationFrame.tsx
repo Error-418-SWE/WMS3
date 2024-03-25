@@ -401,6 +401,7 @@ export default function ZoneCreationFrame({
 												{...field}
 												placeholder="ID"
 												disabled={zone ? true : false}
+												type={"number"}
 											/>
 										</FormControl>
 										<FormMessage />
