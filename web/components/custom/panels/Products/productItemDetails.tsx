@@ -5,23 +5,29 @@ import { useElementDetails } from "@/components/providers/UI-Providers/ElementDe
 
 interface ProductItemProps {
 	product: Product;
+	showCloseButton?: boolean;
 }
 
-export default function ProductItemDetails({ product }: ProductItemProps) {
+export default function ProductItemDetails({
+	product,
+	showCloseButton = true,
+}: ProductItemProps) {
 	const { setElementDetails, setShowElementDetails } = useElementDetails();
 
 	return (
-		<div className={"flex flex-col h-full mx-5"}>
+		<div className={"flex flex-col mx-5"}>
 			<div className={"flex items-center mt-2 justify-between"}>
 				<span className={"font-bold"}>{product.getName()}</span>
-				<Button
-					className={buttonVariants({ variant: "secondary" }) + " border"}
-					onClick={() => {
-						setShowElementDetails(false);
-					}}
-				>
-					X
-				</Button>
+				{showCloseButton && (
+					<Button
+						className={buttonVariants({ variant: "secondary" }) + " border"}
+						onClick={() => {
+							setShowElementDetails(false);
+						}}
+					>
+						X
+					</Button>
+				)}
 			</div>
 			<span className={"text-sm text-muted-foreground"}>
 				Informazioni del prodotto
