@@ -29,7 +29,7 @@ export function Zone3D({
 	const { gl, camera, scene } = useThree();
 	const [toDrag, setToDrag] = useState(false);
 	const [lastValidPosition, setLastValidPosition] = useState(new Vector3( currentPosition.x, currentPosition.y, currentPosition.z ));
-	const { orbitRef } = useWarehouseData();
+	const { orbitRef, gridCellSize } = useWarehouseData();
 	const { setElementDetails, setShowElementDetails } = useElementDetails();
 	const planeRef = useRef<THREE.Mesh | null>(null);
 	const parentRef = useRef<Group<Object3DEventMap> | null>(null);
@@ -49,12 +49,20 @@ export function Zone3D({
 		const mouse = new Vector2(x, y);
 		raycaster.setFromCamera(mouse, camera);
 		const floorMesh = scene.getObjectByName("floor");
-		const target = new Vector3();
-		let intersects = raycaster.intersectObject(floorMesh!);
-		if (intersects.length > 0) {
-			target.copy(intersects[0].point);
+		const pointerPosition = raycaster.intersectObject(floorMesh!);
+		if (gridCellSize === 0) {
+			return new Vector3(
+				pointerPosition[0].point.x,
+				pointerPosition[0].point.y,
+				pointerPosition[0].point.z
+				);
+		} else {
+			return new Vector3(
+				Math.round(pointerPosition[0].point.x / gridCellSize) * gridCellSize,
+				Math.round(pointerPosition[0].point.y / gridCellSize) * gridCellSize,
+				Math.round(pointerPosition[0].point.z / gridCellSize) * gridCellSize
+				);
 		}
-		return target;
 	};
 
 	// Function to check for collision with other zones
