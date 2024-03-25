@@ -8,6 +8,7 @@ import { Zone } from "@/model/zone";
 import { Zone3D } from "./Model3D/zone3D";
 import { useWarehouseData } from "../providers/Threejs/warehouseProvider";
 import { ExtendedCameraControls } from "./ExtendedCameraControls";
+import { GridModeSelector } from "./GridModeSelector";
 
 export default function Warehouse() {
 	const { floor } = useFloorData();
@@ -16,6 +17,7 @@ export default function Warehouse() {
 	const { orbitRef, gridCellSize, setGridCellSize } = useWarehouseData();
 
 	return (
+		<>
 		<KeyboardControls
 			map={[
 				{ name: "forward", keys: ["ArrowUp", "w", "W"] },
@@ -75,7 +77,13 @@ export default function Warehouse() {
 				<ExtendedCameraControls
 					cameraRef={orbitRef}
 					/>
+
 			</Canvas>
 		</KeyboardControls>
+		<GridModeSelector
+			gridCellSize={gridCellSize}
+			onGridCellSizeChange={setGridCellSize}
+		/>
+		</>
 	);
 }
