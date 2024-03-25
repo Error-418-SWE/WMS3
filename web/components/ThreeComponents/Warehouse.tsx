@@ -33,13 +33,13 @@ export default function Warehouse() {
 				<Floor />
 
 				<Grid
-					cellSize={0.5}
+					cellSize={gridCellSize}
 					cellThickness={0.5}
-					cellColor={"#000000"}
+					cellColor={"#334155"}
 					sectionSize={1}
 					sectionThickness={1}
-					sectionColor={"#9d4b4b"}
-					visible={true}
+					sectionColor={"#475569"}
+					visible={(gridCellSize === 0) ? false : true}
 					fadeDistance={50}
 					args={[floor.getWidth(), floor.getLength()]}
 					position={[floor.getWidth() / 2, 0, floor.getLength() / 2]}
