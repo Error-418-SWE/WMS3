@@ -14,7 +14,7 @@ interface WarehouseContextType {
 		endPoint: string,
 		product: number
 	) => Promise<unknown>;
-    orbitRef: React.MutableRefObject<any>;  
+    orbitRef: React.MutableRefObject<any>;
 }
 
 const warehouseContext = createContext<WarehouseContextType | null>(null);
@@ -60,14 +60,14 @@ export function WarehouseDataProvider({
                 .then((data) => {
                     if (data.canBeDone) {
                         addOrder(new Order(data.orderId, startBin!, endBin!, startBin!.getProduct()!));
-                        toast("Ordine #" + data.orderId + " di movimento creato con successo", {
-                            description: "L'ordine di movimento è stato creato con successo",
+                        toast.success("Ordine #" + data.orderId + " immesso", {
+                            description: "L'ordine di movimentazione è stato creato con successo",
                         });
                         startBin!.setBinState(BinState.ProductOutgoing);
                         endBin!.setBinState(BinState.ProductIncoming);
                         resolve(true);
                     } else {
-                        toast("Movimento non possibile", {
+                        toast.error("Ordine rifiutato", {
                             description: "Non è possibile effettuare il movimento richiesto"
                         });
                         resolve(false);
@@ -79,7 +79,7 @@ export function WarehouseDataProvider({
                 });
         });
     }
-    
+
 
 	const value = {
 		selectedBin,
