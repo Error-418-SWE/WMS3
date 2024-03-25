@@ -1,5 +1,5 @@
 import { Canvas } from "@react-three/fiber";
-import { CameraControls, KeyboardControls } from "@react-three/drei";
+import { CameraControls, Grid, KeyboardControls } from "@react-three/drei";
 import Floor from "./Model3D/Floor";
 import { useFloorData } from "../providers/floorProvider";
 import { Vector3 } from "three";
@@ -31,6 +31,19 @@ export default function Warehouse() {
 				}}>
 
 				<Floor />
+
+				<Grid
+					cellSize={0.5}
+					cellThickness={0.5}
+					cellColor={"#000000"}
+					sectionSize={1}
+					sectionThickness={1}
+					sectionColor={"#9d4b4b"}
+					visible={true}
+					fadeDistance={50}
+					args={[floor.getWidth(), floor.getLength()]}
+					position={[floor.getWidth() / 2, 0, floor.getLength() / 2]}
+				/>
 
 				{zones.map((zone: Zone, index: number) => {
 					const zonePosition = new Vector3(
