@@ -16,7 +16,7 @@ export class StandardFloorStrategy implements FloorStrategy {
 
 export class CustomFloorStrategy implements FloorStrategy {
     async createFloor(params: URLSearchParams): Promise<Floor> {
-        const length = parseInt(params.get("latoMaggiore") || "0");
+        const inputSide = parseInt(params.get("latoMaggiore") || "0");
         const svgString = await readSavedSVG();
         const parser = new DOMParser();
         const svgDoc = parser.parseFromString(svgString, 'image/svg+xml');
@@ -38,8 +38,13 @@ export class CustomFloorStrategy implements FloorStrategy {
             svgHeight = 1;
         }
 
-        const width = length * (svgWidth / svgHeight);
-        return new Floor(length, width, svgString);
+        const aspectRatio = svgWidth / svgHeight;
+        const calculateSide = inputSide / aspectRatio;
+
+        //se l'aspect ratio è maggiore di 1, allora il lato maggiore (inserito dall'utente) è la lunghezza
+        return new Floor( aspectRatio >= 1 ? calculateSide : inputSide, aspectRatio >= 1? inputSide : calculateSide, svgString);
+
+        //input order: length, width
     }
 }
 
