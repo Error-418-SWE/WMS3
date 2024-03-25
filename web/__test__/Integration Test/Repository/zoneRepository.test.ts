@@ -4,8 +4,10 @@ import { BinMapper } from "@/dataMapper/binMapper";
 import { getAllZones } from "@/ServerActions/Zones/getAllZones";
 import { getZoneById } from "@/ServerActions/Zones/getZoneById";
 import { ZoneRepository } from "@/dataRepository/zoneRepository";
+import { getAllEmptyZones } from "@/ServerActions/Zones/getAllEmptyZones";
 
 jest.mock("@/ServerActions/Zones/getAllZones");
+jest.mock("@/ServerActions/Zones/getAllEmptyZones");
 jest.mock("@/ServerActions/Zones/getZoneById");
 jest.mock("@/dataMapper/zoneMapper");
 jest.mock("@/dataMapper/binMapper");
@@ -15,6 +17,7 @@ describe("ZoneRepository", () => {
 
     beforeEach(() => {
         (getAllZones as jest.Mock).mockClear();
+        (getAllEmptyZones as jest.Mock).mockClear();
         (getZoneById as jest.Mock).mockClear();
         (ZoneMapper.prototype.toDomain as jest.Mock).mockClear();
         (BinMapper.prototype.toDomain as jest.Mock).mockClear();
@@ -30,7 +33,36 @@ describe("ZoneRepository", () => {
             height: 1,
             length: 1,
             width: 1,
-            bins: [],
+            bins: [
+                {
+                    id: 1,
+                    level_order: 1,
+                    column_order: 1,
+                    bin_height: 1,
+                    bin_length: 1,
+                    bin_width: 1,
+                    product_id: 1,
+                    product: null
+                },
+                {
+                    id: 2,
+                    level_order: 1,
+                    column_order: 1,
+                    bin_height: 1,
+                    bin_length: 1,
+                    bin_width: 1,
+                    product_id: 1,
+                    product: {
+                        id: 1,
+                        name: "Product 1",
+                        weight: 1,
+                        length: 1,
+                        width: 1,
+                        height: 1,
+                        categories: ["Category 1"]
+                    }
+                },
+            ],
             orientation: true
         };
         const mockZone = new Zone(1, 1, 1, 1, 1, 1, [], true);
@@ -41,6 +73,27 @@ describe("ZoneRepository", () => {
 
         expect(result).toEqual([mockZone]);
         expect(getAllZones).toHaveBeenCalled();
+    });
+
+    it("should get all zones as empty", async () => {
+        const mockZoneJson = {
+            id: 1,
+            xcoordinate: 1,
+            ycoordinate: 1,
+            height: 1,
+            length: 1,
+            width: 1,
+            bins: [],
+            orientation: true
+        };
+        const mockZone = new Zone(1, 1, 1, 1, 1, 1, [], true);
+        (getAllEmptyZones as jest.Mock).mockResolvedValue([mockZoneJson]);
+        (ZoneMapper.prototype.toDomain as jest.Mock).mockReturnValue(mockZone);
+
+        const result = await zoneRepository.getAllEmpty();
+
+        expect(result).toEqual([mockZone]);
+        expect(getAllEmptyZones).toHaveBeenCalled();
     });
 
     it("should get zone by id", async () => {
