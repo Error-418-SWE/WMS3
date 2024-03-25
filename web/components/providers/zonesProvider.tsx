@@ -21,14 +21,22 @@ export function ZonesDataProvider({ children }: { children: React.ReactNode }) {
 
 	const params = useSearchParams();
 	const loadZones = params?.get("loadScaffali") === "true";
+	const loadProducts = params?.get("loadProdotti") === "true";
 
 	useEffect(() => {
 		console.log("ZonesDataProvider: useEffect");
 		if (loadZones) {
-			zoneRepository.getAll().then((zones) => {
-				setZones(zones);
-			});
-			console.log("zones from database");
+			if (loadProducts) {
+				zoneRepository.getAll().then((zones) => {
+					setZones(zones);
+				});
+				console.log("zones from database");
+			} else {
+				zoneRepository.getAllEmpty().then((zones) => {
+					setZones(zones);
+				});
+				console.log("empty zones from database");
+			}
 		}
 		setZonesLoaded(true);
 	}, []);
