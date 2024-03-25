@@ -15,6 +15,8 @@ interface WarehouseContextType {
 		product: number
 	) => Promise<unknown>;
     orbitRef: React.MutableRefObject<any>;
+	gridCellSize: number;
+	setGridCellSize: (value: number) => void;
 }
 
 const warehouseContext = createContext<WarehouseContextType | null>(null);
@@ -25,6 +27,7 @@ export function WarehouseDataProvider({
 	children: React.ReactNode;
 }) {
 	const [selectedBin, setSelectedBin] = useState<Bin | null>(null);
+	const [gridCellSize, setGridCellSize] = useState(0);
     const { addOrder } = useOrdersData();
     const { zones } = useZonesData();
     let orbitRef = useRef(null);
@@ -85,7 +88,9 @@ export function WarehouseDataProvider({
 		selectedBin,
 		setSelectedBin,
 		newMovementOrder,
-        orbitRef
+        orbitRef,
+		gridCellSize,
+		setGridCellSize
 	};
 
 	return (
