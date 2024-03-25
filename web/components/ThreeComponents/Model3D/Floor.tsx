@@ -24,7 +24,6 @@ const SvgPlane: React.FC<SvgPlaneProps> = ({ svgContent, width, length }) => {
 			`data:image/svg+xml;base64,${btoa(svgContent)}`
 		));
 	}, [svgContent]);
-		
 
 	console.log("SVG reloading");
 

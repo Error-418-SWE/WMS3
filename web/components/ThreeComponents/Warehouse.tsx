@@ -1,5 +1,5 @@
 import { Canvas } from "@react-three/fiber";
-import { CameraControls, KeyboardControls } from "@react-three/drei";
+import { CameraControls, Grid, KeyboardControls } from "@react-three/drei";
 import Floor from "./Model3D/Floor";
 import { useFloorData } from "../providers/floorProvider";
 import { Vector3 } from "three";
@@ -8,14 +8,16 @@ import { Zone } from "@/model/zone";
 import { Zone3D } from "./Model3D/zone3D";
 import { useWarehouseData } from "../providers/Threejs/warehouseProvider";
 import { ExtendedCameraControls } from "./ExtendedCameraControls";
+import { GridModeSelector } from "./GridModeSelector";
 
 export default function Warehouse() {
 	const { floor } = useFloorData();
 	const { zones } = useZonesData();
 
-	const { orbitRef } = useWarehouseData();
+	const { orbitRef, gridCellSize, setGridCellSize } = useWarehouseData();
 
 	return (
+		<>
 		<KeyboardControls
 			map={[
 				{ name: "forward", keys: ["ArrowUp", "w", "W"] },
@@ -31,6 +33,19 @@ export default function Warehouse() {
 				}}>
 
 				<Floor />
+
+				<Grid
+					cellSize={gridCellSize}
+					cellThickness={0.5}
+					cellColor={"#334155"}
+					sectionSize={1}
+					sectionThickness={1}
+					sectionColor={"#475569"}
+					visible={(gridCellSize === 0) ? false : true}
+					fadeDistance={50}
+					args={[floor.getWidth(), floor.getLength()]}
+					position={[floor.getWidth() / 2, 0, floor.getLength() / 2]}
+				/>
 
 				{zones.map((zone: Zone, index: number) => {
 					const zonePosition = new Vector3(
@@ -62,7 +77,13 @@ export default function Warehouse() {
 				<ExtendedCameraControls
 					cameraRef={orbitRef}
 					/>
+
 			</Canvas>
 		</KeyboardControls>
+		<GridModeSelector
+			gridCellSize={gridCellSize}
+			onGridCellSizeChange={setGridCellSize}
+		/>
+		</>
 	);
 }
