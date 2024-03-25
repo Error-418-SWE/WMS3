@@ -6,9 +6,8 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
-import { UseFormReturn, set } from "react-hook-form";
-import { useContext, useRef, useState } from "react";
-import Image from "next/image";
+import { UseFormReturn } from "react-hook-form";
+import { useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { useProcessingContext } from "@/components/providers/UI-Providers/formContextProvider";
 import { saveSVG } from "@/ServerActions/SVG/saveSVG";
@@ -19,6 +18,10 @@ interface DropFileAreaProps {
 	form: UseFormReturn;
 }
 
+function sizeInMB(file: File) {
+	return file.size / 1024 / 1024;
+}
+
 export function DropFileArea({ form }: DropFileAreaProps) {
 	const [displayedText, setDisplayedText] = useState("Carica file SVG");
 	const { setIsProcessing } = useProcessingContext();
@@ -26,13 +29,43 @@ export function DropFileArea({ form }: DropFileAreaProps) {
 	const handleFileChange = (event: any) => {
 		setIsProcessing(true);
 		const file = event.target.files[0];
+
+		if(!file){
+			setIsProcessing(false);
+			return;
+		}
+
+		if(file.type !== "image/svg+xml"){
+			form.setValue("svg", null);
+			form.setError("svg", {
+				type: "server",
+				message: "Il file deve essere un SVG",
+			});
+			setIsProcessing(false);
+			return;
+		}
+
 		const reader = new FileReader();
+
+		if (sizeInMB(file) > 10){
+			form.setValue("svg", null);
+			form.setError("svg", {
+				type: "server",
+				message: "Il file è troppo grande",
+			});
+			setIsProcessing(false);
+			return;
+		}
 
 		reader.readAsText(file);
 		reader.onload = async (event) => {
-			const response = await SVGSanitize(
-				event.target?.result ? (event.target?.result as string) : ""
-			);
+
+			if (!event.target?.result) {
+				setIsProcessing(false);
+				return;
+			}
+
+			const response = await SVGSanitize((event.target?.result as string));
 
 			if (response) {
 				await saveSVG(response);
