@@ -36,7 +36,7 @@ export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 		selectedBin,
 		setSelectedBin,
 		newMovementOrder,
-		orbitRef,
+		cameraRef,
 	} = useWarehouseData();
 
 	const [currentPosition, setCurrentPosition] = useState(position);
@@ -95,7 +95,7 @@ export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 	const bind = useDrag(
 		async (state: any) => {
 			if (bin.getProduct() && bin.getBinState() === BinState.Idle  && groupRef.current) {
-				orbitRef.current.disconnect();
+				cameraRef.current.disconnect();
 				const raycaster = new Raycaster();
 				const rect = gl.domElement.getBoundingClientRect();
 				const x =
@@ -153,7 +153,7 @@ export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 							bin.getProduct()!.getId()
 						)
 					}
-					orbitRef.current.connect(gl.domElement);
+					cameraRef.current.connect(gl.domElement);
 					setCurrentPosition(initialPosition);
 				}
 			}

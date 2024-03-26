@@ -29,7 +29,7 @@ export function Zone3D({
 	const { gl, camera, scene } = useThree();
 	const [toDrag, setToDrag] = useState(false);
 	const [lastValidPosition, setLastValidPosition] = useState(new Vector3( currentPosition.x, currentPosition.y, currentPosition.z ));
-	const { orbitRef, gridCellSize } = useWarehouseData();
+	const { cameraRef, gridCellSize } = useWarehouseData();
 	const { setElementDetails, setShowElementDetails } = useElementDetails();
 	const planeRef = useRef<THREE.Mesh | null>(null);
 	const parentRef = useRef<Group<Object3DEventMap> | null>(null);
@@ -81,7 +81,7 @@ export function Zone3D({
 	const bind = useDrag((state) => {
 		state.event.stopPropagation();
 		if (toDrag && planeRef.current) {
-	      orbitRef.current.disconnect();
+	      cameraRef.current?.disconnect();
 		  planeRef.current.visible = true;
 		  const target = calculateTargetPosition(state);
 		  const collision = checkCollision();
@@ -99,7 +99,7 @@ export function Zone3D({
 		  if (state.last) {
 			planeRef.current.visible = false;
 			state.event.stopPropagation();
-			orbitRef.current.connect(gl.domElement);
+			cameraRef.current?.connect(gl.domElement);
 			setToDrag(false);
 
 			if (checkCollision()) {

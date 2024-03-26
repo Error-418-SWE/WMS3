@@ -4,6 +4,7 @@ import { columns } from "./bin_columns";
 import { DataTable } from "@/components/ui/data-table";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { useElementDetails } from "@/components/providers/UI-Providers/ElementDetailsProvider";
+import { useWarehouseData } from "@/components/providers/Threejs/warehouseProvider";
 import {
 	Dialog,
 	DialogContent,
@@ -22,6 +23,7 @@ interface ZoneItemProps {
 export default function ZoneItemDetails({ zone }: ZoneItemProps) {
 	const { setElementDetails, setShowElementDetails } = useElementDetails();
 	const { deleteZone } = useZonesData();
+	const { moveCameraToPosition } = useWarehouseData();
 
 	return (
 		<div className={"flex flex-col h-full mx-5"}>
@@ -62,6 +64,12 @@ export default function ZoneItemDetails({ zone }: ZoneItemProps) {
 			<div className={"flex justify-end gap-x-2 mb-4"}>
 				<Button
 					className={buttonVariants({ variant: "secondary" }) + " border"}
+					onClick={() => {
+						moveCameraToPosition(
+							zone.getXcoordinate() + zone.getWidth() / 2,
+							zone.getYcoordinate() + zone.getLength() / 2,
+						);
+					}}
 				>
 					<MapPin size={16} className={"mr-2"} />
 					Localizza

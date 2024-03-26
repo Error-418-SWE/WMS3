@@ -1,10 +1,10 @@
 import { Bin, BinState } from "@/model/bin";
-import React, { createContext, useContext, useRef, useState } from "react";
+import React, { RefObject, createContext, useContext, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useOrdersData } from "@/components/providers/ordersProvider";
-import { useBinsData } from "../binsProvider";
 import { Order } from "@/model/order";
 import { useZonesData } from "../zonesProvider";
+import { CameraControls } from "@react-three/drei";
 
 interface WarehouseContextType {
 	selectedBin: Bin | null;
@@ -14,9 +14,10 @@ interface WarehouseContextType {
 		endPoint: string,
 		product: number
 	) => Promise<unknown>;
-    orbitRef: React.MutableRefObject<any>;
+    cameraRef: RefObject<CameraControls>;
 	gridCellSize: number;
 	setGridCellSize: (value: number) => void;
+    moveCameraToPosition: (xCoordinate: number, yCoordinate: number) => void;
 }
 
 const warehouseContext = createContext<WarehouseContextType | null>(null);
@@ -30,7 +31,11 @@ export function WarehouseDataProvider({
 	const [gridCellSize, setGridCellSize] = useState(0);
     const { addOrder } = useOrdersData();
     const { zones } = useZonesData();
-    let orbitRef = useRef(null);
+    const cameraRef = useRef<CameraControls>(null);
+
+	const moveCameraToPosition = (xCoordinate: number, yCoordinate: number) => {
+		cameraRef.current?.setLookAt(xCoordinate - 5, 10, yCoordinate - 5, xCoordinate, 0, yCoordinate);
+	}
 
     async function newMovementOrder(
         startPoint: string,
@@ -88,9 +93,10 @@ export function WarehouseDataProvider({
 		selectedBin,
 		setSelectedBin,
 		newMovementOrder,
-        orbitRef,
+        cameraRef,
 		gridCellSize,
-		setGridCellSize
+		setGridCellSize,
+		moveCameraToPosition
 	};
 
 	return (
