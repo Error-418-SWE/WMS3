@@ -91,11 +91,11 @@ describe("Zone", () => {
 
 	it("returns the correct max used level", () => {
 		const maxUsedLevel = zone.getMaxUsedLevel();
-		expect(maxUsedLevel).toBe(2);
+		expect(maxUsedLevel).toBe(3);
 	});
 
 	it("returns the correct max used column", () => {
 		const maxUsedColumn = zone.getMaxUsedColumn();
-		expect(maxUsedColumn).toBe(2);
+		expect(maxUsedColumn).toBe(3);
 	});
 });
