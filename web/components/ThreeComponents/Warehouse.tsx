@@ -14,7 +14,7 @@ export default function Warehouse() {
 	const { floor } = useFloorData();
 	const { zones } = useZonesData();
 
-	const { orbitRef, gridCellSize, setGridCellSize } = useWarehouseData();
+	const { cameraRef, gridCellSize, setGridCellSize } = useWarehouseData();
 
 	return (
 		<>
@@ -69,13 +69,13 @@ export default function Warehouse() {
 					maxDistance={100}
 					minZoom={5}
 					maxZoom={100}
-					dampingFactor={0.1}
+					smoothTime={2}
 					boundaryFriction={0.1}
-					ref={orbitRef}
+					ref={cameraRef}
 				/>
 
 				<ExtendedCameraControls
-					cameraRef={orbitRef}
+					cameraRef={cameraRef}
 					/>
 
 			</Canvas>

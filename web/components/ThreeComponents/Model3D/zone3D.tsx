@@ -1,10 +1,9 @@
 import React, { useRef, useState } from "react";
 import { Edges, Plane } from "@react-three/drei";
 import { Zone } from "@/model/zone";
-import * as THREE from "three";
 import { Bin3D } from "./bin3D";
 import { useDrag } from "@use-gesture/react";
-import { Group, Object3DEventMap, Vector2, Vector3 } from "three";
+import { Box3, BoxGeometry, Group, Mesh, MeshBasicMaterial, Object3DEventMap, Raycaster, Vector2, Vector3 } from "three";
 import { ThreeEvent, useThree } from "@react-three/fiber";
 import { useWarehouseData } from "@/components/providers/Threejs/warehouseProvider";
 import ZoneItemDetails from "@/components/custom/panels/Zone/zoneItemDetails";
@@ -12,14 +11,14 @@ import { useElementDetails } from "@/components/providers/UI-Providers/ElementDe
 
 interface Zone3DProps {
 	zone: Zone;
-	position: THREE.Vector3;
+	position: Vector3;
 }
 
 export function Zone3D({
 	zone,
 	position,
 }: Zone3DProps) {
-	const zoneGeometry = new THREE.BoxGeometry(
+	const zoneGeometry = new BoxGeometry(
 		zone.getWidth(),
 		zone.getHeight(),
 		zone.getLength()
@@ -29,16 +28,16 @@ export function Zone3D({
 	const { gl, camera, scene } = useThree();
 	const [toDrag, setToDrag] = useState(false);
 	const [lastValidPosition, setLastValidPosition] = useState(new Vector3( currentPosition.x, currentPosition.y, currentPosition.z ));
-	const { orbitRef, gridCellSize } = useWarehouseData();
+	const { cameraRef, gridCellSize } = useWarehouseData();
 	const { setElementDetails, setShowElementDetails } = useElementDetails();
-	const planeRef = useRef<THREE.Mesh | null>(null);
+	const planeRef = useRef<Mesh | null>(null);
 	const parentRef = useRef<Group<Object3DEventMap> | null>(null);
 
-	const showRepositionButtonRef = useRef<THREE.Mesh>(null);
+	const showRepositionButtonRef = useRef<Mesh>(null);
 
 	// Function to calculate the target position
 	const calculateTargetPosition = (state: any) => {
-		const raycaster = new THREE.Raycaster();
+		const raycaster = new Raycaster();
 		const rect = gl.domElement.getBoundingClientRect();
 		const x =
 			(((state.event as PointerEvent).clientX - rect.left) / rect.width) * 2 - 1;
@@ -66,12 +65,12 @@ export function Zone3D({
 	// Function to check for collision with other zones
 	const checkCollision = () => {
 		const zones = scene.children.filter((child) => child.name === "zone");
-		const currentBoundingBox = planeRef.current ? new THREE.Box3().setFromObject(planeRef.current) : null;
+		const currentBoundingBox = planeRef.current ? new Box3().setFromObject(planeRef.current) : null;
 		const collision = zones.some((otherZone) => {
 			if (otherZone === planeRef.current?.parent) {
 				return false;
 			}
-			const otherBoundingBox = new THREE.Box3().setFromObject(otherZone);
+			const otherBoundingBox = new Box3().setFromObject(otherZone);
 			return currentBoundingBox?.intersectsBox(otherBoundingBox);
 		});
 		return collision;
@@ -81,25 +80,25 @@ export function Zone3D({
 	const bind = useDrag((state) => {
 		state.event.stopPropagation();
 		if (toDrag && planeRef.current) {
-	      orbitRef.current.disconnect();
+	      cameraRef.current?.disconnect();
 		  planeRef.current.visible = true;
 		  const target = calculateTargetPosition(state);
 		  const collision = checkCollision();
 
 		  // Always update the temporary position during a drag event
-		  let tempPosition = new THREE.Vector3(target.x, target.y, target.z);
+		  let tempPosition = new Vector3(target.x, target.y, target.z);
 		  setCurrentPosition(tempPosition.clone());
 		  if (!collision) {
 			setLastValidPosition(tempPosition);
-			(planeRef.current.material as THREE.MeshBasicMaterial).color.set("green");
+			(planeRef.current.material as MeshBasicMaterial).color.set("green");
 		  } else {
-			(planeRef.current.material as THREE.MeshBasicMaterial).color.set("red");
+			(planeRef.current.material as MeshBasicMaterial).color.set("red");
 		  }
 
 		  if (state.last) {
 			planeRef.current.visible = false;
 			state.event.stopPropagation();
-			orbitRef.current.connect(gl.domElement);
+			cameraRef.current?.connect(gl.domElement);
 			setToDrag(false);
 
 			if (checkCollision()) {
@@ -148,7 +147,7 @@ export function Zone3D({
 					for (let i = 0; i < bin.getColumn(); i++) {
 						binHorizontalPosition += level[i].getWidth();
 					}
-					const binPosition = new THREE.Vector3(
+					const binPosition = new Vector3(
 						binHorizontalPosition + bin.getWidth() / 2 - zone.getWidth() / 2,
 						levelVerticalPosition + bin.getHeight() / 2 - zone.getHeight() / 2,
 						bin.getLength() / 2 - zone.getLength() / 2
