@@ -54,7 +54,7 @@ function ColumnCreation(form: any, zone?: Zone) {
 	console.log(
 		zone
 			?.getLevels()[0]
-			.map((bin) => bin.getWidth().toFixed(2))
+			.map((bin) => bin.getWidth())
 			.join(" ")
 	);
 	console.log(zone?.getLevels()[0]);
@@ -150,7 +150,7 @@ function ColumnCreation(form: any, zone?: Zone) {
 											zone
 												? zone
 													.getLevels()[0]
-													.map((bin) => bin.getWidth().toFixed(2))
+													.map((bin) => bin.getWidth())
 													.join(" ")
 												: ""
 										}
@@ -240,9 +240,9 @@ export default function ZoneCreationFrame({
 			"direction",
 			zone ? (zone.getOrientation() ? "NS" : "EW") : "NS"
 		);
-		form.setValue("length", zone ?	parseFloat(zone.getLength().toFixed(2)) : 1);
-		form.setValue("width", zone ? 	parseFloat(zone.getWidth().toFixed(2)) : 1);
-		form.setValue("height", zone ? 	parseFloat(zone.getHeight().toFixed(2)) : 1);
+		form.setValue("length", zone ?	zone.getLength() : 1);
+		form.setValue("width", zone ? 	zone.getWidth()  : 1);
+		form.setValue("height", zone ? 	zone.getHeight() : 1);
 		form.setValue(
 			"columnsType",
 			zone ? (checkIfEqualColumns(zone) ? "equal" : "custom") : "equal"
@@ -252,7 +252,7 @@ export default function ZoneCreationFrame({
 			zone
 				? zone
 					.getLevels()[0]
-					.map((bin) => bin.getWidth().toFixed(2))
+					.map((bin) => bin.getWidth())
 					.join(" ")
 				: ""
 		);
@@ -262,7 +262,7 @@ export default function ZoneCreationFrame({
 				?.getColumns()[0]
 				.map((bin) => ({
 					id: Math.random(),
-					height: parseFloat(bin.getHeight().toFixed(2)) || 0,
+					height: bin.getHeight() || 0,
 				})) || [{ id: Math.random(), height: 1 }]
 		);
 	}, [zone]);
@@ -439,7 +439,7 @@ export default function ZoneCreationFrame({
 							<FormField
 								control={form.control}
 								name="length"
-								defaultValue={zone ? parseFloat(zone.getLength().toFixed(2)) : 1}
+								defaultValue={zone ? zone.getLength() : 1}
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>Lunghezza</FormLabel>
@@ -461,7 +461,7 @@ export default function ZoneCreationFrame({
 							<FormField
 								control={form.control}
 								name="width"
-								defaultValue={zone ? parseFloat(zone.getWidth().toFixed(2)) : 1}
+								defaultValue={zone ? zone.getWidth() : 1}
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>Larghezza</FormLabel>
@@ -484,7 +484,7 @@ export default function ZoneCreationFrame({
 							<FormField
 								control={form.control}
 								name="height"
-								defaultValue={zone ? parseFloat(zone.getHeight().toFixed(2)) : 1}
+								defaultValue={zone ? zone.getHeight() : 1}
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>Altezza</FormLabel>

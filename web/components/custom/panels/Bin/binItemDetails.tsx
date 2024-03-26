@@ -46,9 +46,9 @@ export default function BinItemDetails({ bin }: ProductItemProps) {
 					<span className={"col-span-2 dataSpan"}>{bin.getId()}</span>
 					<Label>Dimensioni</Label>
 					<div className={"grid items-center grid-cols-3 col-span-2 gap-2"}>
-						<span className="dataSpan">{bin.getLength().toFixed(2)}</span>
-						<span className="dataSpan">{bin.getWidth().toFixed(2)}</span>
-						<span className="dataSpan">{bin.getHeight().toFixed(2)}</span>
+						<span className="dataSpan">{bin.getLength()}</span>
+						<span className="dataSpan">{bin.getWidth()}</span>
+						<span className="dataSpan">{bin.getHeight()}</span>
 					</div>
 				</div>
 			</div>
