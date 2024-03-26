@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import ZoneCreationFrame from "./zoneCreationFrame";
 import { useZonesData } from "@/components/providers/zonesProvider";
-import { X } from "lucide-react";
+import { MapPin, X } from "lucide-react";
 
 interface ZoneItemProps {
 	zone: Zone;
@@ -60,6 +60,12 @@ export default function ZoneItemDetails({ zone }: ZoneItemProps) {
 			</div>
 
 			<div className={"flex justify-end gap-x-2 mb-4"}>
+				<Button
+					className={buttonVariants({ variant: "secondary" }) + " border"}
+				>
+					<MapPin size={16} className={"mr-2"} />
+					Localizza
+				</Button>
 				<Button
 					className={buttonVariants({ variant: "secondary" }) + " border"}
 					onClick={() => {
