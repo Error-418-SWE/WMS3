@@ -41,12 +41,12 @@ export default function ProductItemDetails({
 				</span>
 				<Label>Dimensioni</Label>
 				<div className={"grid items-center grid-cols-3 col-span-2 gap-2"}>
-					<span className="dataSpan">{product.getLength()}</span>
-					<span className="dataSpan">{product.getWidth()}</span>
-					<span className="dataSpan">{product.getHeight()}</span>
+					<span className="dataSpan">{product.getLength().toFixed(2)}</span>
+					<span className="dataSpan">{product.getWidth() .toFixed(2)}</span>
+					<span className="dataSpan">{product.getHeight().toFixed(2)}</span>
 				</div>
 				<Label>Peso</Label>
-				<span className={"col-span-2 dataSpan"}>{product.getWeight()}</span>
+				<span className={"col-span-2 dataSpan"}>{product.getWeight().toFixed(2)}</span>
 			</div>
 
 			<hr className={"my-5"} />
