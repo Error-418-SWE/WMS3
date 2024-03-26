@@ -153,7 +153,7 @@ export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 							bin.getProduct()!.getId()
 						)
 					}
-					cameraRef.current.connect(gl.domElement);
+					cameraRef.current?.connect(gl.domElement);
 					setCurrentPosition(initialPosition);
 				}
 			}
