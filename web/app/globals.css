@@ -75,6 +75,7 @@
   }
 
   .dataSpan {
-    @apply p-1 pl-2 border-2 rounded-md;
+    @apply p-1 pl-2 border-2 rounded-md overflow-hidden
+		;
   }
 }
