@@ -48,9 +48,9 @@ export default function ZoneItemDetails({ zone }: ZoneItemProps) {
 
 				<Label>Dimensioni</Label>
 				<div className={"grid items-center grid-cols-3 col-span-2 gap-2"}>
-					<span className="dataSpan">{zone.getLength()}</span>
-					<span className="dataSpan">{zone.getWidth()}</span>
-					<span className="dataSpan">{zone.getHeight()}</span>
+					<span className="dataSpan">{zone.getLength().toFixed(2)}</span>
+					<span className="dataSpan">{zone.getWidth()	.toFixed(2)}</span>
+					<span className="dataSpan">{zone.getHeight().toFixed(2)}</span>
 				</div>
 			</div>
 
