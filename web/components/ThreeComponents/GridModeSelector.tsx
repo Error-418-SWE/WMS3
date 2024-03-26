@@ -22,7 +22,7 @@ export function GridModeSelector ({
 		<div
 			className={"absolute bottom-4 right-4 p-2 pl-4 flex gap-4 items-center bg-slate-300 bg-opacity-50 rounded-lg shadow-md"}
 		>
-			<span className="text-slate-600">Griglia</span>
+			<span className="text-slate-600 select-none">Griglia</span>
 			<ToggleGroup
 				onValueChange={(value) => handleChange(value)}
 				defaultValue={gridCellSize.toString()}
