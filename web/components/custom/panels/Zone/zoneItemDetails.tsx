@@ -65,10 +65,17 @@ export default function ZoneItemDetails({ zone }: ZoneItemProps) {
 				<Button
 					className={buttonVariants({ variant: "secondary" }) + " border"}
 					onClick={() => {
-						moveCameraToPosition(
-							zone.getXcoordinate() + zone.getWidth() / 2,
-							zone.getYcoordinate() + zone.getLength() / 2,
-						);
+						if (zone.isNSOriented()) {
+							moveCameraToPosition(
+								zone.getXcoordinate() + zone.getLength() / 2,
+								zone.getYcoordinate() + zone.getWidth() / 2,
+								);
+							} else {
+								moveCameraToPosition(
+								zone.getXcoordinate() - zone.getWidth() / 2,
+								zone.getYcoordinate() - zone.getLength() / 2,
+							);
+						}
 					}}
 				>
 					<MapPin size={16} className={"mr-2"} />
