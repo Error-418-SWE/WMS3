@@ -317,9 +317,9 @@ export default function ZoneCreationFrame({
 						i,
 						j,
 						levels[i].height,
-						parseFloat(form.getValues("length").toFixed(2)),
+						form.getValues("length"),
 						form.getValues("columnsType") == "equal"
-							? parseFloat((form.getValues("width") / form.getValues("nColumns")).toFixed(2))
+							? (form.getValues("width") / form.getValues("nColumns"))
 							: parseFloat(form.getValues("customColumns").split(" ")[j]),
 						null
 					)
@@ -359,7 +359,6 @@ export default function ZoneCreationFrame({
 			modifyZoneById(parseInt(form.getValues("id") + ""), newZone);
 		}
 
-		console.log(form.getValues());
 		setShowElementDetails(false);
 	}
 
