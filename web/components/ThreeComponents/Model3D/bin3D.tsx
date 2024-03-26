@@ -1,17 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Box, Edges } from "@react-three/drei";
 import { Bin, BinState } from "@/model/bin";
-import * as THREE from "three";
 import { useElementDetails } from "@/components/providers/UI-Providers/ElementDetailsProvider";
 import BinItemDetails from "@/components/custom/panels/Bin/binItemDetails";
 import { ThreeEvent, useThree } from "@react-three/fiber";
 import { useWarehouseData } from "@/components/providers/Threejs/warehouseProvider";
 import { useDrag } from "@use-gesture/react";
 import {
+	BoxGeometry,
 	Group,
 	Object3D,
 	Object3DEventMap,
-	Plane,
 	Raycaster,
 	Vector2,
 	Vector3,
@@ -19,7 +18,7 @@ import {
 
 interface Bin3DProps {
 	bin: Bin;
-	position: THREE.Vector3;
+	position: Vector3;
 	parentRef: any;
 	orientation: boolean;
 }
@@ -43,7 +42,7 @@ export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 
 	const groupRef = useRef<Group<Object3DEventMap> | null>(null);
 
-	const binGeometry = new THREE.BoxGeometry(
+	const binGeometry = new BoxGeometry(
 		bin.getWidth(),
 		bin.getHeight(),
 		bin.getLength()
@@ -63,8 +62,8 @@ export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 	const { gl, scene, camera } = useThree();
 	const initialPosition = new Vector3(position.x, position.y, position.z);
 
-	let lastIntersectedBin: THREE.Object3D<THREE.Object3DEventMap>;
-	let intersectedBin: THREE.Object3D<THREE.Object3DEventMap>;
+	let lastIntersectedBin: Object3D<Object3DEventMap>;
+	let intersectedBin: Object3D<Object3DEventMap>;
 
 	const getIntersectedObject = (raycaster: Raycaster, objects: Object3D[]) => {
 		const intersects = raycaster.intersectObjects(objects);
@@ -87,8 +86,8 @@ export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 		pivot: Vector3,
 		angle: number
 	) => {
-		let direction = new THREE.Vector3().subVectors(target, pivot);
-		direction.applyAxisAngle(new THREE.Vector3(0, 1, 0), angle);
+		let direction = new Vector3().subVectors(target, pivot);
+		direction.applyAxisAngle(new Vector3(0, 1, 0), angle);
 		return pivot.clone().add(direction);
 	};
 
