@@ -95,7 +95,7 @@ export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 	const bind = useDrag(
 		async (state: any) => {
 			if (bin.getProduct() && bin.getBinState() === BinState.Idle  && groupRef.current) {
-				cameraRef.current.disconnect();
+				cameraRef.current?.disconnect();
 				const raycaster = new Raycaster();
 				const rect = gl.domElement.getBoundingClientRect();
 				const x =
