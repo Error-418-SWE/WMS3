@@ -1,6 +1,5 @@
 import { Zone } from "@/model/zone";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { columns } from "./bin_columns";
 import { DataTable } from "@/components/ui/data-table";
 import { Button, buttonVariants } from "@/components/ui/button";
