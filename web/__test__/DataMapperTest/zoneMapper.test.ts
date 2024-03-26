@@ -56,6 +56,6 @@ describe("ZoneMapper", () => {
     expect(zone.getLength()).toBe(zoneJson.length);
     expect(zone.getWidth()).toBe(zoneJson.width);
     expect(zone.getBins().length).toBe(zoneJson.bins.length);
-    expect(zone.getOrientation()).toBe(zoneJson.orientation);
+    expect(zone.isNSOriented()).toBe(zoneJson.orientation);
   });
 });

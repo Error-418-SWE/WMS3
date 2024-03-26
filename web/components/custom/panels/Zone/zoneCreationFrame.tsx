@@ -238,7 +238,7 @@ export default function ZoneCreationFrame({
 		form.setValue("id", zone ? zone.getId() : 0);
 		form.setValue(
 			"direction",
-			zone ? (zone.getOrientation() ? "NS" : "EW") : "NS"
+			zone ? (zone.isNSOriented() ? "NS" : "EW") : "NS"
 		);
 		form.setValue("length", zone ?	zone.getLength() : 1);
 		form.setValue("width", zone ? 	zone.getWidth()  : 1);
@@ -420,7 +420,7 @@ export default function ZoneCreationFrame({
 										<Select
 											onValueChange={field.onChange}
 											defaultValue={
-												zone ? (zone.getOrientation() ? "NS" : "EW") : "NS"
+												zone ? (zone.isNSOriented() ? "NS" : "EW") : "NS"
 											}
 										>
 											<FormControl>

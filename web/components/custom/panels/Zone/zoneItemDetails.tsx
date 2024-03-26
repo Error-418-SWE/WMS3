@@ -44,7 +44,7 @@ export default function ZoneItemDetails({ zone }: ZoneItemProps) {
 			<div className={"grid items-center grid-cols-3 grid-rows-2 gap-y-2 mt-4"}>
 				<Label>Direzione</Label>
 				<span className={"col-span-2 dataSpan"}>
-					{zone.getOrientation() ? "NS" : "EW"}
+					{zone.isNSOriented() ? "NS" : "EW"}
 				</span>
 
 				<Label>Dimensioni</Label>

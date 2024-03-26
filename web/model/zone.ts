@@ -49,7 +49,7 @@ class Zone {
         return this.bins;
     }
 
-    public getOrientation(): boolean {
+    public isNSOriented(): boolean {
         return this.orientation;
     }
 
