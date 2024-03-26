@@ -41,26 +41,24 @@ export function Zone3D({
 		const raycaster = new THREE.Raycaster();
 		const rect = gl.domElement.getBoundingClientRect();
 		const x =
-			(((state.event as PointerEvent).clientX - rect.left) / rect.width) * 2 -
-			1;
+			(((state.event as PointerEvent).clientX - rect.left) / rect.width) * 2 - 1;
 		const y =
-			-(((state.event as PointerEvent).clientY - rect.top) / rect.height) * 2 +
-			1;
+			-(((state.event as PointerEvent).clientY - rect.top) / rect.height) * 2 + 1;
 		const mouse = new Vector2(x, y);
 		raycaster.setFromCamera(mouse, camera);
 		const floorMesh = scene.getObjectByName("floor");
-		const pointerPosition = raycaster.intersectObject(floorMesh!);
+		const pointerPosition = raycaster.intersectObject(floorMesh!)[0]?.point || currentPosition;
 		if (gridCellSize === 0) {
 			return new Vector3(
-				pointerPosition[0].point.x,
-				pointerPosition[0].point.y,
-				pointerPosition[0].point.z
+				pointerPosition.x,
+				pointerPosition.y,
+				pointerPosition.z
 				);
 		} else {
 			return new Vector3(
-				Math.round(pointerPosition[0].point.x / gridCellSize) * gridCellSize,
-				Math.round(pointerPosition[0].point.y / gridCellSize) * gridCellSize,
-				Math.round(pointerPosition[0].point.z / gridCellSize) * gridCellSize
+				Math.round(pointerPosition.x / gridCellSize) * gridCellSize,
+				Math.round(pointerPosition.y / gridCellSize) * gridCellSize,
+				Math.round(pointerPosition.z / gridCellSize) * gridCellSize
 				);
 		}
 	};
