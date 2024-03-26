@@ -37,14 +37,13 @@ export default function Warehouse() {
 				<Grid
 					cellSize={gridCellSize}
 					cellThickness={0.5}
-					cellColor={"#334155"}
+					cellColor={"#EC4899"}
 					sectionSize={1}
-					sectionThickness={1}
-					sectionColor={"#475569"}
+					sectionThickness={0.75}
+					sectionColor={"#EC4899"}
 					visible={(gridCellSize === 0) ? false : true}
-					fadeDistance={50}
 					args={[floor.getWidth(), floor.getLength()]}
-					position={[floor.getWidth() / 2, 0, floor.getLength() / 2]}
+					position={[floor.getWidth() / 2, 0.005, floor.getLength() / 2]}
 				/>
 
 				{zones.map((zone: Zone, index: number) => {

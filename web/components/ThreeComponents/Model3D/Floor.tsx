@@ -24,7 +24,7 @@ const SvgPlane: React.FC<SvgPlaneProps> = ({ svgContent, width, length }) => {
 
 	return (
 		<mesh
-			position={new Vector3(width / 2, 0.05, length / 2)}
+			position={new Vector3(width / 2, 0.0025, length / 2)}
 			rotation={[inclination, 0, 0]}
 		>
 			<planeGeometry args={[width, length]} />
