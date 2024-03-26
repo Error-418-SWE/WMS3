@@ -81,8 +81,8 @@ export default function ProductCombobox({
 							<CommandGroup>
 								{notCollocatedProducts.map((product) => (
 									<CommandItem
-										key={product.getId() && product.getName()}
-										value={String(product.getId()) && product.getName()}
+										key={product.getId() + " | " + product.getName()}
+										value={String(product.getId()) + " | " + product.getName()}
 										onSelect={() => {
 											setSelectedProduct(product);
 											setOpen(false);
