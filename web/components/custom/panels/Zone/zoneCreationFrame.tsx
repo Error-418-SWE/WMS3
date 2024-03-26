@@ -296,7 +296,10 @@ export default function ZoneCreationFrame({
 			!zone &&
 			getZoneById(parseInt(form.getValues("id") + "")) != undefined
 		) {
-			alert("ID già esistente");
+			form.setError("id", {
+				type: "manual",
+				message: "ID già in uso",
+			});
 			return;
 		}
 
