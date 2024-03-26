@@ -2,10 +2,6 @@ import { DoubleSide, Vector3, GridHelper } from "three";
 import { useFloorData } from "../../providers/floorProvider";
 import * as THREE from "three";
 import React, { useEffect, useState } from "react";
-import { extend } from "@react-three/fiber";
-
-// This makes GridHelper usable as a JSX element.
-extend({ GridHelper });
 
 const inclination = Math.PI / 2;
 
