@@ -1,6 +1,5 @@
 import { Zone } from "@/model/zone";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { columns } from "./bin_columns";
 import { DataTable } from "@/components/ui/data-table";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -15,7 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import ZoneCreationFrame from "./zoneCreationFrame";
 import { useZonesData } from "@/components/providers/zonesProvider";
-import { X } from "lucide-react";
+import { MapPin, X } from "lucide-react";
 
 interface ZoneItemProps {
 	zone: Zone;
@@ -27,7 +26,7 @@ export default function ZoneItemDetails({ zone }: ZoneItemProps) {
 	return (
 		<div className={"flex flex-col h-full mx-5"}>
 			<div className={"flex items-center mt-2 justify-between"}>
-				<h1 className={"grow font-bold text-2x"}>{zone.getId()}</h1>
+				<h1 className={"grow font-bold text-2xl"}>{zone.getId()}</h1>
 				<Button
 					variant="ghost"
 					onClick={() => {
@@ -40,7 +39,7 @@ export default function ZoneItemDetails({ zone }: ZoneItemProps) {
 			<span className={"text-sm text-muted-foreground"}>
 				Informazioni sulla zona
 			</span>
-			<div className={"grid items-center grid-cols-3 grid-rows-2 gap-y-2 mt-2"}>
+			<div className={"grid items-center grid-cols-3 grid-rows-2 gap-y-2 mt-4"}>
 				<Label>Direzione</Label>
 				<span className={"col-span-2 dataSpan"}>
 					{zone.getOrientation() ? "NS" : "EW"}
@@ -61,6 +60,12 @@ export default function ZoneItemDetails({ zone }: ZoneItemProps) {
 			</div>
 
 			<div className={"flex justify-end gap-x-2 mb-4"}>
+				<Button
+					className={buttonVariants({ variant: "secondary" }) + " border"}
+				>
+					<MapPin size={16} className={"mr-2"} />
+					Localizza
+				</Button>
 				<Button
 					className={buttonVariants({ variant: "secondary" }) + " border"}
 					onClick={() => {

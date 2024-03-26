@@ -39,7 +39,7 @@ export function ZonesDataProvider({ children }: { children: React.ReactNode }) {
 			}
 		}
 		setZonesLoaded(true);
-	}, []);
+	}, [loadZones, loadProducts, zoneRepository]);
 
 	const deleteZone = (id: number) => {
 		setZones(zones.filter(zone => zone.getId() !== id));
