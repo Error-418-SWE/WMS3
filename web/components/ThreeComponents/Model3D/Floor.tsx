@@ -1,6 +1,5 @@
-import { DoubleSide, Vector3, GridHelper } from "three";
+import { DoubleSide, Vector3, Texture, TextureLoader } from "three";
 import { useFloorData } from "../../providers/floorProvider";
-import * as THREE from "three";
 import React, { useEffect, useState } from "react";
 
 const inclination = Math.PI / 2;
@@ -13,10 +12,10 @@ interface SvgPlaneProps {
 
 const SvgPlane: React.FC<SvgPlaneProps> = ({ svgContent, width, length }) => {
 
-	const [texture, setTexture] = useState<THREE.Texture>();
+	const [texture, setTexture] = useState<Texture>();
 
 	useEffect(() => {
-		setTexture(new THREE.TextureLoader().load(
+		setTexture(new TextureLoader().load(
 			`data:image/svg+xml;base64,${btoa(svgContent)}`
 		));
 	}, [svgContent]);
