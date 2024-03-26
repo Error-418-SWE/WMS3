@@ -98,7 +98,7 @@ class Zone {
 				maxLevel = bin.getLevel();
 			}
 		});
-		return maxLevel;
+		return maxLevel+1;
 	}
 
 	public getMaxUsedColumn(): number {
@@ -108,7 +108,7 @@ class Zone {
 				maxColumn = bin.getColumn();
 			}
 		});
-		return maxColumn;
+		return maxColumn+1;
 	}
 
 }
