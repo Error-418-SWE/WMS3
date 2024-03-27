@@ -46,6 +46,7 @@ jobs:
       uses: fingerprintjs/action-coverage-report-md@v2
       id: coverage
       with:
+        srcBasePath: './'
         textReportPath: './coverage/coverage.txt'
     - name: Add coverage report to the PR
       uses: mshick/add-pr-comment@v2
