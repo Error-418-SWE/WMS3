@@ -62,7 +62,7 @@ describe("Zone", () => {
 	});
 
 	it("returns the correct orientation", () => {
-		expect(zone.getOrientation()).toBe(true);
+		expect(zone.isNSOriented()).toBe(true);
 	});
 
 	it("returns the correct bin when getBin is called with a valid id", () => {
