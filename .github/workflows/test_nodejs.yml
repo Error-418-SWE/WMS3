@@ -46,6 +46,7 @@ jobs:
       id: coverage
       run: |
         echo 'MD_REPORT<<EOF' >> $GITHUB_OUTPUT
+        echo "### Code Coverage" >> $GITHUB_OUTPUT
         cat "./coverage/coverage.txt" >> $GITHUB_OUTPUT
         echo 'EOF' >> $GITHUB_OUTPUT
     - name: Add coverage report to the PR
