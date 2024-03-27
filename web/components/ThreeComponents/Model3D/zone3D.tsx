@@ -117,12 +117,12 @@ export function Zone3D({
 		<group
 			position={[
 				currentPosition.x +
-					(zone.getOrientation() ? zone.getLength() / 2 : zone.getWidth() / 2),
+					(zone.isNSOriented() ? zone.getLength() / 2 : zone.getWidth() / 2),
 				currentPosition.y + zone.getHeight() / 2,
 				currentPosition.z +
-					(zone.getOrientation() ? zone.getWidth() / 2 : -zone.getLength() / 2),
+					(zone.isNSOriented() ? zone.getWidth() / 2 : -zone.getLength() / 2),
 			]}
-			rotation={[0, zone.getOrientation() ? -Math.PI / 2 : 0, 0]}
+			rotation={[0, zone.isNSOriented() ? -Math.PI / 2 : 0, 0]}
 			{...bind()}
 			onPointerEnter={(event : ThreeEvent<MouseEvent>) => {
 				event.stopPropagation();
@@ -152,7 +152,7 @@ export function Zone3D({
 						levelVerticalPosition + bin.getHeight() / 2 - zone.getHeight() / 2,
 						bin.getLength() / 2 - zone.getLength() / 2
 					);
-					return <Bin3D key={bin.getId()} bin={bin} position={binPosition} parentRef={parentRef} orientation={zone.getOrientation()}/>;
+					return <Bin3D key={bin.getId()} bin={bin} position={binPosition} parentRef={parentRef} orientation={zone.isNSOriented()}/>;
 				});
 			})}
 			<Edges geometry={zoneGeometry} color="black" />
