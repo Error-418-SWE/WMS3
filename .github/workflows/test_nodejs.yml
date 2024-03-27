@@ -41,7 +41,7 @@ jobs:
         chmod +x /usr/local/bin/coveralls
         coveralls --version
     - name: Report coverage to Coveralls
-      run: coveralls report ./coverage/lcov.info
+      run: coveralls report ./coverage/lcov.info -r ${{ secrets.COVERALLS_REPO_TOKEN}}
     - name: Convert coverage report to markdown
       uses: fingerprintjs/action-coverage-report-md@v2
       id: coverage
