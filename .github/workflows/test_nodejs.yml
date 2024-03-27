@@ -44,7 +44,10 @@ jobs:
       run: coveralls report ./coverage/lcov.info -r ${{ secrets.COVERALLS_REPO_TOKEN}}
     - name: Convert coverage report to markdown
       id: coverage
-      run: echo "MD_REPORT=$(cat "./coverage/coverage.txt")" >> $GITHUB_OUTPUT
+      run: |
+        echo 'MD_REPORT<<EOF' >> $GITHUB_OUTPUT
+        cat "./coverage/coverage.txt" >> $GITHUB_OUTPUT
+        echo 'EOF' >> $GITHUB_OUTPUT
     - name: Add coverage report to the PR
       uses: mshick/add-pr-comment@v2
       with:
