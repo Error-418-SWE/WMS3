@@ -27,7 +27,7 @@ export default function BinItemDetails({ bin }: ProductItemProps) {
 				<div className={"flex items-center mt-2 justify-between"}>
 					<span className={"font-bold"}>{bin.getId()}</span>
 					<Button
-						className={buttonVariants({ variant: "secondary" }) + " border"}
+						variant="ghost"
 						onClick={() => {
 							setShowElementDetails(false);
 							setSelectedBin(null);
@@ -37,10 +37,10 @@ export default function BinItemDetails({ bin }: ProductItemProps) {
 					</Button>
 				</div>
 				<span className={"text-sm text-muted-foreground"}>
-					Informazioni del Bin e del prodotto
+					Informazioni del bin e del prodotto
 				</span>
 				<div
-					className={"grid items-center grid-cols-3 grid-rows-3 gap-y-2 mt-2"}
+					className={"grid items-center grid-cols-3 grid-rows-3 gap-y-2 mt-4"}
 				>
 					<Label>ID</Label>
 					<span className={"col-span-2 dataSpan"}>{bin.getId()}</span>

@@ -2,6 +2,8 @@ import { Product } from "@/model/product";
 import { Label } from "@/components/ui/label";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { useElementDetails } from "@/components/providers/UI-Providers/ElementDetailsProvider";
+import { X } from "lucide-react";
+
 
 interface ProductItemProps {
 	product: Product;
@@ -20,19 +22,19 @@ export default function ProductItemDetails({
 				<span className={"font-bold"}>{product.getName()}</span>
 				{showCloseButton && (
 					<Button
-						className={buttonVariants({ variant: "secondary" }) + " border"}
+						variant="ghost"
 						onClick={() => {
 							setShowElementDetails(false);
 						}}
 					>
-						X
+						<X size={16} />
 					</Button>
 				)}
 			</div>
 			<span className={"text-sm text-muted-foreground"}>
 				Informazioni del prodotto
 			</span>
-			<div className={"grid items-center grid-cols-3 grid-rows-3 gap-y-2 mt-2"}>
+			<div className={"grid items-center grid-cols-3 grid-rows-3 gap-y-2 mt-4"}>
 				<Label>ID</Label>
 				<span className={"col-span-2 dataSpan"}>{product.getId()}</span>
 				<Label>Categorie</Label>

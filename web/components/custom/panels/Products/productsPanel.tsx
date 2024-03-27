@@ -72,7 +72,7 @@ export default function ProductsPanel() {
 					/>
 				</div>
 			</div>
-			<div className={"mx-5 mt-1"}>
+			<div className={"mx-5 mt-1 mb-4"}>
 				<Label className={"sr-only"}>Categoria prodotto</Label>
 				<Select onValueChange={
 					(value) => {
@@ -93,12 +93,12 @@ export default function ProductsPanel() {
 				</Select>
 			</div>
 			<ScrollArea>
-				<Tabs defaultValue="collocated" className={"mx-5 mt-6"}>
-					<TabsList className={"flex w-full"}>
+				<Tabs defaultValue="collocated" className={"mx-5"}>
+					<TabsList className={"flex w-full sticky top-0 bg-slate-50 rounded-none"}>
 						<TabsTrigger value="collocated" className={"grow"}>Collocati</TabsTrigger>
 						<TabsTrigger value="notCollocated" className={"grow"}>Non collocati</TabsTrigger>
 					</TabsList>
-					<TabsContent value="collocated" className={"mt-6"}>
+					<TabsContent value="collocated">
 						<div id="productList">
 							{
 								(collocatedToShow.length === 0) &&
@@ -111,7 +111,7 @@ export default function ProductsPanel() {
 							}
 						</div>
 					</TabsContent>
-					<TabsContent value="notCollocated" className={"mt-6"}>
+					<TabsContent value="notCollocated">
 						<div id={"notCollocatedProducts"}>
 							{
 								(notCollocatedToShow.length === 0) &&
