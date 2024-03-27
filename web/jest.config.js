@@ -5,4 +5,8 @@ module.exports = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
   },
+	coverageReporters: [
+		'lcov',
+		['text', { file: 'coverage.txt', path: './' }]
+	],
 };
