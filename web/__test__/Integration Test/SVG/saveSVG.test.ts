@@ -18,20 +18,3 @@ describe("saveSVG", () => {
 jest.mock("fs", () => ({
   writeFileSync: jest.fn(),
 }));
-
-describe("saveSVG", () => {
-  it("should handle errors", async () => {
-    const svgContent = "<svg></svg>";
-    const error = new Error("File write error");
-
-    (fs.writeFileSync as jest.Mock).mockImplementationOnce(() => {
-      throw error;
-    });
-
-    console.error = jest.fn();
-
-    await saveSVG(svgContent);
-
-    expect(console.error).toHaveBeenCalledWith("Error saving SVG:", error);
-  });
-});

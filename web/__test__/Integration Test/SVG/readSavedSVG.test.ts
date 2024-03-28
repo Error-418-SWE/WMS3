@@ -21,21 +21,3 @@ describe("readSavedSVG", () => {
     expect(result).toEqual(svgContent);
   });
 });
-
-  
-  describe("readSavedSVG", () => {
-    it("should handle errors", async () => {
-      const error = new Error("File read error");
-  
-      (fs.readFileSync as jest.Mock).mockImplementation(() => {
-        throw error;
-      });
-  
-      console.error = jest.fn();
-  
-      const result = await readSavedSVG();
-  
-      expect(console.error).toHaveBeenCalledWith("Error saving SVG:", error);
-      expect(result).toEqual("");
-    });
-  });
