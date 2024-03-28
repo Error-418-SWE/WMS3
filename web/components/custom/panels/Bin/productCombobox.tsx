@@ -50,7 +50,7 @@ export default function ProductCombobox({
 					).length === 0,
 			),
 		);
-	}, [collocatedProducts]);
+	}, [collocatedProducts, products]);
 
 	function handleConfirmProduct() {
 		if (selectedProduct) {

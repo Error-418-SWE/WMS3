@@ -86,7 +86,7 @@ function Main() {
 
 			createFloor();
 		}
-	}, [params, floorRefresher]);
+	}, [params, floorRefresher, setFloor]);
 
 	const dataLoaded = zonesLoaded && productsLoaded && floor;
 	const progress =

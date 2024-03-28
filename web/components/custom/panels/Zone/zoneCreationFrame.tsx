@@ -278,7 +278,7 @@ export default function ZoneCreationFrame({
 		const totalHeight = levels.reduce((acc, level) => acc + level.height, 0);
 		setZoneHeight(totalHeight);
 		form.setValue("height", totalHeight);
-	}, [zone, levels]);
+	}, [zone, levels, form]);
 
 	function handleSubmit() {
 		if (

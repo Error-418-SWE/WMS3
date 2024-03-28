@@ -34,7 +34,7 @@ export function ProductsDataProvider({
 			});
 		}
 		setProductsLoaded(true);
-	}, []);
+	}, [loadProducts, productRepository]);
 
 	const refresh = () => {
 		setProductsLoaded(false);

@@ -44,7 +44,7 @@ export default function ProductsPanel() {
 					).length === 0,
 			),
 		);
-	}, [collocatedProducts]);
+	}, [collocatedProducts, products]);
 
 	useEffect(() => {
 		setNotCollocatedToShow(
