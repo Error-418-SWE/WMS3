@@ -31,12 +31,8 @@ const productOutgoingColor = 0xffa500;
 
 export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 	const { setElementDetails, setShowElementDetails } = useElementDetails();
-	const {
-		selectedBin,
-		setSelectedBin,
-		newMovementOrder,
-		cameraRef,
-	} = useWarehouseData();
+	const { selectedBin, setSelectedBin, newMovementOrder, cameraRef } =
+		useWarehouseData();
 
 	const [currentPosition, setCurrentPosition] = useState(position);
 
@@ -45,7 +41,7 @@ export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 	const binGeometry = new BoxGeometry(
 		bin.getWidth(),
 		bin.getHeight(),
-		bin.getLength()
+		bin.getLength(),
 	);
 
 	useEffect(() => {
@@ -84,7 +80,7 @@ export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 	const rotateTargetPosition = (
 		target: Vector3,
 		pivot: Vector3,
-		angle: number
+		angle: number,
 	) => {
 		let direction = new Vector3().subVectors(target, pivot);
 		direction.applyAxisAngle(new Vector3(0, 1, 0), angle);
@@ -93,7 +89,11 @@ export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 
 	const bind = useDrag(
 		async (state: any) => {
-			if (bin.getProduct() && bin.getBinState() === BinState.Idle  && groupRef.current) {
+			if (
+				bin.getProduct() &&
+				bin.getBinState() === BinState.Idle &&
+				groupRef.current
+			) {
 				cameraRef.current?.disconnect();
 				const raycaster = new Raycaster();
 				const rect = gl.domElement.getBoundingClientRect();
@@ -111,7 +111,7 @@ export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 				const bins = scene.children.flatMap((child) =>
 					child.name === "zone"
 						? child.children.filter((bin) => bin !== groupRef.current)
-						: []
+						: [],
 				);
 
 				let target = new Vector3();
@@ -136,7 +136,7 @@ export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 					target = rotateTargetPosition(
 						target,
 						parentRef.current.position,
-						Math.PI / 2
+						Math.PI / 2,
 					);
 				}
 
@@ -145,19 +145,23 @@ export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 				setCurrentPosition(target);
 
 				if (state.last) {
-					if (intersectedBin && intersectedBin.userData.id && intersectedBin.userData.id !== bin.getId()) {
+					if (
+						intersectedBin &&
+						intersectedBin.userData.id &&
+						intersectedBin.userData.id !== bin.getId()
+					) {
 						newMovementOrder(
 							bin.getId(),
 							intersectedBin.userData.id,
-							bin.getProduct()!.getId()
-						)
+							bin.getProduct()!.getId(),
+						);
 					}
 					cameraRef.current?.connect(gl.domElement);
 					setCurrentPosition(initialPosition);
 				}
 			}
 		},
-		{ threshold: 1 }
+		{ threshold: 1 },
 	);
 
 	return (
@@ -185,12 +189,12 @@ export function Bin3D({ bin, position, parentRef, orientation }: Bin3DProps) {
 						bin === selectedBin
 							? selectedColor
 							: bin.getBinState() === BinState.ProductIncoming
-							? productIncomingColor
-							: bin.getBinState() === BinState.ProductOutgoing
-							? productOutgoingColor
-							: bin.getProduct()
-							? notEmptyColor
-							: defaultColor
+								? productIncomingColor
+								: bin.getBinState() === BinState.ProductOutgoing
+									? productOutgoingColor
+									: bin.getProduct()
+										? notEmptyColor
+										: defaultColor
 					}
 					transparent={true}
 					opacity={0.5}

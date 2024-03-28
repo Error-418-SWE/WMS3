@@ -52,8 +52,10 @@ export default function BinItemDetails({ bin }: ProductItemProps) {
 					</div>
 				</div>
 			</div>
-			<hr className={"mx-5"}/>
-			{product && <>{ProductItemDetails({ product: product, showCloseButton : false })}</>}
+			<hr className={"mx-5"} />
+			{product && (
+				<>{ProductItemDetails({ product: product, showCloseButton: false })}</>
+			)}
 
 			{!product ? (
 				<div className={"flex flex-col mx-5 mt-6"}>

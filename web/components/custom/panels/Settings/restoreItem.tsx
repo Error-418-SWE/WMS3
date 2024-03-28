@@ -3,26 +3,31 @@ import { useOrdersData } from "@/components/providers/ordersProvider";
 import { useProductsData } from "@/components/providers/productsProvider";
 import { useZonesData } from "@/components/providers/zonesProvider";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Dialog, DialogHeader, DialogTrigger, DialogContent, DialogTitle, DialogDescription  } from "@/components/ui/dialog";
-import { useRouter } from 'next/navigation';
+import {
+	Dialog,
+	DialogHeader,
+	DialogTrigger,
+	DialogContent,
+	DialogTitle,
+	DialogDescription,
+} from "@/components/ui/dialog";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function RestoreItem() {
-
 	const router = useRouter();
 	const [isOpen, setIsOpen] = useState(false);
-	const { refresh:  refreshZones } = useZonesData();
-	const { refresh:  refreshProducts } = useProductsData();
-	const { refresh:  refreshOrders } = useOrdersData();
+	const { refresh: refreshZones } = useZonesData();
+	const { refresh: refreshProducts } = useProductsData();
+	const { refresh: refreshOrders } = useOrdersData();
 	const { floorRefresher, setFloorRefresher } = useFloorData();
-
 
 	function handleRisincronizza() {
 		setIsOpen(false);
 		refreshZones();
 		refreshProducts();
 		refreshOrders();
-		setFloorRefresher( floorRefresher + 1);
+		setFloorRefresher(floorRefresher + 1);
 	}
 
 	function handleReimposta() {
@@ -47,10 +52,19 @@ export default function RestoreItem() {
 						<DialogHeader>
 							<DialogTitle>Risincronizza dati</DialogTitle>
 							<DialogDescription>
-								Questa azione non può essere annullata. I dati saranno riportati ai loro valori iniziali: le zone, i prodotti, la lista movimenti e la planimetria saranno ripristinati al loro stato inziale.
+								Questa azione non può essere annullata. I dati saranno riportati
+								ai loro valori iniziali: le zone, i prodotti, la lista movimenti
+								e la planimetria saranno ripristinati al loro stato inziale.
 							</DialogDescription>
 						</DialogHeader>
-						<Button onClick={handleRisincronizza} className={buttonVariants({ variant: "destructive" }) + " w-min ml-auto"}>Risincronizza</Button>
+						<Button
+							onClick={handleRisincronizza}
+							className={
+								buttonVariants({ variant: "destructive" }) + " w-min ml-auto"
+							}
+						>
+							Risincronizza
+						</Button>
 					</DialogContent>
 				</Dialog>
 				<Dialog>
@@ -62,12 +76,22 @@ export default function RestoreItem() {
 						<DialogHeader>
 							<DialogTitle>Reimposta l&apos;ambiente</DialogTitle>
 							<DialogDescription>
-								Questa azione non può essere annullata. Sarai reindirizzato alla pagina di configurazione di un nuovo &apos;ambiente. Tutti i dati andranno perduti.
+								Questa azione non può essere annullata. Sarai reindirizzato alla
+								pagina di configurazione di un nuovo &apos;ambiente. Tutti i
+								dati andranno perduti.
 							</DialogDescription>
 						</DialogHeader>
-						<Button onClick={handleReimposta} className={buttonVariants({ variant: "destructive" }) + " w-min ml-auto"}>Reimposta</Button>
+						<Button
+							onClick={handleReimposta}
+							className={
+								buttonVariants({ variant: "destructive" }) + " w-min ml-auto"
+							}
+						>
+							Reimposta
+						</Button>
 					</DialogContent>
 				</Dialog>
 			</div>
-		</div>);
+		</div>
+	);
 }

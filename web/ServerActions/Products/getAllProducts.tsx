@@ -11,18 +11,16 @@ export default async function getAllProducts() {
 	try {
 		const { rows: products } = await client.query(
 			"SELECT p.*, array_agg(c.name) as categories\n" +
-			"FROM product p\n" +
-			"LEFT JOIN categorize cz ON cz.product_id = p.id\n" +
-			"LEFT JOIN category c ON c.id = cz.category_id\n" +
-			"GROUP BY p.id;"
+				"FROM product p\n" +
+				"LEFT JOIN categorize cz ON cz.product_id = p.id\n" +
+				"LEFT JOIN category c ON c.id = cz.category_id\n" +
+				"GROUP BY p.id;",
 		);
 
-        return products;
+		return products;
 	} catch (error: any) {
 		return null;
 	} finally {
 		client.release();
 	}
 }
-
-

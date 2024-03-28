@@ -16,9 +16,7 @@ import {
 	ProductsDataProvider,
 	useProductsData,
 } from "@/components/providers/productsProvider";
-import {
-	OrdersDataProvider,
-} from "@/components/providers/ordersProvider";
+import { OrdersDataProvider } from "@/components/providers/ordersProvider";
 import Panel from "@/components/custom/panels/panel";
 import {
 	ElementDetailsProvider,
@@ -42,21 +40,20 @@ import {
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
-} from "@/components/ui/tooltip"
+} from "@/components/ui/tooltip";
 import { LayoutDashboard, Package, Clipboard, Settings } from "lucide-react";
-
 
 export default function App() {
 	return (
 		<Suspense>
 			<ZonesDataProvider>
-					<ProductsDataProvider>
-						<FloorDataProvider>
-							<ElementDetailsProvider>
-								<Main />
-							</ElementDetailsProvider>
-						</FloorDataProvider>
-					</ProductsDataProvider>
+				<ProductsDataProvider>
+					<FloorDataProvider>
+						<ElementDetailsProvider>
+							<Main />
+						</ElementDetailsProvider>
+					</FloorDataProvider>
+				</ProductsDataProvider>
 			</ZonesDataProvider>
 		</Suspense>
 	);
@@ -79,7 +76,7 @@ function Main() {
 			const floorStrategyContext = new FloorStrategyContext(
 				choice_mode === "custom"
 					? new CustomFloorStrategy()
-					: new StandardFloorStrategy()
+					: new StandardFloorStrategy(),
 			);
 
 			const createFloor = async () => {
@@ -89,12 +86,11 @@ function Main() {
 
 			createFloor();
 		}
-	}, [params, floorRefresher]);
+	}, [params, floorRefresher, setFloor]);
 
 	const dataLoaded = zonesLoaded && productsLoaded && floor;
 	const progress =
-		((+zonesLoaded + +productsLoaded + (floor ? 1 : 0)) / 3) *
-		100;
+		((+zonesLoaded + +productsLoaded + (floor ? 1 : 0)) / 3) * 100;
 
 	if (!dataLoaded) {
 		return (
@@ -115,7 +111,9 @@ function Main() {
 			<OrdersDataProvider>
 				<TooltipProvider>
 					<nav
-						className={"flex flex-col flex-wrap justify-between h-screen bg-primary px-1.5 py-4 h-full"}
+						className={
+							"flex flex-col flex-wrap justify-between h-screen bg-primary px-1.5 py-4 h-full"
+						}
 					>
 						<div className={"flex flex-col gap-4 items-center"}>
 							<Image

@@ -18,7 +18,7 @@ jest.mock("pg", () => {
 		bin_length: 1,
 		bin_width: 1,
 		product_id: 1,
-        product: productJson
+		product: productJson,
 	};
 	const zoneJson = {
 		id: 1,
@@ -67,15 +67,15 @@ describe("getAllZones", () => {
 						bin_length: 1,
 						bin_width: 1,
 						product_id: 1,
-                        product: {
-                            id: 1,
-                            name: "prodotto",
-                            weight: 1,
-                            length: 1,
-                            width: 1,
-                            height: 1,
-                            categories: ["category"],
-                        },
+						product: {
+							id: 1,
+							name: "prodotto",
+							weight: 1,
+							length: 1,
+							width: 1,
+							height: 1,
+							categories: ["category"],
+						},
 					},
 				],
 				orientation: true,

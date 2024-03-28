@@ -14,7 +14,6 @@ import { useEffect, useState } from "react";
 import { Plus } from "lucide-react";
 
 export default function ZonePanel() {
-
 	const { zones } = useZonesData();
 	const { setElementDetails, setShowElementDetails } = useElementDetails();
 	const [zonesToShow, setZonesToShow] = useState<Zone[]>([]);
@@ -33,31 +32,41 @@ export default function ZonePanel() {
 		<Panel>
 			<div className={"flex m-5 items-end"}>
 				<h1 className={"grow font-bold text-2xl"}>Zone</h1>
-				<Button onClick={() => {
-					setElementDetails(<ZoneCreationFrame />);
-					setShowElementDetails(true);
-				}}>
+				<Button
+					onClick={() => {
+						setElementDetails(<ZoneCreationFrame />);
+						setShowElementDetails(true);
+					}}
+				>
 					<Plus size={16} className={"mr-2"} />
 					Nuova
 				</Button>
 			</div>
 			<div className={"mx-5 mt-1"}>
 				<Label className={"sr-only"}>Ricerca le zone</Label>
-				<Input placeholder="Cerca per ID..." onChange={
-					(event) => {
+				<Input
+					placeholder="Cerca per ID..."
+					onChange={(event) => {
 						const query = event.target.value;
 						if (query === "") {
 							handleEmptySearch();
 						} else {
 							setZonesToShow(searchEngine.search(zones, query, "id"));
 						}
-					}
-				}/>
+					}}
+				/>
 			</div>
-			<ScrollArea id="zoneList" className={"flex flex-col mx-5 mt-6 mb-4 gap-2"}>
-				{zonesToShow.length > 0 ? zonesToShow.map((zone) => (
-						<ZoneItem key={zone.getId()} zone={zone} />
-				)) : <div className={"text-center text-muted-foreground"}>Nessuna zona trovata</div>}
+			<ScrollArea
+				id="zoneList"
+				className={"flex flex-col mx-5 mt-6 mb-4 gap-2"}
+			>
+				{zonesToShow.length > 0 ? (
+					zonesToShow.map((zone) => <ZoneItem key={zone.getId()} zone={zone} />)
+				) : (
+					<div className={"text-center text-muted-foreground"}>
+						Nessuna zona trovata
+					</div>
+				)}
 			</ScrollArea>
 		</Panel>
 	);

@@ -59,7 +59,7 @@ describe("getAllBins", () => {
 	it("should return null if there is an error", async () => {
 		const client = await pool.connect();
 		client.query.mockImplementation(() =>
-			Promise.reject(new Error("Database error"))
+			Promise.reject(new Error("Database error")),
 		);
 
 		const result = await getAllBins();

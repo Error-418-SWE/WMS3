@@ -32,10 +32,10 @@ export default function ProductCombobox({
 	const [collocatedProducts] = useState<Product[]>(
 		zones
 			.flatMap((zone) => zone.getBins().flatMap((bin) => bin.getProduct()))
-			.filter((product) => product !== null) as Product[]
+			.filter((product) => product !== null) as Product[],
 	);
 	const [notCollocatedProducts, setNotCollocatedProducts] = useState<Product[]>(
-		[]
+		[],
 	);
 	const [open, setOpen] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -45,11 +45,12 @@ export default function ProductCombobox({
 			products.filter(
 				(product) =>
 					collocatedProducts.filter(
-						(collocatedProduct) => collocatedProduct.getId() === product.getId()
-					).length === 0
-			)
+						(collocatedProduct) =>
+							collocatedProduct.getId() === product.getId(),
+					).length === 0,
+			),
 		);
-	}, [collocatedProducts]);
+	}, [collocatedProducts, products]);
 
 	function handleConfirmProduct() {
 		if (selectedProduct) {
@@ -98,8 +99,13 @@ export default function ProductCombobox({
 			</Popover>
 
 			<div className={"flex flex-col justify-end gap-1 mt-4"}>
-        <span className={"text-sm text-muted-foreground w-full"}>Attenzione: una volta confermata la selezione di un prodotto, questo verrà trattato come elemento collocato.</span>
-				<Button className={"w-[30%] ml-auto"} onClick={handleConfirmProduct}>Conferma</Button>
+				<span className={"text-sm text-muted-foreground w-full"}>
+					Attenzione: una volta confermata la selezione di un prodotto, questo
+					verrà trattato come elemento collocato.
+				</span>
+				<Button className={"w-[30%] ml-auto"} onClick={handleConfirmProduct}>
+					Conferma
+				</Button>
 			</div>
 		</div>
 	);

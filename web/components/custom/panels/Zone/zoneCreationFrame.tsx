@@ -49,7 +49,7 @@ function checkIfEqualColumns(zone: Zone) {
 
 function ColumnCreation(form: any, zone?: Zone) {
 	const [customColumns, setCustomColumns] = useState(
-		zone ? !checkIfEqualColumns(zone) : false
+		zone ? !checkIfEqualColumns(zone) : false,
 	);
 
 	return (
@@ -74,23 +74,21 @@ function ColumnCreation(form: any, zone?: Zone) {
 								}}
 							>
 								<div className={"flex gap-x-2 content-center"}>
-									<RadioGroupItem value="equal" id="equal" className={"mt-1"}/>
+									<RadioGroupItem value="equal" id="equal" className={"mt-1"} />
 									<FormField
 										name="nColumns"
 										control={form.control}
 										defaultValue={
 											zone
 												? !customColumns
-												? zone.getLevels()[0].length
+													? zone.getLevels()[0].length
+													: "1"
 												: "1"
-												: "1"
-											}
-											render={({ field }) => (
-												<>
+										}
+										render={({ field }) => (
+											<>
 												<FormItem>
-													<FormLabel>
-														Dividi in parti uguali
-													</FormLabel>
+													<FormLabel>Dividi in parti uguali</FormLabel>
 													<FormControl>
 														<Input
 															placeholder="N°"
@@ -104,16 +102,16 @@ function ColumnCreation(form: any, zone?: Zone) {
 																	if (
 																		parseInt(e.target.value) >=
 																		zone.getMaxUsedColumn()
-																		) {
-																			field.onChange(e);
-																			form.clearErrors("nColumns");
-																		} else {
+																	) {
+																		field.onChange(e);
+																		form.clearErrors("nColumns");
+																	} else {
 																		form.setError("nColumns", {
 																			type: "manual",
 																			message:
-																			"La zona necessita di almeno " +
-																			zone.getMaxUsedColumn() +
-																			" colonne",
+																				"La zona necessita di almeno " +
+																				zone.getMaxUsedColumn() +
+																				" colonne",
 																		});
 																	}
 																} else {
@@ -133,24 +131,26 @@ function ColumnCreation(form: any, zone?: Zone) {
 								</div>
 
 								<div className={"flex gap-x-2 content-center"}>
-									<RadioGroupItem value="custom" id="custom" className={"mt-1"}/>
+									<RadioGroupItem
+										value="custom"
+										id="custom"
+										className={"mt-1"}
+									/>
 									<FormField
 										name="customColumns"
 										control={form.control}
 										defaultValue={
 											zone
 												? zone
-													.getLevels()[0]
-													.map((bin) => bin.getWidth())
-													.join(" ")
+														.getLevels()[0]
+														.map((bin) => bin.getWidth())
+														.join(" ")
 												: ""
 										}
 										render={({ field }) => (
 											<>
 												<FormItem>
-													<FormLabel>
-														Colonne personalizzate
-													</FormLabel>
+													<FormLabel>Colonne personalizzate</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
@@ -161,7 +161,7 @@ function ColumnCreation(form: any, zone?: Zone) {
 																if (
 																	zone &&
 																	e.target.value.trim().split(" ").length <
-																	zone.getMaxUsedColumn()
+																		zone.getMaxUsedColumn()
 																) {
 																	form.setError("customColumns", {
 																		type: "manual",
@@ -183,8 +183,8 @@ function ColumnCreation(form: any, zone?: Zone) {
 																				.split(" ")
 																				.reduce(
 																					(acc, val) => acc + parseFloat(val),
-																					0
-																				)
+																					0,
+																				),
 																		);
 																	}
 																}
@@ -229,32 +229,30 @@ export default function ZoneCreationFrame({
 		form.setValue("id", zone ? zone.getId() : 0);
 		form.setValue(
 			"direction",
-			zone ? (zone.isNSOriented() ? "NS" : "EW") : "NS"
+			zone ? (zone.isNSOriented() ? "NS" : "EW") : "NS",
 		);
-		form.setValue("length", zone ?	zone.getLength() : 1);
-		form.setValue("width", zone ? 	zone.getWidth()  : 1);
-		form.setValue("height", zone ? 	zone.getHeight() : 1);
+		form.setValue("length", zone ? zone.getLength() : 1);
+		form.setValue("width", zone ? zone.getWidth() : 1);
+		form.setValue("height", zone ? zone.getHeight() : 1);
 		form.setValue(
 			"columnsType",
-			zone ? (checkIfEqualColumns(zone) ? "equal" : "custom") : "equal"
+			zone ? (checkIfEqualColumns(zone) ? "equal" : "custom") : "equal",
 		);
 		form.setValue(
 			"customColumns",
 			zone
 				? zone
-					.getLevels()[0]
-					.map((bin) => bin.getWidth())
-					.join(" ")
-				: ""
+						.getLevels()[0]
+						.map((bin) => bin.getWidth())
+						.join(" ")
+				: "",
 		);
 		form.setValue("nColumns", zone ? zone.getLevels()[0].length : 1);
 		setLevels(
-			zone
-				?.getColumns()[0]
-				.map((bin) => ({
-					id: Math.random(),
-					height: bin.getHeight() || 0,
-				})) || [{ id: Math.random(), height: 1 }]
+			zone?.getColumns()[0].map((bin) => ({
+				id: Math.random(),
+				height: bin.getHeight() || 0,
+			})) || [{ id: Math.random(), height: 1 }],
 		);
 	}, [zone]);
 
@@ -273,14 +271,14 @@ export default function ZoneCreationFrame({
 			?.getColumns()[0]
 			.map((bin) => ({ id: Math.random(), height: bin.getHeight() || 0 })) || [
 			{ id: Math.random(), height: 1 },
-		]
+		],
 	);
 
 	useEffect(() => {
 		const totalHeight = levels.reduce((acc, level) => acc + level.height, 0);
 		setZoneHeight(totalHeight);
 		form.setValue("height", totalHeight);
-	}, [zone, levels]);
+	}, [zone, levels, form]);
 
 	function handleSubmit() {
 		if (
@@ -313,10 +311,10 @@ export default function ZoneCreationFrame({
 						levels[i].height,
 						form.getValues("length"),
 						form.getValues("columnsType") == "equal"
-							? (form.getValues("width") / form.getValues("nColumns"))
+							? form.getValues("width") / form.getValues("nColumns")
 							: parseFloat(form.getValues("customColumns").split(" ")[j]),
-						null
-					)
+						null,
+					),
 				);
 			}
 		}
@@ -343,7 +341,7 @@ export default function ZoneCreationFrame({
 			form.getValues("length"),
 			form.getValues("width"),
 			bins,
-			form.getValues("direction") == "NS"
+			form.getValues("direction") == "NS",
 		);
 
 		if (!zone) {
@@ -376,9 +374,12 @@ export default function ZoneCreationFrame({
 				</Button>
 			</div>
 
-		<ScrollArea>
-			<Form {...form}>
-				<form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-wrap gap-4 content-start h-full">
+			<ScrollArea>
+				<Form {...form}>
+					<form
+						onSubmit={form.handleSubmit(handleSubmit)}
+						className="flex flex-wrap gap-4 content-start h-full"
+					>
 						<div className="w-1/3 flex-auto">
 							<FormField
 								control={form.control}
@@ -501,29 +502,32 @@ export default function ZoneCreationFrame({
 							{ColumnCreation(form, zone)}
 						</div>
 
-						<hr className="w-full"/>
+						<hr className="w-full" />
 
-						<div className={"flex w-full justify-between items-center sticky top-0 bg-slate-50 pb-2"}>
+						<div
+							className={
+								"flex w-full justify-between items-center sticky top-0 bg-slate-50 pb-2"
+							}
+						>
 							<span className={"font-bold"}>
 								{zone?.getColumns()[0].length || "0"}{" "}
 								{zone?.getColumns()[0].length != 1 ? "livelli" : "livello"}
 							</span>
 							<Button
 								type="button"
-								className={buttonVariants({ variant: "outline" }) + " text-black"}
+								className={
+									buttonVariants({ variant: "outline" }) + " text-black"
+								}
 								onClick={() => {
 									setLevels([...levels, { id: Math.random(), height: 1 }]);
-								}}>
+								}}
+							>
 								<ListPlus size={16} className="mr-2" />
 								Aggiungi
 							</Button>
 						</div>
 
-						<div
-							className={
-								"flex flex-col gap-2 mb-16"
-							}
-						>
+						<div className={"flex flex-col gap-2 mb-16"}>
 							{levels.map((level, index) => (
 								<LevelItem
 									key={level.id}
@@ -537,14 +541,11 @@ export default function ZoneCreationFrame({
 							))}
 						</div>
 
-					<Button
-						type="submit"
-						className={"w-full absolute bottom-4 z-10"}
-					>
-						{zone ? "Salva le modifiche alla " : "Crea "} zona
-					</Button>
-				</form>
-			</Form>
+						<Button type="submit" className={"w-full absolute bottom-4 z-10"}>
+							{zone ? "Salva le modifiche alla " : "Crea "} zona
+						</Button>
+					</form>
+				</Form>
 			</ScrollArea>
 		</div>
 	);

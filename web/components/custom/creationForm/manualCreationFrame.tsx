@@ -24,7 +24,13 @@ export function ManualCreationFrame({ form }: ManualCreationFrameProps) {
 						<FormItem>
 							<FormLabel>Larghezza</FormLabel>
 							<FormControl>
-								<Input placeholder="In metri" {...field} type="number" min={1} step={0.01}/>
+								<Input
+									placeholder="In metri"
+									{...field}
+									type="number"
+									min={1}
+									step={0.01}
+								/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -40,7 +46,13 @@ export function ManualCreationFrame({ form }: ManualCreationFrameProps) {
 						<FormItem>
 							<FormLabel>Lunghezza</FormLabel>
 							<FormControl>
-								<Input placeholder="In metri" {...field} type="number" min={1} step={0.01}/>
+								<Input
+									placeholder="In metri"
+									{...field}
+									type="number"
+									min={1}
+									step={0.01}
+								/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>

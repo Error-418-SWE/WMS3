@@ -8,25 +8,32 @@ import Image from "next/image";
 import { useElementDetails } from "@/components/providers/UI-Providers/ElementDetailsProvider";
 import BinItemDetails from "../Bin/binItemDetails";
 
-function ProductDetailsCell({ row } : { row : Row<Bin> }) {
-    const { setElementDetails, setShowElementDetails} = useElementDetails();
-    const product: Product = row.getValue("product");
+function ProductDetailsCell({ row }: { row: Row<Bin> }) {
+	const { setElementDetails, setShowElementDetails } = useElementDetails();
+	const product: Product = row.getValue("product");
 
-    const handleClick = () => {  
-    const bin: Bin = row.original;
-      if(bin) {
-        setElementDetails(<BinItemDetails bin={bin} />);
-        setShowElementDetails(true);
-      }
-    };
-  
-    return product && product.getName() ? (
-      <Button className={buttonVariants({variant: "secondary"}) + " bg-trasparent float-right mr-2 "} onClick={handleClick}>
-        <Image src="/icons/info.svg" width={10} height={10} alt="Info" />
-      </Button>
-    ) : "";
-  }
-  
+	const handleClick = () => {
+		const bin: Bin = row.original;
+		if (bin) {
+			setElementDetails(<BinItemDetails bin={bin} />);
+			setShowElementDetails(true);
+		}
+	};
+
+	return product && product.getName() ? (
+		<Button
+			className={
+				buttonVariants({ variant: "secondary" }) +
+				" bg-trasparent float-right mr-2 "
+			}
+			onClick={handleClick}
+		>
+			<Image src="/icons/info.svg" width={10} height={10} alt="Info" />
+		</Button>
+	) : (
+		""
+	);
+}
 
 export const columns: ColumnDef<Bin>[] = [
 	{
@@ -41,9 +48,9 @@ export const columns: ColumnDef<Bin>[] = [
 			return product && product.getName() ? product.getName() : "Libero";
 		},
 	},
-    {
-        accessorKey: "product_details",
-        header: () => <div className={"text-right pr-5"}>Info</div>,
-        cell: ProductDetailsCell,
-    }
+	{
+		accessorKey: "product_details",
+		header: () => <div className={"text-right pr-5"}>Info</div>,
+		cell: ProductDetailsCell,
+	},
 ];

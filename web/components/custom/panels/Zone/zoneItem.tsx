@@ -2,7 +2,14 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Zone } from "@/model/zone";
 import Image from "next/image";
 import ZoneItemDetails from "./zoneItemDetails";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
 import { useElementDetails } from "@/components/providers/UI-Providers/ElementDetailsProvider";
 import { useZonesData } from "@/components/providers/zonesProvider";
 
@@ -13,9 +20,8 @@ interface ZoneItemProps {
 }
 
 export default function ZoneItem({ zone }: ZoneItemProps) {
-
-	const {setElementDetails, setShowElementDetails} = useElementDetails();
-	const {deleteZone} = useZonesData();
+	const { setElementDetails, setShowElementDetails } = useElementDetails();
+	const { deleteZone } = useZonesData();
 
 	return (
 		<div
@@ -37,7 +43,7 @@ export default function ZoneItem({ zone }: ZoneItemProps) {
 				/>
 			</Button>
 			<Dialog>
-				<DialogTrigger >
+				<DialogTrigger>
 					<Image
 						src="/icons/delete.svg"
 						width={imageButtonSize}
@@ -49,18 +55,24 @@ export default function ZoneItem({ zone }: ZoneItemProps) {
 					<DialogHeader>
 						<DialogTitle>Eliminazione scaffale</DialogTitle>
 						<DialogDescription>
-							Questa azione non può essere annullata. Sei sicuro di voler eliminare la zona {zone.getId()}?
+							Questa azione non può essere annullata. Sei sicuro di voler
+							eliminare la zona {zone.getId()}?
 						</DialogDescription>
 					</DialogHeader>
-					<Button onClick={() => {
-						deleteZone(zone.getId());
-						setShowElementDetails(false);
-						close();
-					}}className={buttonVariants({variant: "destructive"}) + " w-min ml-auto"}>Elimina</Button>
+					<Button
+						onClick={() => {
+							deleteZone(zone.getId());
+							setShowElementDetails(false);
+							close();
+						}}
+						className={
+							buttonVariants({ variant: "destructive" }) + " w-min ml-auto"
+						}
+					>
+						Elimina
+					</Button>
 				</DialogContent>
 			</Dialog>
-
-
 		</div>
 	);
 }

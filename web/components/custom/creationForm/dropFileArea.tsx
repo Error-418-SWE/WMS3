@@ -30,12 +30,12 @@ export function DropFileArea({ form }: DropFileAreaProps) {
 		setIsProcessing(true);
 		const file = event.target.files[0];
 
-		if(!file){
+		if (!file) {
 			setIsProcessing(false);
 			return;
 		}
 
-		if(file.type !== "image/svg+xml"){
+		if (file.type !== "image/svg+xml") {
 			form.setValue("svg", null);
 			form.setError("svg", {
 				type: "server",
@@ -47,7 +47,7 @@ export function DropFileArea({ form }: DropFileAreaProps) {
 
 		const reader = new FileReader();
 
-		if (sizeInMB(file) > 10){
+		if (sizeInMB(file) > 10) {
 			form.setValue("svg", null);
 			form.setError("svg", {
 				type: "server",
@@ -59,13 +59,12 @@ export function DropFileArea({ form }: DropFileAreaProps) {
 
 		reader.readAsText(file);
 		reader.onload = async (event) => {
-
 			if (!event.target?.result) {
 				setIsProcessing(false);
 				return;
 			}
 
-			const response = await SVGSanitize((event.target?.result as string));
+			const response = await SVGSanitize(event.target?.result as string);
 
 			if (response) {
 				await saveSVG(response);

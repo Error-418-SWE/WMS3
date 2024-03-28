@@ -1,7 +1,5 @@
 ### Note
 
-
-
 ### Checklist
 
 - [ ] push di un commit `#minor`, `#patch`;
