@@ -10,13 +10,13 @@ export class ZoneRepository implements DataRepositoryInterface {
 
 	public getAll(): Promise<Zone[]> {
 		return getAllZones().then(
-			(json) => json?.map((zone: any) => this.zoneMapper.toDomain(zone)) || []
+			(json) => json?.map((zone: any) => this.zoneMapper.toDomain(zone)) || [],
 		);
 	}
 
 	public getAllEmpty(): Promise<Zone[]> {
 		return getAllEmptyZones().then(
-			(json) => json?.map((zone: any) => this.zoneMapper.toDomain(zone)) || []
+			(json) => json?.map((zone: any) => this.zoneMapper.toDomain(zone)) || [],
 		);
 	}
 

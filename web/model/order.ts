@@ -30,4 +30,4 @@ class Order {
 		return this.product;
 	}
 }
-export { Order }
+export { Order };

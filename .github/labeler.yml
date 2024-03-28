@@ -3,33 +3,33 @@
 # Directories +++++++++++++++++++++++++++++++
 
 "Database":
-- "db/**"
-- "**.sql"
+  - "db/**"
+  - "**.sql"
 
 "Web":
-- "web/**"
+  - "web/**"
 
 # File types ++++++++++++++++++++++++++++++++
 
 "Docker":
-- "Dockerfile"
-- "**.dockerfile"
-- "**.dockerignore"
-- "compose.yml"
+  - "Dockerfile"
+  - "**.dockerfile"
+  - "**.dockerignore"
+  - "compose.yml"
 
 "JS":
-- "**.js"
-- "**.jsx"
+  - "**.js"
+  - "**.jsx"
 
 "TS":
-- "**.ts"
-- "**.tsx"
+  - "**.ts"
+  - "**.tsx"
 
 "Node.js":
-- "package.json"
-- "package-lock.json"
+  - "package.json"
+  - "package-lock.json"
 
 # Misc +++++++++++++++++++++++++++++++++++++
 
 "Actions":
-- "**/.github/**"
+  - "**/.github/**"

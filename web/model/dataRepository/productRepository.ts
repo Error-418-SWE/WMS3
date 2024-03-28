@@ -11,7 +11,7 @@ export class ProductRepository implements DataRepositoryInterface {
 	public getAll(): Promise<Product[]> {
 		return getAllProducts().then(
 			(json) =>
-				json?.map((product: any) => this.productMapper.toDomain(product)) || []
+				json?.map((product: any) => this.productMapper.toDomain(product)) || [],
 		);
 	}
 

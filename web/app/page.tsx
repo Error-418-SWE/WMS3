@@ -44,11 +44,11 @@ export default function Home() {
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
-						<CreationForm
-							updateCardHeading={updateCardHeading}
-							titleMap={titleMap}
-							descriptionMap={descriptionMap}
-						/>
+					<CreationForm
+						updateCardHeading={updateCardHeading}
+						titleMap={titleMap}
+						descriptionMap={descriptionMap}
+					/>
 				</CardContent>
 			</Card>
 		</main>

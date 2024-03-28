@@ -38,10 +38,7 @@ describe("getProductById", () => {
 		const result = await getProductById("1");
 
 		expect(result).toEqual(product);
-		expect(client.query).toHaveBeenCalledWith(
-			query,
-			["1"]
-		);
+		expect(client.query).toHaveBeenCalledWith(query, ["1"]);
 	});
 
 	it("should return -1 if product not found", async () => {
@@ -51,24 +48,18 @@ describe("getProductById", () => {
 		const result = await getProductById("1");
 
 		expect(result).toBe(-1);
-		expect(client.query).toHaveBeenCalledWith(
-			query,
-			["1"]
-		);
+		expect(client.query).toHaveBeenCalledWith(query, ["1"]);
 	});
 
 	it("should return null if there is an error", async () => {
 		const client = await pool.connect();
 		client.query.mockImplementation(() =>
-			Promise.reject(new Error("Database error"))
+			Promise.reject(new Error("Database error")),
 		);
 
 		const result = await getProductById("1");
 
 		expect(result).toBeNull();
-		expect(client.query).toHaveBeenCalledWith(
-			query,
-			["1"]
-		);
+		expect(client.query).toHaveBeenCalledWith(query, ["1"]);
 	});
 });

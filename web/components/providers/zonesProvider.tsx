@@ -1,16 +1,16 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { Zone } from "@/model/zone";
 import { ZoneRepository } from "@/model/dataRepository/zoneRepository";
-import { useSearchParams } from 'next/navigation';
-import { set } from 'zod';
+import { useSearchParams } from "next/navigation";
+import { set } from "zod";
 
 const ZonesDataContext = createContext({
 	zones: [] as Zone[],
-	deleteZone: (id: number) => { },
-	addZone: (zone: Zone) => { },
-	getZoneById: (id: number) => { },
-	modifyZoneById: (id: number, zone: Zone) => { },
-	refresh: () => { },
+	deleteZone: (id: number) => {},
+	addZone: (zone: Zone) => {},
+	getZoneById: (id: number) => {},
+	modifyZoneById: (id: number, zone: Zone) => {},
+	refresh: () => {},
 	zonesLoaded: false,
 });
 
@@ -39,7 +39,7 @@ export function ZonesDataProvider({ children }: { children: React.ReactNode }) {
 	}, [loadZones, loadProducts, zoneRepository]);
 
 	const deleteZone = (id: number) => {
-		setZones(zones.filter(zone => zone.getId() !== id));
+		setZones(zones.filter((zone) => zone.getId() !== id));
 	};
 
 	const addZone = (zone: Zone) => {
@@ -47,18 +47,18 @@ export function ZonesDataProvider({ children }: { children: React.ReactNode }) {
 	};
 
 	const getZoneById = (id: number) => {
-		return zones.find(zone => zone.getId() === id);
+		return zones.find((zone) => zone.getId() === id);
 	};
 
 	const modifyZoneById = (id: number, zone: Zone) => {
-		const index = zones.findIndex(zone => zone.getId() === id);
+		const index = zones.findIndex((zone) => zone.getId() === id);
 		if (index === -1) {
 			throw new Error("Zone not found");
 		}
 		let newZones = [...zones];
 		newZones[index] = zone;
 		setZones(newZones);
-	}
+	};
 
 	const refresh = () => {
 		setZonesLoaded(false);
@@ -72,9 +72,17 @@ export function ZonesDataProvider({ children }: { children: React.ReactNode }) {
 			setZones([]);
 			setZonesLoaded(true);
 		}
-	}
+	};
 
-	const value = { zones, deleteZone, addZone, modifyZoneById, getZoneById, refresh, zonesLoaded };
+	const value = {
+		zones,
+		deleteZone,
+		addZone,
+		modifyZoneById,
+		getZoneById,
+		refresh,
+		zonesLoaded,
+	};
 
 	return (
 		<ZonesDataContext.Provider value={value}>

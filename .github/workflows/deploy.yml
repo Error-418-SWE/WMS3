@@ -5,11 +5,11 @@ on:
     branches:
       - dev
     paths-ignore:
-      - '.github/**'
-      - '.editorconfig'
-      - '.gitignore'
-      - 'README.md'
-      - 'LICENSE'
+      - ".github/**"
+      - ".editorconfig"
+      - ".gitignore"
+      - "README.md"
+      - "LICENSE"
 
 jobs:
   deploy:

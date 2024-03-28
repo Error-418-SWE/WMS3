@@ -11,25 +11,34 @@ interface ExtendedCameraControlsProps {
 export function ExtendedCameraControls({
 	cameraRef,
 }: ExtendedCameraControlsProps) {
-
-	const [,get] = useKeyboardControls();
+	const [, get] = useKeyboardControls();
 	const { floor } = useFloorData();
 
 	useFrame(() => {
-
-		if(cameraRef.current?.enabled) {
+		if (cameraRef.current?.enabled) {
 			const { forward, backward, left, right, quick } = get();
 			const moveSpeed = quick ? 0.75 : 0.25;
 
-			cameraRef.current?.forward((forward ? moveSpeed : 0) + (backward ? -moveSpeed : 0));
-			cameraRef.current?.truck((right ? moveSpeed : 0) + (left ? -moveSpeed : 0), 0);
+			cameraRef.current?.forward(
+				(forward ? moveSpeed : 0) + (backward ? -moveSpeed : 0),
+			);
+			cameraRef.current?.truck(
+				(right ? moveSpeed : 0) + (left ? -moveSpeed : 0),
+				0,
+			);
 		}
-
 	});
 
 	addEventListener("keydown", (e) => {
-		if(e.key === "r" || e.key === "R") {
-			cameraRef.current?.setLookAt(floor.getWidth(), 60, floor.getLength(), 0, 0, 0)
+		if (e.key === "r" || e.key === "R") {
+			cameraRef.current?.setLookAt(
+				floor.getWidth(),
+				60,
+				floor.getLength(),
+				0,
+				0,
+				0,
+			);
 		}
 	});
 
@@ -39,12 +48,10 @@ export function ExtendedCameraControls({
 		cameraRef.current?.setBoundary(
 			new Box3(
 				new Vector3(-bound, 0, -bound),
-				new Vector3(floor.getWidth() + bound, 20, floor.getLength() + bound)
-			)
-		)
-	  })
+				new Vector3(floor.getWidth() + bound, 20, floor.getLength() + bound),
+			),
+		);
+	});
 
-	return (
-		<></>
-	);
+	return <></>;
 }

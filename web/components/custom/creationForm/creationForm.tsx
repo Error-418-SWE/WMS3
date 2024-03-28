@@ -28,7 +28,6 @@ import { SVGCreationFrame } from "./svgCreationFrame";
 import { useRouter } from "next/navigation";
 import { useProcessingContext } from "@/components/providers/UI-Providers/formContextProvider";
 
-
 interface CreationFormProps {
 	updateCardHeading: (choice: string) => void;
 	titleMap: Record<string, string>;
@@ -38,11 +37,11 @@ interface CreationFormProps {
 export function CreationForm({
 	updateCardHeading,
 	titleMap,
-	descriptionMap
+	descriptionMap,
 }: CreationFormProps) {
 	const [choice, setChoice] = useState("manuale");
 	const [showNext, setShowNext] = useState(false);
-	const {isProcessing} = useProcessingContext();
+	const { isProcessing } = useProcessingContext();
 
 	const formSchema = z.discriminatedUnion("choice", [
 		manualCreationSchema,
@@ -56,7 +55,7 @@ export function CreationForm({
 	function createLabelForRadioGroupItem(
 		idFor: string,
 		title: string,
-		description: string
+		description: string,
 	) {
 		return (
 			<Label htmlFor={idFor}>
@@ -85,10 +84,12 @@ export function CreationForm({
 			<form
 				onSubmit={form.handleSubmit((data: z.infer<typeof formSchema>) => {
 					const dataAsString = Object.fromEntries(
-						Object.entries(data).map(([key, value]) => [key, String(value)])
+						Object.entries(data).map(([key, value]) => [key, String(value)]),
 					);
 
-					router.push("/main" + "?" + new URLSearchParams(dataAsString).toString());
+					router.push(
+						"/main" + "?" + new URLSearchParams(dataAsString).toString(),
+					);
 				})}
 				className={"space-y-8"}
 			>
@@ -119,7 +120,7 @@ export function CreationForm({
 												{createLabelForRadioGroupItem(
 													"manuale",
 													titleMap.manuale,
-													descriptionMap.manuale
+													descriptionMap.manuale,
 												)}
 											</FormItem>
 
@@ -134,7 +135,7 @@ export function CreationForm({
 												{createLabelForRadioGroupItem(
 													"custom",
 													titleMap.custom,
-													descriptionMap.custom
+													descriptionMap.custom,
 												)}
 											</FormItem>
 										</RadioGroup>
@@ -169,7 +170,10 @@ export function CreationForm({
 							render={({ field }) => (
 								<FormItem>
 									<FormControl>
-										<Checkbox checked={field.value} onCheckedChange={field.onChange} />
+										<Checkbox
+											checked={field.value}
+											onCheckedChange={field.onChange}
+										/>
 									</FormControl>
 									<FormLabel className={"pl-2"}>
 										Importa i prodotti dal database
@@ -190,7 +194,9 @@ export function CreationForm({
 								Indietro
 							</Button>
 							<Button type="submit" disabled={isProcessing}>
-								{isProcessing && <LoaderCircle size={16} className="mr-2 animate-spin" /> }
+								{isProcessing && (
+									<LoaderCircle size={16} className="mr-2 animate-spin" />
+								)}
 								Conferma
 							</Button>
 						</div>

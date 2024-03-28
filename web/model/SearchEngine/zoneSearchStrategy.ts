@@ -1,7 +1,7 @@
 import { Zone } from "../zone";
 import { SearchStrategy } from "./searchInterface";
 
-export class ZoneSearchStrategy implements SearchStrategy<Zone>{
+export class ZoneSearchStrategy implements SearchStrategy<Zone> {
 	searchById(list: Zone[], query: string): Zone[] {
 		return list.filter((item) => item.getId().toString().includes(query));
 	}

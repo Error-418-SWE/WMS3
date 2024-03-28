@@ -9,13 +9,17 @@ export default function ZonePanel() {
 			<div className={"m-5"}>
 				<h1 className={"font-bold text-2xl"}>Impostazioni</h1>
 				<h2 className={"font-bold my-4"}>Informazioni</h2>
-				<p className={"text-muted-foreground"}>WMS3 è realizzato da Error_418 (gruppo 7) nell&apos;ambito del corso di Ingegneria del Software (Università degli Studi di Padova, A.A. 2023/2024).</p>
+				<p className={"text-muted-foreground"}>
+					WMS3 è realizzato da Error_418 (gruppo 7) nell&apos;ambito del corso
+					di Ingegneria del Software (Università degli Studi di Padova, A.A.
+					2023/2024).
+				</p>
 
-				<hr className={"my-6"}/>
+				<hr className={"my-6"} />
 
-				<FloorDimensionsItem/>
+				<FloorDimensionsItem />
 
-				<hr className={"my-6"}/>
+				<hr className={"my-6"} />
 
 				<RestoreItem />
 			</div>

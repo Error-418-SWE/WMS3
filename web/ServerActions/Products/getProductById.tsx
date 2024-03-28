@@ -11,12 +11,12 @@ export default async function getProductById(id: string) {
 	try {
 		const { rows: product } = await client.query(
 			"SELECT p.*, array_agg(c.name) as categories\n" +
-			"FROM product p\n" +
-			"LEFT JOIN categorize cz ON cz.product_id = p.id\n" +
-			"LEFT JOIN category c ON c.id = cz.category_id\n" +
-			"WHERE p.id = $1\n" +
-			"GROUP BY p.id;",
-			[id]
+				"FROM product p\n" +
+				"LEFT JOIN categorize cz ON cz.product_id = p.id\n" +
+				"LEFT JOIN category c ON c.id = cz.category_id\n" +
+				"WHERE p.id = $1\n" +
+				"GROUP BY p.id;",
+			[id],
 		);
 
 		if (product.length > 0) {
@@ -30,4 +30,3 @@ export default async function getProductById(id: string) {
 		client.release();
 	}
 }
-

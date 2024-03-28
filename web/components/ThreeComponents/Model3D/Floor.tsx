@@ -11,13 +11,12 @@ interface SvgPlaneProps {
 }
 
 const SvgPlane: React.FC<SvgPlaneProps> = ({ svgContent, width, length }) => {
-
 	const [texture, setTexture] = useState<Texture>();
 
 	useEffect(() => {
-		setTexture(new TextureLoader().load(
-			`data:image/svg+xml;base64,${btoa(svgContent)}`
-		));
+		setTexture(
+			new TextureLoader().load(`data:image/svg+xml;base64,${btoa(svgContent)}`),
+		);
 	}, [svgContent]);
 
 	return (
@@ -36,13 +35,12 @@ const SvgPlane: React.FC<SvgPlaneProps> = ({ svgContent, width, length }) => {
 	);
 };
 
-
 export default function Floor() {
 	const { floor } = useFloorData();
 	if (floor && floor.getSVG().getString() == "") {
 		return (
 			<mesh
-        name = "floor"
+				name="floor"
 				position={new Vector3(floor.getWidth() / 2, 0, floor.getLength() / 2)}
 				rotation={[inclination, 0, 0]}
 			>

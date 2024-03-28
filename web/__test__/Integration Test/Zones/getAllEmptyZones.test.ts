@@ -9,7 +9,7 @@ jest.mock("pg", () => {
 		bin_length: 1,
 		bin_width: 1,
 		product_id: 1,
-        product: null,
+		product: null,
 	};
 	const zoneJson = {
 		id: 1,
@@ -57,7 +57,7 @@ describe("getAllEmptyZones", () => {
 						bin_length: 1,
 						bin_width: 1,
 						product_id: 1,
-                        product: null
+						product: null,
 					},
 				],
 				orientation: true,

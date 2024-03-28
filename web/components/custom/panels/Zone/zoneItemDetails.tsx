@@ -69,9 +69,9 @@ export default function ZoneItemDetails({ zone }: ZoneItemProps) {
 							moveCameraToPosition(
 								zone.getXcoordinate() + zone.getLength() / 2,
 								zone.getYcoordinate() + zone.getWidth() / 2,
-								);
-							} else {
-								moveCameraToPosition(
+							);
+						} else {
+							moveCameraToPosition(
 								zone.getXcoordinate() - zone.getWidth() / 2,
 								zone.getYcoordinate() - zone.getLength() / 2,
 							);
@@ -98,8 +98,8 @@ export default function ZoneItemDetails({ zone }: ZoneItemProps) {
 						<DialogHeader>
 							<DialogTitle>Eliminazione scaffale</DialogTitle>
 							<DialogDescription>
-								Questa azione non può essere annullata. Vuoi davvero
-								eliminare la zona {zone.getId()}?
+								Questa azione non può essere annullata. Vuoi davvero eliminare
+								la zona {zone.getId()}?
 							</DialogDescription>
 						</DialogHeader>
 						<Button

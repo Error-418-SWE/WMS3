@@ -1,37 +1,41 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { Order } from '@/model/order';
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { Order } from "@/model/order";
 
 const OrderDataContext = createContext({
-    orders: [] as Order[],
+	orders: [] as Order[],
 	addOrder: (order: Order) => {},
 	refresh: () => {},
 });
 
-export function OrdersDataProvider({ children } : { children: React.ReactNode }) {
-    const [orders, setOrders] = useState<Order[]>([]);
+export function OrdersDataProvider({
+	children,
+}: {
+	children: React.ReactNode;
+}) {
+	const [orders, setOrders] = useState<Order[]>([]);
 
-    useEffect(() => {
-        setOrders([]);
-    }, []);
+	useEffect(() => {
+		setOrders([]);
+	}, []);
 
 	const addOrder = (order: Order) => {
-        setOrders([order, ...orders]);
-    };
+		setOrders([order, ...orders]);
+	};
 
 	const refresh = () => {
 		setOrders([]);
-	}
+	};
 
-    const value = { orders, addOrder, refresh };
+	const value = { orders, addOrder, refresh };
 
-    return (
-        <OrderDataContext.Provider value={value}>
-            {children}
-        </OrderDataContext.Provider>
-    );
+	return (
+		<OrderDataContext.Provider value={value}>
+			{children}
+		</OrderDataContext.Provider>
+	);
 }
 
 export function useOrdersData() {
-    const context = useContext(OrderDataContext);
-    return context;
+	const context = useContext(OrderDataContext);
+	return context;
 }

@@ -37,7 +37,9 @@ export function SVGCreationFrame({ form }: SVGCreationFrameProps) {
 									step={0.01}
 								/>
 							</FormControl>
-							<FormDescription>Il lato minore sarà determinato in modo automatico.</FormDescription>
+							<FormDescription>
+								Il lato minore sarà determinato in modo automatico.
+							</FormDescription>
 							<FormMessage />
 						</FormItem>
 					</>
@@ -51,9 +53,14 @@ export function SVGCreationFrame({ form }: SVGCreationFrameProps) {
 					<>
 						<FormItem>
 							<FormControl>
-								<Checkbox checked={field.value} onCheckedChange={field.onChange}/>
+								<Checkbox
+									checked={field.value}
+									onCheckedChange={field.onChange}
+								/>
 							</FormControl>
-							<FormLabel className={"pl-2"}>Importa gli scaffali dal database</FormLabel>
+							<FormLabel className={"pl-2"}>
+								Importa gli scaffali dal database
+							</FormLabel>
 						</FormItem>
 					</>
 				)}

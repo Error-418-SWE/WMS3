@@ -24,8 +24,8 @@ export async function getBinById(id: string) {
 				"JOIN level l ON b.level_id = l.id\n" +
 				"JOIN zone_column c ON b.column_id = c.id\n" +
 				"JOIN zone z ON l.zone_id = z.id AND c.zone_id = z.id\n" +
-				"WHERE bin_id = $1;", 
-				[id]
+				"WHERE bin_id = $1;",
+			[id],
 		);
 
 		return bins;

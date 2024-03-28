@@ -11,8 +11,12 @@ class Floor {
 	}
 
 	clone() {
-		const floor = new Floor(this.length, this.width, this.SVG?.getString()? this.SVG.getString() : "");
-		floor.setSVG(this.SVG? this.SVG : null);
+		const floor = new Floor(
+			this.length,
+			this.width,
+			this.SVG?.getString() ? this.SVG.getString() : "",
+		);
+		floor.setSVG(this.SVG ? this.SVG : null);
 		return floor;
 	}
 
