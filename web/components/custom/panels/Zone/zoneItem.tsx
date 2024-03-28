@@ -14,7 +14,7 @@ interface ZoneItemProps {
 
 export default function ZoneItem({ zone }: ZoneItemProps) {
 
-	const {elementDetails, setElementDetails, showElementDetails, setShowElementDetails} = useElementDetails();
+	const {setElementDetails, setShowElementDetails} = useElementDetails();
 	const {deleteZone} = useZonesData();
 
 	return (
@@ -27,8 +27,6 @@ export default function ZoneItem({ zone }: ZoneItemProps) {
 				onClick={() => {
 					setElementDetails(<ZoneItemDetails zone={zone} />);
 					setShowElementDetails(true);
-					console.log( elementDetails + "" + zone.getId());
-					console.log("Visualizza dettagli zona con id: " + zone.getId());
 				}}
 			>
 				<Image
@@ -58,7 +56,6 @@ export default function ZoneItem({ zone }: ZoneItemProps) {
 						deleteZone(zone.getId());
 						setShowElementDetails(false);
 						close();
-						console.log("Elimina zona con id: " + zone.getId());
 					}}className={buttonVariants({variant: "destructive"}) + " w-min ml-auto"}>Elimina</Button>
 				</DialogContent>
 			</Dialog>

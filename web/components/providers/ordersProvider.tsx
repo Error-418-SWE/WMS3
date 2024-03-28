@@ -11,13 +11,11 @@ export function OrdersDataProvider({ children } : { children: React.ReactNode })
     const [orders, setOrders] = useState<Order[]>([]);
 
     useEffect(() => {
-        console.log("OrderDataProvider: useEffect");
         setOrders([]);
     }, []);
 
 	const addOrder = (order: Order) => {
         setOrders([order, ...orders]);
-        console.log(orders);
     };
 
 	const refresh = () => {

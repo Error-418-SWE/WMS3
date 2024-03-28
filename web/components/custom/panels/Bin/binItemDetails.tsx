@@ -13,7 +13,7 @@ interface ProductItemProps {
 }
 
 export default function BinItemDetails({ bin }: ProductItemProps) {
-	const { setElementDetails, setShowElementDetails } = useElementDetails();
+	const { setShowElementDetails } = useElementDetails();
 	const { setSelectedBin } = useWarehouseData();
 	const [product, setProduct] = useState(bin.getProduct());
 

@@ -6,7 +6,6 @@ import {
 	FormMessage,
 	FormLabel,
 } from "@/components/ui/form";
-import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { ListX } from "lucide-react";
 
@@ -42,8 +41,6 @@ export default function LevelItem({
 						var newlist = levels.filter(l => l.id !== level.id);
 						setLevels(newlist);
 						form.unregister("level_height_" + level.id);
-						console.log(levels);
-						console.log(newlist);
 					}}>
 					<ListX size={16} className={"text-inherit"}/>
 				</Button> : <></>

@@ -1,4 +1,4 @@
-import { ProductMapper } from "@/dataMapper/productMapper";
+import { ProductMapper } from "@/model/dataMapper/productMapper";
 import { Product } from "@/model/product";
 
 describe("ProductMapper", () => {

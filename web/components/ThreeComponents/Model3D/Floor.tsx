@@ -20,8 +20,6 @@ const SvgPlane: React.FC<SvgPlaneProps> = ({ svgContent, width, length }) => {
 		));
 	}, [svgContent]);
 
-	console.log("SVG reloading");
-
 	return (
 		<mesh
 			position={new Vector3(width / 2, 0.0025, length / 2)}

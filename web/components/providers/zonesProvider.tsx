@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Zone } from "@/model/zone";
-import { ZoneRepository } from "@/dataRepository/zoneRepository";
+import { ZoneRepository } from "@/model/dataRepository/zoneRepository";
 import { useSearchParams } from 'next/navigation';
 import { set } from 'zod';
 
@@ -24,18 +24,15 @@ export function ZonesDataProvider({ children }: { children: React.ReactNode }) {
 	const loadProducts = params?.get("loadProdotti") === "true";
 
 	useEffect(() => {
-		console.log("ZonesDataProvider: useEffect");
 		if (loadZones) {
 			if (loadProducts) {
 				zoneRepository.getAll().then((zones) => {
 					setZones(zones);
 				});
-				console.log("zones from database");
 			} else {
 				zoneRepository.getAllEmpty().then((zones) => {
 					setZones(zones);
 				});
-				console.log("empty zones from database");
 			}
 		}
 		setZonesLoaded(true);
@@ -47,7 +44,6 @@ export function ZonesDataProvider({ children }: { children: React.ReactNode }) {
 
 	const addZone = (zone: Zone) => {
 		setZones([...zones, zone]);
-		console.log(zones);
 	};
 
 	const getZoneById = (id: number) => {
@@ -57,7 +53,6 @@ export function ZonesDataProvider({ children }: { children: React.ReactNode }) {
 	const modifyZoneById = (id: number, zone: Zone) => {
 		const index = zones.findIndex(zone => zone.getId() === id);
 		if (index === -1) {
-			console.log(zones);
 			throw new Error("Zone not found");
 		}
 		let newZones = [...zones];

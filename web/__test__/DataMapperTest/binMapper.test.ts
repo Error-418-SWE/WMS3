@@ -1,4 +1,4 @@
-import { BinMapper } from "@/dataMapper/binMapper";
+import { BinMapper } from "@/model/dataMapper/binMapper";
 import { Bin } from "@/model/bin";
 
 describe("BinMapper", () => {

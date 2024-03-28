@@ -1,12 +1,12 @@
 import { Product } from "@/model/product";
-import { ProductMapper } from "@/dataMapper/productMapper";
+import { ProductMapper } from "@/model/dataMapper/productMapper";
 import getAllProducts from "@/ServerActions/Products/getAllProducts";
 import getProductById from "@/ServerActions/Products/getProductById";
-import { ProductRepository } from "@/dataRepository/productRepository";
+import { ProductRepository } from "@/model/dataRepository/productRepository";
 
 jest.mock("@/ServerActions/Products/getAllProducts");
 jest.mock("@/ServerActions/Products/getProductById");
-jest.mock("@/dataMapper/productMapper");
+jest.mock("@/model/dataMapper/productMapper");
 
 describe("ProductRepository", () => {
     let productRepository: ProductRepository;

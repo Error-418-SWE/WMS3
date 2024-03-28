@@ -7,7 +7,6 @@ export async function readSavedSVG() {
 		const svg_content = fs.readFileSync(path.join(process.cwd(), 'public', 'saved.svg'));
         return svg_content.toString();
     } catch (err) {
-		console.error('Error saving SVG:', err);
         return "";
 	}
 }

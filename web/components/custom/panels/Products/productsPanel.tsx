@@ -6,7 +6,7 @@ import { useProductsData } from "@/components/providers/productsProvider";
 import ProductItem from "./productItem";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Panel from "@/components/custom/panels/panel";
-import { use, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useZonesData } from "@/components/providers/zonesProvider";
 import { Product } from "@/model/product";
 import { SearchStrategyFactory } from "@/model/SearchEngine/searchStrategyFactory";

@@ -20,7 +20,6 @@ import {
 	DialogClose,
 } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
-import { Floor } from "@/model/floor";
 import { useState } from "react";
 import { z } from "zod";
 import { dimensionsFormSchema } from "./zodDimensionScheme";

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { ProductRepository } from "@/dataRepository/productRepository";
+import { ProductRepository } from "@/model/dataRepository/productRepository";
 import { Product } from "@/model/product";
 import { useSearchParams } from 'next/navigation';
 
@@ -20,7 +20,6 @@ export function ProductsDataProvider({ children }: { children: React.ReactNode }
 	const loadProducts = params?.get("loadProdotti") === "true";
 
 	useEffect(() => {
-		console.log("ProductsDataProvider: useEffect");
 
 		if (loadProducts) {
 			productRepository.getAll().then(

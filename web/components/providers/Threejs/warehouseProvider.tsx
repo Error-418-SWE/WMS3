@@ -82,7 +82,6 @@ export function WarehouseDataProvider({
                     }
                 })
                 .catch((error) => {
-                    console.error('Error:', error);
                     reject(error);
                 });
         });

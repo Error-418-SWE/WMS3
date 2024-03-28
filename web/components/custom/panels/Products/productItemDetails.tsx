@@ -12,7 +12,7 @@ export default function ProductItemDetails({
 	product,
 	showCloseButton = true,
 }: ProductItemProps) {
-	const { setElementDetails, setShowElementDetails } = useElementDetails();
+	const { setShowElementDetails } = useElementDetails();
 
 	return (
 		<div className={"flex flex-col mx-5"}>

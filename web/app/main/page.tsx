@@ -13,16 +13,11 @@ import {
 	useZonesData,
 } from "@/components/providers/zonesProvider";
 import {
-	BinsDataProvider,
-	useBinsData,
-} from "@/components/providers/binsProvider";
-import {
 	ProductsDataProvider,
 	useProductsData,
 } from "@/components/providers/productsProvider";
 import {
 	OrdersDataProvider,
-	useOrdersData,
 } from "@/components/providers/ordersProvider";
 import Panel from "@/components/custom/panels/panel";
 import {
@@ -38,7 +33,7 @@ import {
 	FloorStrategyContext,
 	StandardFloorStrategy,
 	CustomFloorStrategy,
-} from "@/Strategy/FloorStrategy";
+} from "@/model/FloorStrategy/FloorStrategy";
 import { Progress } from "@/components/ui/progress";
 import { WarehouseDataProvider } from "@/components/providers/Threejs/warehouseProvider";
 import { Toaster } from "@/components/ui/sonner";
@@ -55,7 +50,6 @@ export default function App() {
 	return (
 		<Suspense>
 			<ZonesDataProvider>
-				<BinsDataProvider>
 					<ProductsDataProvider>
 						<FloorDataProvider>
 							<ElementDetailsProvider>
@@ -63,7 +57,6 @@ export default function App() {
 							</ElementDetailsProvider>
 						</FloorDataProvider>
 					</ProductsDataProvider>
-				</BinsDataProvider>
 			</ZonesDataProvider>
 		</Suspense>
 	);
@@ -76,7 +69,6 @@ function Main() {
 	const [showPanel, setShowPanel] = useState(false);
 	const [panel, setPanel] = useState(<></>);
 	const { zonesLoaded } = useZonesData();
-	const { binsLoaded } = useBinsData();
 	const { productsLoaded } = useProductsData();
 	const { floor, setFloor, floorRefresher } = useFloorData();
 	const { elementDetails, showElementDetails } = useElementDetails();
@@ -99,9 +91,9 @@ function Main() {
 		}
 	}, [params, floorRefresher]);
 
-	const dataLoaded = zonesLoaded && productsLoaded && binsLoaded && floor;
+	const dataLoaded = zonesLoaded && productsLoaded && floor;
 	const progress =
-		((+zonesLoaded + +binsLoaded + +productsLoaded + (floor ? 1 : 0)) / 4) *
+		((+zonesLoaded + +productsLoaded + (floor ? 1 : 0)) / 3) *
 		100;
 
 	if (!dataLoaded) {

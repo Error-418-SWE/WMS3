@@ -1,4 +1,4 @@
-import { ZoneMapper } from "@/dataMapper/zoneMapper";
+import { ZoneMapper } from "@/model/dataMapper/zoneMapper";
 import { Zone } from "@/model/zone";
 
 describe("ZoneMapper", () => {

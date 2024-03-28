@@ -11,7 +11,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { SetStateAction, use, useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import {
 	Form,
 	FormControl,
@@ -21,7 +21,7 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
-import { UseFormReturn, get, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Bin } from "@/model/bin";
 import LevelItem from "./levelItem";
 import { z } from "zod";
@@ -51,13 +51,6 @@ function ColumnCreation(form: any, zone?: Zone) {
 	const [customColumns, setCustomColumns] = useState(
 		zone ? !checkIfEqualColumns(zone) : false
 	);
-	console.log(
-		zone
-			?.getLevels()[0]
-			.map((bin) => bin.getWidth())
-			.join(" ")
-	);
-	console.log(zone?.getLevels()[0]);
 
 	return (
 		<>
@@ -115,8 +108,6 @@ function ColumnCreation(form: any, zone?: Zone) {
 																			field.onChange(e);
 																			form.clearErrors("nColumns");
 																		} else {
-																		console.log(parseInt(e.target.value));
-																		console.log(zone.getMaxUsedColumn());
 																		form.setError("nColumns", {
 																			type: "manual",
 																			message:
@@ -358,7 +349,6 @@ export default function ZoneCreationFrame({
 		if (!zone) {
 			addZone(newZone);
 		} else {
-			console.log("MODIFY ZONE");
 			modifyZoneById(parseInt(form.getValues("id") + ""), newZone);
 		}
 

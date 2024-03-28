@@ -15,11 +15,9 @@ function ProductDetailsCell({ row } : { row : Row<Bin> }) {
     const handleClick = () => {  
     const bin: Bin = row.original;
       if(bin) {
-        console.log(bin);
         setElementDetails(<BinItemDetails bin={bin} />);
         setShowElementDetails(true);
       }
-      console.log(product);
     };
   
     return product && product.getName() ? (
@@ -46,7 +44,6 @@ export const columns: ColumnDef<Bin>[] = [
     {
         accessorKey: "product_details",
         header: () => <div className={"text-right pr-5"}>Info</div>,
-        //should appear only at mouse hover
         cell: ProductDetailsCell,
     }
 ];

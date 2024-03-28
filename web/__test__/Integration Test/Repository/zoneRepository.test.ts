@@ -1,16 +1,16 @@
 import { Zone } from "@/model/zone";
-import { ZoneMapper } from "@/dataMapper/zoneMapper";
-import { BinMapper } from "@/dataMapper/binMapper";
+import { ZoneMapper } from "@/model/dataMapper/zoneMapper";
+import { BinMapper } from "@/model/dataMapper/binMapper";
 import { getAllZones } from "@/ServerActions/Zones/getAllZones";
 import { getZoneById } from "@/ServerActions/Zones/getZoneById";
-import { ZoneRepository } from "@/dataRepository/zoneRepository";
+import { ZoneRepository } from "@/model/dataRepository/zoneRepository";
 import { getAllEmptyZones } from "@/ServerActions/Zones/getAllEmptyZones";
 
 jest.mock("@/ServerActions/Zones/getAllZones");
 jest.mock("@/ServerActions/Zones/getAllEmptyZones");
 jest.mock("@/ServerActions/Zones/getZoneById");
-jest.mock("@/dataMapper/zoneMapper");
-jest.mock("@/dataMapper/binMapper");
+jest.mock("@/model/dataMapper/zoneMapper");
+jest.mock("@/model/dataMapper/binMapper");
 
 describe("ZoneRepository", () => {
     let zoneRepository: ZoneRepository;
